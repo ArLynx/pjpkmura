@@ -42,14 +42,14 @@
 
                         </label>
 
-                        <select name="tahun" onchange="this.form.submit()"
+                        <select name="tahun_id" onchange="this.form.submit()"
                             class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
 
                             @foreach ($tahuns as $item)
-                                <option value="{{ $item }}"
-                                    {{ request('tahun', $tahun) == $item ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}"
+                                    {{ request('tahun_id', $tahun) == $item->id ? 'selected' : '' }}>
 
-                                    {{ $item }}
+                                    {{ $item->tahun }}
 
                                 </option>
                             @endforeach
@@ -311,7 +311,7 @@
 
                     <a href="{{ route('dashboard', [
                         'mode' => 'tahunan',
-                        'tahun' => request('tahun'),
+                        'tahun_id' => request('tahun_id'),
                         'pilar' => request('pilar'),
                     ]) }}"
                         class="px-6 py-3 rounded-xl font-semibold transition
@@ -330,7 +330,7 @@
 
                     <a href="{{ route('dashboard', [
                         'mode' => 'gabungan',
-                        'tahun' => request('tahun'),
+                        'tahun_id' => request('tahun_id'),
                         'pilar' => request('pilar'),
                     ]) }}"
                         class="px-6 py-3 rounded-xl font-semibold transition
@@ -357,7 +357,7 @@
 
                             Tahun :
 
-                            {{ $tahun }}
+                            {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
 
                         </span>
                     @endif
@@ -438,20 +438,18 @@
 
                                             <th class="border border-white px-4 py-3 text-center">
 
-                                                Target {{ $tahun }}
+                                                Target {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
 
                                             </th>
 
                                             <th class="border border-white px-4 py-3 text-center">
 
-                                                Realisasi
+                                                Realisasi {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
 
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-center">
-
+                                            <th class="border border-white px-4 py-3 text-center w-44">
                                                 Status
-
                                             </th>
 
                                             <th class="border border-white px-4 py-3 text-center">
@@ -528,48 +526,48 @@
                                                 </td>
 
                                                 <td class="border border-slate-200 px-4 py-3 text-center">
-
                                                     @if ($realisasi)
                                                         @if ($realisasi->status_pencapaian == 'tercapai')
                                                             <span
-                                                                class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs">
-
+                                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
                                                                 Tercapai
-
                                                             </span>
                                                         @elseif($realisasi->status_pencapaian == 'belum_tercapai')
                                                             <span
-                                                                class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs">
-
+                                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700">
                                                                 Belum Tercapai
-
                                                             </span>
                                                         @else
                                                             <span
-                                                                class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs">
-
+                                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600">
                                                                 Belum Diisi
-
                                                             </span>
                                                         @endif
                                                     @else
-                                                        <span class="text-slate-400">
-
-                                                            -
-
-                                                        </span>
+                                                        <span class="text-slate-400">-</span>
                                                     @endif
-
                                                 </td>
 
                                                 <td class="border border-slate-200 px-4 py-3 text-center">
 
                                                     @if ($realisasi && $realisasi->dataPendukungs->count())
-                                                        <span class="text-green-600 font-semibold">
+                                                        <div class="space-y-2">
 
-                                                            {{ $realisasi->dataPendukungs->count() }} File
+                                                            @foreach ($realisasi->dataPendukungs as $file)
+                                                                <a href="{{ asset('storage/' . $file->file) }}"
+                                                                    target="_blank"
+                                                                    class="inline-flex items-center gap-2 rounded-lg bg-blue-100 px-3 py-2 text-blue-700 hover:bg-blue-200">
 
-                                                        </span>
+                                                                    <span class="material-symbols-outlined text-base">
+                                                                        description
+                                                                    </span>
+
+                                                                    Lihat File
+
+                                                                </a>
+                                                            @endforeach
+
+                                                        </div>
                                                     @else
                                                         <span class="text-slate-400">
 
@@ -669,7 +667,7 @@
                                             @foreach ($tahuns as $item)
                                                 <th class="px-4 py-3 border text-center">
 
-                                                    {{ $item }}
+                                                    {{ $item->tahun }}
 
                                                 </th>
                                             @endforeach
@@ -724,7 +722,10 @@
                                                 @foreach ($tahuns as $item)
                                                     @php
 
-                                                        $target = $indikator->targets->firstWhere('tahun', $item);
+                                                        $target = $indikator->targets->firstWhere(
+                                                            'tahun_id',
+                                                            $item->id,
+                                                        );
 
                                                     @endphp
 

@@ -10,6 +10,8 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="icon" type="image/png" href="{{ asset('image/logo-murung-raya.png') }}">
+
     {{-- Google Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
 

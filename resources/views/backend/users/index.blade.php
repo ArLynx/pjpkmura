@@ -53,10 +53,10 @@
                             <div class="flex justify-end gap-2">
                                 <a href="{{ route('admin.users.edit', $user) }}" class="rounded-lg bg-amber-100 p-2 text-amber-700 hover:bg-amber-200" title="Edit"><span class="material-symbols-outlined text-xl">edit</span></a>
                                 @if(!auth()->user()->is($user))
-                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Hapus pengguna ini?')">
+                                    {{-- <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Hapus pengguna ini?')">
                                         @csrf @method('DELETE')
                                         <button class="rounded-lg bg-red-100 p-2 text-red-700 hover:bg-red-200" title="Hapus"><span class="material-symbols-outlined text-xl">delete</span></button>
-                                    </form>
+                                    </form> --}}
                                 @endif
                             </div>
                         </td>

@@ -159,7 +159,7 @@
 
             <p class="text-sm text-teal-200">
 
-                © 2026 Pemerintah Kabupaten Murung Raya.
+                © 2026 Tim Pengembang Dinas Kominfo SP Kabupaten Murung Raya.
                 Seluruh Hak Cipta Dilindungi.
 
             </p>

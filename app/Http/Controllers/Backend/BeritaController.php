@@ -18,7 +18,7 @@ class BeritaController extends Controller
                 $keyword = '%'.$request->string('q')->trim().'%';
                 $query->where('judul', 'like', $keyword)->orWhere('penulis', 'like', $keyword);
             })
-            ->latest()
+            ->oldest()
             ->paginate(15)
             ->withQueryString();
 

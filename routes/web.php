@@ -11,6 +11,9 @@ use App\Http\Controllers\Backend\PublikasiController;
 use App\Http\Controllers\Backend\RealisasiController;
 use App\Http\Controllers\Backend\TargetController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\TahunController;
+use App\Http\Controllers\Backend\CapaianController;
+
 use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -33,12 +36,10 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'active'])
     ->group(function () {
-        Route::get('/', fn () => redirect()->route('admin.dashboard'))->name('index');
+        Route::get('/', fn() => redirect()->route('admin.dashboard'))->name('index');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::resource('users', UserController::class)
-            ->except('show')
-            ->middleware('superadmin');
+        Route::resource('users', UserController::class)->except('show')->middleware('superadmin');
 
         Route::resource('pilars', PilarController::class)->except('show');
         Route::resource('indikators', IndikatorController::class)->except('show');
@@ -52,4 +53,9 @@ Route::prefix('admin')
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+        Route::get('/capaian', [CapaianController::class, 'index'])->name('capaian.index');
+        Route::post('/capaian', [CapaianController::class, 'store'])->name('capaian.store');
+
+        Route::resource('tahuns', TahunController::class)->except(['show', 'create', 'edit']);
     });

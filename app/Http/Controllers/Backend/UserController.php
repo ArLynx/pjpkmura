@@ -25,7 +25,7 @@ class UserController extends Controller
             })
             ->when($request->filled('role'), fn ($query) => $query->where('role', (string) $request->string('role')))
             ->when($request->filled('status'), fn ($query) => $query->where('is_active', (string) $request->string('status') === 'aktif'))
-            ->latest()
+            ->oldest()
             ->paginate(15)
             ->withQueryString();
 

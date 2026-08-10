@@ -1,13 +1,61 @@
 @php($editing = isset($indikator))
 <div class="grid gap-6 md:grid-cols-2">
-    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Pilar</label><select name="pilar_id" required class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"><option value="">Pilih pilar</option>@foreach($pilars as $pilar)<option value="{{ $pilar->id }}" @selected((string)old('pilar_id', $indikator->pilar_id ?? '') === (string)$pilar->id)>{{ $pilar->urutan }}. {{ $pilar->nama }}</option>@endforeach</select></div>
-    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Urutan</label><input type="number" min="1" name="urutan" value="{{ old('urutan', $indikator->urutan ?? 1) }}" required class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
-    <div class="md:col-span-2"><label class="mb-2 block text-sm font-semibold text-slate-700">Tujuan Strategis</label><input name="tujuan_strategis" value="{{ old('tujuan_strategis', $indikator->tujuan_strategis ?? '') }}" required class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
-    <div class="md:col-span-2"><label class="mb-2 block text-sm font-semibold text-slate-700">Nama Indikator</label><textarea name="nama_indikator" rows="3" required class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">{{ old('nama_indikator', $indikator->nama_indikator ?? '') }}</textarea></div>
-    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Instansi Penanggung Jawab</label><input name="instansi" value="{{ old('instansi', $indikator->instansi ?? '') }}" required class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
-    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Satuan</label><input name="satuan" value="{{ old('satuan', $indikator->satuan ?? '') }}" class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600" placeholder="Persen, orang, indeks, dan lainnya"></div>
-    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Nilai Baseline</label><input name="nilai_baseline" value="{{ old('nilai_baseline', $indikator->nilai_baseline ?? '') }}" class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
-    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Tahun Baseline</label><input type="number" min="1900" max="2100" name="tahun_baseline" value="{{ old('tahun_baseline', $indikator->tahun_baseline ?? '') }}" class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
-    <div class="md:col-span-2"><label class="mb-2 block text-sm font-semibold text-slate-700">Sumber Data</label><input name="sumber_data" value="{{ old('sumber_data', $indikator->sumber_data ?? '') }}" class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
+    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Pilar</label><select name="pilar_id" required
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
+            <option value="">Pilih pilar</option>
+            @foreach ($pilars as $pilar)
+                <option value="{{ $pilar->id }}" @selected((string) old('pilar_id', $indikator->pilar_id ?? '') === (string) $pilar->id)>{{ $pilar->urutan }}.
+                    {{ $pilar->nama }}</option>
+            @endforeach
+        </select></div>
+    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Urutan</label><input type="number" min="1"
+            name="urutan" value="{{ old('urutan', $indikator->urutan ?? 1) }}" required
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
+    <div class="md:col-span-2">
+
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+
+            Nama Indikator
+
+        </label>
+
+        <input name="nama_indikator" value="{{ old('nama_indikator', $indikator->nama_indikator ?? '') }}" required
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
+
+    </div>
+
+    <div class="md:col-span-2">
+
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+
+            Tujuan Strategis
+
+        </label>
+
+        <textarea name="tujuan_strategis" rows="4" required
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">{{ old('tujuan_strategis', $indikator->tujuan_strategis ?? '') }}</textarea>
+
+    </div>
+    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Instansi Penanggung Jawab</label><input
+            name="instansi" value="{{ old('instansi', $indikator->instansi ?? '') }}" required
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
+    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Satuan</label><input name="satuan"
+            value="{{ old('satuan', $indikator->satuan ?? '') }}"
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"
+            placeholder="Persen, orang, indeks, dan lainnya"></div>
+    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Nilai Baseline</label><input
+            name="nilai_baseline" value="{{ old('nilai_baseline', $indikator->nilai_baseline ?? '') }}"
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
+    <div><label class="mb-2 block text-sm font-semibold text-slate-700">Tahun Baseline</label><input type="number"
+            min="1900" max="2100" name="tahun_baseline"
+            value="{{ old('tahun_baseline', $indikator->tahun_baseline ?? '') }}"
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
+    <div class="md:col-span-2"><label class="mb-2 block text-sm font-semibold text-slate-700">Sumber Data</label><input
+            name="sumber_data" value="{{ old('sumber_data', $indikator->sumber_data ?? '') }}"
+            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"></div>
 </div>
-<div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><a href="{{ route('admin.indikators.index') }}" class="rounded-xl border border-slate-300 px-5 py-3 text-center font-semibold text-slate-700 hover:bg-slate-50">Batal</a><button class="rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800">{{ $editing ? 'Simpan Perubahan' : 'Tambah Indikator' }}</button></div>
+<div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><a
+        href="{{ route('admin.indikators.index') }}"
+        class="rounded-xl border border-slate-300 px-5 py-3 text-center font-semibold text-slate-700 hover:bg-slate-50">Batal</a><button
+        class="rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800">{{ $editing ? 'Simpan Perubahan' : 'Tambah Indikator' }}</button>
+</div>
