@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\TargetController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\TahunController;
 use App\Http\Controllers\Backend\CapaianController;
+use App\Http\Controllers\Backend\InstansiController;
 
 use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -58,4 +59,7 @@ Route::prefix('admin')
         Route::post('/capaian', [CapaianController::class, 'store'])->name('capaian.store');
 
         Route::resource('tahuns', TahunController::class)->except(['show', 'create', 'edit']);
+
+        Route::resource('instansis', InstansiController::class)->except('show');
+
     });

@@ -193,109 +193,119 @@
                             <table class="w-full">
 
                                 <thead class="bg-slate-100">
-
                                     <tr>
+                                        <th class="w-16 px-4 py-4 text-center">No</th>
 
-                                        <th class="w-16 px-4 py-4 text-center">
-
-                                            No
-
-                                        </th>
-
-                                        <th class="w-[420px] px-4 py-4 text-left">
-
+                                        <th class="min-w-[320px] px-4 py-4 text-left">
                                             Indikator
-
                                         </th>
 
-                                        <th class="w-40 px-4 py-4 text-center">
-
+                                        <th class="w-36 px-4 py-4 text-center">
                                             Target
-
                                         </th>
 
-                                        <th class="w-40 px-4 py-4 text-center">
-
+                                        <th class="w-36 px-4 py-4 text-center">
                                             Realisasi
-
                                         </th>
 
-                                        <th class="w-40 px-4 py-4 text-center">
-
+                                        <th class="w-44 px-4 py-4 text-center">
                                             Status
+                                        </th>
 
+                                        <th class="min-w-[320px] px-4 py-4 text-left">
+                                            Rencana Aksi
+                                        </th>
+
+                                        <th class="min-w-[320px] px-4 py-4 text-left">
+                                            Hambatan / Permasalahan
+                                        </th>
+
+                                        <th class="min-w-[320px] px-4 py-4 text-left">
+                                            Evaluasi
                                         </th>
 
                                         <th class="w-60 px-4 py-4 text-center">
-
                                             Data Pendukung
-
                                         </th>
-
                                     </tr>
-
                                 </thead>
 
                                 <tbody>
 
                                     @forelse($indikators as $indikator)
+
                                         @php
-
                                             $target = $indikator->targets->first();
-
                                             $realisasi = $indikator->realisasis->first();
 
+                                            $isSuperadmin = auth()->user()->role === 'superadmin';
+
+                                            $isPenanggungJawab =
+                                                $isSuperadmin ||
+                                                (auth()->user()->instansi_id &&
+                                                    $indikator->instansi_id == auth()->user()->instansi_id);
                                         @endphp
 
-                                        <tr class="border-b hover:bg-slate-50">
+                                        <tr class="border-b border-slate-200 hover:bg-slate-50">
 
+                                            {{-- NO --}}
                                             <td class="px-4 py-5 text-center">
-
                                                 {{ $loop->iteration }}
-
                                             </td>
 
+
+                                            {{-- INDIKATOR --}}
                                             <td class="px-4 py-5">
 
                                                 <div class="font-semibold text-slate-800">
-
                                                     {{ $indikator->nama_indikator }}
-
                                                 </div>
 
                                                 <div class="mt-1 text-sm text-slate-500">
-
-                                                    {{ $indikator->instansi }}
-
+                                                    {{ $indikator->instansi?->nama ?? '-' }}
                                                 </div>
 
                                             </td>
 
+
+                                            {{-- TARGET --}}
                                             <td class="px-4 py-5 text-center">
 
                                                 <input type="number" step="0.01" name="target[{{ $indikator->id }}]"
                                                     value="{{ old('target.' . $indikator->id, $target->nilai_target ?? '') }}"
-                                                    class="target-input w-24 rounded-lg border-slate-300 text-center"
-                                                    data-id="{{ $indikator->id }}">
+                                                    class="target-input w-24 rounded-lg border-slate-300 text-center
+                                                    {{ !$isPenanggungJawab ? 'bg-slate-100 cursor-not-allowed' : '' }}"
+                                                    data-id="{{ $indikator->id }}"
+                                                    {{ !$isPenanggungJawab ? 'disabled' : '' }}>
 
                                             </td>
 
+
+                                            {{-- REALISASI --}}
                                             <td class="px-4 py-5 text-center">
 
                                                 <input type="number" step="0.01" name="realisasi[{{ $indikator->id }}]"
                                                     value="{{ old('realisasi.' . $indikator->id, $realisasi->nilai_realisasi ?? '') }}"
-                                                    class="realisasi-input w-24 rounded-lg border-slate-300 text-center"
-                                                    data-id="{{ $indikator->id }}">
+                                                    class="realisasi-input w-24 rounded-lg border-slate-300 text-center
+                                                    {{ !$isPenanggungJawab ? 'bg-slate-100 cursor-not-allowed' : '' }}"
+                                                    data-id="{{ $indikator->id }}"
+                                                    {{ !$isPenanggungJawab ? 'disabled' : '' }}>
 
                                             </td>
 
+
+                                            {{-- STATUS --}}
                                             <td class="px-4 py-5 text-center">
 
                                                 <select id="status-{{ $indikator->id }}"
                                                     name="status[{{ $indikator->id }}]" data-id="{{ $indikator->id }}"
-                                                    class="status-select min-w-[180px] rounded-lg border px-4 py-2 transition">
+                                                    class="status-select min-w-[180px] rounded-lg border px-4 py-2 transition
+                                                    {{ !$isPenanggungJawab ? 'bg-slate-100 cursor-not-allowed' : '' }}"
+                                                    {{ !$isPenanggungJawab ? 'disabled' : '' }}>
 
-                                                    <option value="">-- Pilih Status --</option>
+                                                    <option value="">
+                                                        -- Pilih Status --
+                                                    </option>
 
                                                     <option value="tercapai"
                                                         {{ optional($realisasi)->status_pencapaian == 'tercapai' ? 'selected' : '' }}>
@@ -311,7 +321,69 @@
 
                                             </td>
 
-                                            {{-- Upload --}}
+
+                                            {{-- RENCANA AKSI --}}
+                                            <td class="px-4 py-5">
+
+                                                @if ($isSuperadmin)
+                                                    {{-- Superadmin hanya melihat --}}
+                                                    <div
+                                                        class="min-w-[300px] whitespace-pre-line text-sm leading-6 text-slate-600">
+                                                        {{ $realisasi?->rencana_aksi ?: '-' }}
+                                                    </div>
+                                                @else
+                                                    {{-- Admin / OPD mengisi --}}
+                                                    <textarea name="rencana_aksi[{{ $indikator->id }}]" rows="5"
+                                                        class="w-full min-w-[300px] rounded-lg border-slate-300 text-sm
+                                                        focus:border-[#0B91CF] focus:ring-[#0B91CF]
+                                                        {{ !$isPenanggungJawab ? 'bg-slate-100 cursor-not-allowed' : '' }}"
+                                                        placeholder="Tuliskan rencana aksi..." {{ !$isPenanggungJawab ? 'disabled' : '' }}>{{ old('rencana_aksi.' . $indikator->id, $realisasi->rencana_aksi ?? '') }}</textarea>
+                                                @endif
+
+                                            </td>
+
+
+                                            {{-- HAMBATAN --}}
+                                            <td class="px-4 py-5">
+
+                                                @if ($isSuperadmin)
+                                                    {{-- Superadmin hanya melihat --}}
+                                                    <div
+                                                        class="min-w-[300px] whitespace-pre-line text-sm leading-6 text-slate-600">
+                                                        {{ $realisasi?->hambatan ?: '-' }}
+                                                    </div>
+                                                @else
+                                                    {{-- Admin / OPD mengisi --}}
+                                                    <textarea name="hambatan[{{ $indikator->id }}]" rows="5"
+                                                        class="w-full min-w-[300px] rounded-lg border-slate-300 text-sm
+                                                        focus:border-[#0B91CF] focus:ring-[#0B91CF]
+                                                        {{ !$isPenanggungJawab ? 'bg-slate-100 cursor-not-allowed' : '' }}"
+                                                        placeholder="Tuliskan hambatan atau permasalahan..." {{ !$isPenanggungJawab ? 'disabled' : '' }}>{{ old('hambatan.' . $indikator->id, $realisasi->hambatan ?? '') }}</textarea>
+                                                @endif
+
+                                            </td>
+
+
+                                            {{-- EVALUASI --}}
+                                            <td class="px-4 py-5">
+
+                                                @if ($isSuperadmin)
+                                                    {{-- Superadmin mengisi --}}
+                                                    <textarea name="evaluasi[{{ $indikator->id }}]" rows="5"
+                                                        class="w-full min-w-[300px] rounded-lg border-slate-300 text-sm
+                                                        focus:border-[#0B91CF] focus:ring-[#0B91CF]"
+                                                        placeholder="Tuliskan evaluasi...">{{ old('evaluasi.' . $indikator->id, $realisasi->evaluasi ?? '') }}</textarea>
+                                                @else
+                                                    {{-- Admin hanya melihat --}}
+                                                    <div
+                                                        class="min-w-[300px] whitespace-pre-line text-sm leading-6 text-slate-600">
+                                                        {{ $realisasi?->evaluasi ?: '-' }}
+                                                    </div>
+                                                @endif
+
+                                            </td>
+
+                                            {{-- DATA PENDUKUNG --}}
                                             <td class="px-4 py-5 text-center">
 
                                                 @php
@@ -320,12 +392,13 @@
 
                                                 <div class="space-y-3">
 
+                                                    {{-- Preview File --}}
                                                     <div id="preview-upload-{{ $indikator->id }}"
                                                         class="rounded-lg border p-3 text-center
-        {{ $file ? 'border-green-200 bg-green-50' : 'border-dashed border-slate-300' }}">
+            {{ $file ? 'border-green-200 bg-green-50' : 'border-dashed border-slate-300' }}">
 
                                                         <div id="preview-text-{{ $indikator->id }}"
-                                                            class="{{ $file ? 'text-green-700 font-medium' : 'text-slate-400' }}">
+                                                            class="{{ $file ? 'font-medium text-green-700' : 'text-slate-400' }}">
 
                                                             @if ($file)
                                                                 📄 {{ $file->judul }}
@@ -337,46 +410,59 @@
 
                                                     </div>
 
+
+                                                    {{-- LIHAT FILE --}}
                                                     @if ($file)
                                                         <a href="{{ asset('storage/' . $file->file) }}" target="_blank"
-                                                            class="block rounded-lg bg-blue-600 px-3 py-2 text-center text-sm text-white">
+                                                            class="block rounded-lg bg-blue-600 px-3 py-2
+                text-center text-sm font-semibold text-white
+                hover:bg-blue-700">
 
                                                             Lihat File
 
                                                         </a>
                                                     @endif
 
-                                                    <label
-                                                        class="block cursor-pointer rounded-lg bg-[#0B91CF] px-3 py-2 text-center text-sm font-semibold text-white hover:bg-[#0879AE]">
 
-                                                        <span id="label-upload-{{ $indikator->id }}">
+                                                    {{-- ================================= --}}
+                                                    {{-- ADMIN PENANGGUNG JAWAB + SUPERADMIN --}}
+                                                    {{-- ================================= --}}
+                                                    @if ($isPenanggungJawab)
+                                                        <label
+                                                            class="block cursor-pointer rounded-lg bg-[#0B91CF]
+                px-3 py-2 text-center text-sm font-semibold text-white
+                hover:bg-[#0879AE]">
 
-                                                            {{ $file ? 'Ganti File' : 'Upload File' }}
+                                                            <span id="label-upload-{{ $indikator->id }}">
+                                                                {{ $file ? 'Ganti File' : 'Upload File' }}
+                                                            </span>
 
-                                                        </span>
+                                                            <input type="file" name="pendukung[{{ $indikator->id }}]"
+                                                                class="hidden file-upload" data-id="{{ $indikator->id }}"
+                                                                accept=".pdf,.jpg,.jpeg,.png,.xls,.xlsx">
 
-                                                        <input type="file" name="pendukung[{{ $indikator->id }}]"
-                                                            class="hidden file-upload" data-id="{{ $indikator->id }}"
-                                                            accept=".pdf,.jpg,.jpeg,.png,.xls,.xlsx">
+                                                        </label>
 
-                                                    </label>
 
-                                                    <button type="button" id="btn-cancel-{{ $indikator->id }}"
-                                                        onclick="batalUpload({{ $indikator->id }})"
-                                                        class="hidden mt-2 w-full rounded-lg border border-red-500 px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50">
+                                                        {{-- BATAL PILIH FILE --}}
+                                                        <button type="button" id="btn-cancel-{{ $indikator->id }}"
+                                                            onclick="batalUpload({{ $indikator->id }})"
+                                                            class="mt-2 hidden w-full rounded-lg
+                border border-red-500 px-3 py-2
+                text-sm font-semibold text-red-600
+                hover:bg-red-50">
 
-                                                        Batal Pilih File
+                                                            Batal Pilih File
 
-                                                    </button>
+                                                        </button>
+                                                    @endif
 
+
+                                                    {{-- Keterangan --}}
                                                     <p class="text-xs text-slate-500">
-
                                                         PDF, Excel, JPG, JPEG, PNG
-
                                                         <br>
-
                                                         Maksimal 5 MB
-
                                                     </p>
 
                                                 </div>
@@ -389,7 +475,7 @@
 
                                         <tr>
 
-                                            <td colspan="6" class="py-12 text-center text-slate-400">
+                                            <td colspan="9" class="py-12 text-center text-slate-400">
 
                                                 Belum ada indikator pada pilar ini.
 
@@ -402,6 +488,10 @@
 
                             </table>
 
+                        </div>
+
+                        <div class="border-t border-slate-200 px-6 py-4">
+                            {{ $indikators->links() }}
                         </div>
 
                     </form>
@@ -671,263 +761,371 @@
 
             @endif
 
-            @if (auth()->user()->role == 'superadmin')
-                <script>
-                    function openTambahTahun() {
+            <script>
+                /*
+                |--------------------------------------------------------------------------
+                | MODAL TAHUN
+                |--------------------------------------------------------------------------
+                | Hanya digunakan Superadmin.
+                */
 
-                        document
-                            .getElementById('modalTambahTahun')
-                            .classList.remove('hidden');
+                function openTambahTahun() {
+                    const modal = document.getElementById('modalTambahTahun');
 
-                        document
-                            .getElementById('modalTambahTahun')
-                            .classList.add('flex');
+                    if (!modal) return;
 
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
+
+                function closeTambahTahun() {
+                    const modal = document.getElementById('modalTambahTahun');
+
+                    if (!modal) return;
+
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                }
+
+                function editTahun(id, tahun, status) {
+                    const modalKelola = document.getElementById('modalKelolaTahun');
+                    const modalEdit = document.getElementById('modalEditTahun');
+
+                    if (!modalEdit) return;
+
+                    if (modalKelola) {
+                        modalKelola.classList.remove('flex');
+                        modalKelola.classList.add('hidden');
                     }
 
-                    function closeTambahTahun() {
+                    const inputTahun = document.getElementById('editTahun');
+                    const inputStatus = document.getElementById('editStatus');
+                    const formEdit = document.getElementById('formEditTahun');
 
-                        document
-                            .getElementById('modalTambahTahun')
-                            .classList.remove('flex');
-
-                        document
-                            .getElementById('modalTambahTahun')
-                            .classList.add('hidden');
-
+                    if (inputTahun) {
+                        inputTahun.value = tahun;
                     }
 
-                    function editTahun(id, tahun, status) {
-
-                        // Tutup modal kelola
-                        document
-                            .getElementById('modalKelolaTahun')
-                            .classList.remove('flex');
-
-                        document
-                            .getElementById('modalKelolaTahun')
-                            .classList.add('hidden');
-
-                        // Isi form edit
-                        document
-                            .getElementById('editTahun')
-                            .value = tahun;
-
-                        document
-                            .getElementById('editStatus')
-                            .value = status;
-
-                        document
-                            .getElementById('formEditTahun')
-                            .action = "/admin/tahuns/" + id;
-
-                        // Buka modal edit
-                        document
-                            .getElementById('modalEditTahun')
-                            .classList.remove('hidden');
-
-                        document
-                            .getElementById('modalEditTahun')
-                            .classList.add('flex');
-
+                    if (inputStatus) {
+                        inputStatus.value = status;
                     }
 
-                    function closeEditTahun() {
-
-                        // Tutup modal edit
-                        document
-                            .getElementById('modalEditTahun')
-                            .classList.remove('flex');
-
-                        document
-                            .getElementById('modalEditTahun')
-                            .classList.add('hidden');
-
-                        // Tampilkan kembali modal kelola
-                        document
-                            .getElementById('modalKelolaTahun')
-                            .classList.remove('hidden');
-
-                        document
-                            .getElementById('modalKelolaTahun')
-                            .classList.add('flex');
-
+                    if (formEdit) {
+                        formEdit.action = "/admin/tahuns/" + id;
                     }
 
-                    const modalKelola =
-                        document.getElementById('modalKelolaTahun');
+                    modalEdit.classList.remove('hidden');
+                    modalEdit.classList.add('flex');
+                }
 
-                    document
-                        .getElementById('btnKelolaTahun')
-                        .onclick = function() {
+                function closeEditTahun() {
+                    const modalEdit = document.getElementById('modalEditTahun');
+                    const modalKelola = document.getElementById('modalKelolaTahun');
 
-                            modalKelola.classList.remove('hidden');
+                    if (modalEdit) {
+                        modalEdit.classList.remove('flex');
+                        modalEdit.classList.add('hidden');
+                    }
 
-                            modalKelola.classList.add('flex');
+                    if (modalKelola) {
+                        modalKelola.classList.remove('hidden');
+                        modalKelola.classList.add('flex');
+                    }
+                }
 
-                        };
 
-                    document
-                        .getElementById('btnTutupKelola')
-                        .onclick = function() {
+                /*
+                |--------------------------------------------------------------------------
+                | KELOLA TAHUN
+                |--------------------------------------------------------------------------
+                */
 
-                            modalKelola.classList.remove('flex');
+                const modalKelola = document.getElementById('modalKelolaTahun');
+                const btnKelolaTahun = document.getElementById('btnKelolaTahun');
+                const btnTutupKelola = document.getElementById('btnTutupKelola');
 
-                            modalKelola.classList.add('hidden');
+                if (btnKelolaTahun && modalKelola) {
+                    btnKelolaTahun.onclick = function() {
+                        modalKelola.classList.remove('hidden');
+                        modalKelola.classList.add('flex');
+                    };
+                }
 
-                        };
+                if (btnTutupKelola && modalKelola) {
+                    btnTutupKelola.onclick = function() {
+                        modalKelola.classList.remove('flex');
+                        modalKelola.classList.add('hidden');
+                    };
+                }
 
-                    document.querySelectorAll('.file-upload').forEach(function(input) {
 
-                        input.addEventListener('change', function() {
+                /*
+                |--------------------------------------------------------------------------
+                | UPLOAD FILE
+                |--------------------------------------------------------------------------
+                | ADMIN + SUPERADMIN
+                |--------------------------------------------------------------------------
+                */
 
-                            if (this.files.length === 0) {
-                                return;
-                            }
+                document.querySelectorAll('.file-upload').forEach(function(input) {
 
-                            let file = this.files[0];
+                    input.addEventListener('change', function() {
 
-                            let id = this.dataset.id;
+                        if (this.files.length === 0) {
+                            return;
+                        }
 
-                            let icon = "📄";
+                        const file = this.files[0];
+                        const id = this.dataset.id;
 
-                            let ext = file.name.split('.').pop().toLowerCase();
+                        let icon = "📄";
 
-                            if (ext == "pdf") {
+                        const ext = file.name
+                            .split('.')
+                            .pop()
+                            .toLowerCase();
 
-                                icon = "📕";
+                        if (ext === "pdf") {
 
-                            } else if (ext == "xls" || ext == "xlsx") {
+                            icon = "📕";
 
-                                icon = "📊";
+                        } else if (ext === "xls" || ext === "xlsx") {
 
-                            } else if (ext == "jpg" || ext == "jpeg" || ext == "png") {
+                            icon = "📊";
 
-                                icon = "🖼️";
+                        } else if (
+                            ext === "jpg" ||
+                            ext === "jpeg" ||
+                            ext === "png"
+                        ) {
 
-                            }
+                            icon = "🖼️";
+                        }
 
-                            document
-                                .getElementById("preview-upload-" + id)
-                                .classList.remove("border-dashed");
 
-                            document
-                                .getElementById("preview-upload-" + id)
-                                .classList.remove("border-slate-300");
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Preview
+                        |--------------------------------------------------------------------------
+                        */
 
-                            document
-                                .getElementById("preview-upload-" + id)
-                                .classList.add("border-green-200");
+                        const preview = document.getElementById(
+                            "preview-upload-" + id
+                        );
 
-                            document
-                                .getElementById("preview-upload-" + id)
-                                .classList.add("bg-green-50");
+                        const previewText = document.getElementById(
+                            "preview-text-" + id
+                        );
 
-                            document
-                                .getElementById("preview-text-" + id)
-                                .innerHTML =
+                        const labelUpload = document.getElementById(
+                            "label-upload-" + id
+                        );
+
+                        const btnCancel = document.getElementById(
+                            "btn-cancel-" + id
+                        );
+
+
+                        if (preview) {
+
+                            preview.classList.remove(
+                                "border-dashed",
+                                "border-slate-300"
+                            );
+
+                            preview.classList.add(
+                                "border-green-200",
+                                "bg-green-50"
+                            );
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Nama file
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (previewText) {
+
+                            previewText.classList.remove(
+                                "text-slate-400"
+                            );
+
+                            previewText.classList.add(
+                                "font-medium",
+                                "text-green-700"
+                            );
+
+                            previewText.innerHTML =
                                 icon +
-                                " <b>" + file.name + "</b><br><span class='text-xs'>✓ File siap diupload</span>";
+                                " <b>" +
+                                file.name +
+                                "</b><br>" +
+                                "<span class='text-xs'>✓ File siap diupload</span>";
+                        }
 
-                            document
-                                .getElementById("label-upload-" + id)
-                                .innerHTML = "Ganti File";
 
-                            document
-                                .getElementById("btn-cancel-" + id)
-                                .classList.remove("hidden");
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Tombol
+                        |--------------------------------------------------------------------------
+                        */
 
-                        });
+                        if (labelUpload) {
+
+                            labelUpload.innerHTML = "Ganti File";
+                        }
+
+                        if (btnCancel) {
+
+                            btnCancel.classList.remove("hidden");
+                        }
 
                     });
 
-                    function batalUpload(id) {
+                });
 
-                        let input = document.querySelector(
-                            'input[name="pendukung[' + id + ']"]'
-                        );
 
+                /*
+                |--------------------------------------------------------------------------
+                | BATAL PILIH FILE
+                |--------------------------------------------------------------------------
+                */
+
+                function batalUpload(id) {
+
+                    const input = document.querySelector(
+                        'input[name="pendukung[' + id + ']"]'
+                    );
+
+                    if (input) {
                         input.value = "";
-
-                        document
-                            .getElementById("preview-text-" + id)
-                            .innerHTML = "Belum ada file";
-
-                        document
-                            .getElementById("label-upload-" + id)
-                            .innerHTML = "Upload File";
-
-                        document
-                            .getElementById("btn-cancel-" + id)
-                            .classList.add("hidden");
-
-                        let preview =
-                            document.getElementById("preview-upload-" + id);
-
-                        preview.classList.remove("bg-green-50");
-                        preview.classList.remove("border-green-200");
-
-                        preview.classList.add("border-dashed");
-                        preview.classList.add("border-slate-300");
-
                     }
 
-                    function updateStatusColor(select) {
 
-                        select.classList.remove(
+                    const previewText = document.getElementById(
+                        "preview-text-" + id
+                    );
+
+                    if (previewText) {
+
+                        previewText.classList.remove(
+                            "font-medium",
+                            "text-green-700"
+                        );
+
+                        previewText.classList.add(
+                            "text-slate-400"
+                        );
+
+                        previewText.innerHTML = "Belum ada file";
+                    }
+
+
+                    const labelUpload = document.getElementById(
+                        "label-upload-" + id
+                    );
+
+                    if (labelUpload) {
+
+                        labelUpload.innerHTML = "Upload File";
+                    }
+
+
+                    const btnCancel = document.getElementById(
+                        "btn-cancel-" + id
+                    );
+
+                    if (btnCancel) {
+
+                        btnCancel.classList.add("hidden");
+                    }
+
+
+                    const preview = document.getElementById(
+                        "preview-upload-" + id
+                    );
+
+                    if (preview) {
+
+                        preview.classList.remove(
+                            "bg-green-50",
+                            "border-green-200"
+                        );
+
+                        preview.classList.add(
+                            "border-dashed",
+                            "border-slate-300"
+                        );
+                    }
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | WARNA STATUS
+                |--------------------------------------------------------------------------
+                */
+
+                function updateStatusColor(select) {
+
+                    select.classList.remove(
+                        'bg-green-50',
+                        'border-green-500',
+                        'text-green-700',
+
+                        'bg-red-50',
+                        'border-red-500',
+                        'text-red-700',
+
+                        'bg-white',
+                        'border-slate-300',
+                        'text-slate-700'
+                    );
+
+
+                    if (select.value === "tercapai") {
+
+                        select.classList.add(
                             'bg-green-50',
                             'border-green-500',
-                            'text-green-700',
+                            'text-green-700'
+                        );
 
+                    } else if (select.value === "belum_tercapai") {
+
+                        select.classList.add(
                             'bg-red-50',
                             'border-red-500',
-                            'text-red-700',
+                            'text-red-700'
+                        );
 
+                    } else {
+
+                        select.classList.add(
                             'bg-white',
                             'border-slate-300',
                             'text-slate-700'
                         );
 
-                        if (select.value == "tercapai") {
-
-                            select.classList.add(
-                                'bg-green-50',
-                                'border-green-500',
-                                'text-green-700'
-                            );
-
-                        } else if (select.value == "belum_tercapai") {
-
-                            select.classList.add(
-                                'bg-red-50',
-                                'border-red-500',
-                                'text-red-700'
-                            );
-
-                        } else {
-
-                            select.classList.add(
-                                'bg-white',
-                                'border-slate-300',
-                                'text-slate-700'
-                            );
-
-                        }
-
                     }
 
-                    document.querySelectorAll(".status-select").forEach(function(select) {
+                }
 
-                        updateStatusColor(select);
 
-                        select.addEventListener("change", function() {
+                document.querySelectorAll(".status-select").forEach(function(select) {
 
-                            updateStatusColor(this);
+                    updateStatusColor(select);
 
-                        });
+                    select.addEventListener("change", function() {
+
+                        updateStatusColor(this);
 
                     });
-                </script>
-            @endif
+
+                });
+            </script>
 
         @endsection

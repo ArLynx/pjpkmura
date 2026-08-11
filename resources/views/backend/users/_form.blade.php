@@ -50,16 +50,42 @@
 
     {{-- Instansi --}}
     <div>
-        <label for="instansi" class="mb-2 block text-sm font-semibold text-slate-700">
+        <label for="instansi_id"
+            class="mb-2 block text-sm font-semibold text-slate-700">
+
             Instansi
+
         </label>
 
-        <input
-            id="instansi"
-            name="instansi"
-            value="{{ old('instansi', $user->instansi ?? '') }}"
+        <select
+            id="instansi_id"
+            name="instansi_id"
+            required
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
         >
+
+            <option value="">
+                -- Pilih Instansi --
+            </option>
+
+            @foreach($instansis as $instansi)
+
+                <option
+                    value="{{ $instansi->id }}"
+                    @selected(
+                        old(
+                            'instansi_id',
+                            $user->instansi_id ?? ''
+                        ) == $instansi->id
+                    )
+                >
+                    {{ $instansi->nama }}
+                </option>
+
+            @endforeach
+
+        </select>
+
     </div>
 
     {{-- Peran --}}

@@ -9,8 +9,7 @@
             Pilar
         </label>
 
-        <select name="pilar_id"
-            required
+        <select name="pilar_id" required
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
             <option value="">
@@ -18,14 +17,11 @@
             </option>
 
             @foreach ($pilars as $pilar)
-
-                <option value="{{ $pilar->id }}"
-                    @selected((string) old('pilar_id', $indikator->pilar_id ?? '') === (string) $pilar->id)>
+                <option value="{{ $pilar->id }}" @selected((string) old('pilar_id', $indikator->pilar_id ?? '') === (string) $pilar->id)>
 
                     {{ $pilar->urutan }}. {{ $pilar->nama }}
 
                 </option>
-
             @endforeach
 
         </select>
@@ -40,11 +36,7 @@
             Urutan
         </label>
 
-        <input type="number"
-            min="1"
-            name="urutan"
-            value="{{ old('urutan', $indikator->urutan ?? 1) }}"
-            required
+        <input type="number" min="1" name="urutan" value="{{ old('urutan', $indikator->urutan ?? 1) }}" required
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
         <p class="mt-1 text-xs text-slate-500">
@@ -61,9 +53,7 @@
             Nama Indikator
         </label>
 
-        <input name="nama_indikator"
-            value="{{ old('nama_indikator', $indikator->nama_indikator ?? '') }}"
-            required
+        <input name="nama_indikator" value="{{ old('nama_indikator', $indikator->nama_indikator ?? '') }}" required
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
     </div>
@@ -76,26 +66,44 @@
             Tujuan Strategis
         </label>
 
-        <textarea name="tujuan_strategis"
-            rows="4"
-            required
+        <textarea name="tujuan_strategis" rows="4" required
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">{{ old('tujuan_strategis', $indikator->tujuan_strategis ?? '') }}</textarea>
 
     </div>
 
-
-    {{-- INSTANSI --}}
+    {{-- INSTANSI UTAMA --}}
     <div>
-
         <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Instansi Penanggung Jawab
+            Instansi Utama/Penannggung Jawab
         </label>
 
-        <input name="instansi"
-            value="{{ old('instansi', $indikator->instansi ?? '') }}"
-            required
+        <select name="instansi_id" required
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
+            <option value="">Pilih instansi utama</option>
+
+            @foreach ($instansis as $instansi)
+                <option value="{{ $instansi->id }}" @selected((string) old('instansi_id', $indikator->instansi_id ?? '') === (string) $instansi->id)>
+                    {{ $instansi->nama }}
+                </option>
+            @endforeach
+
+        </select>
+    </div>
+
+    {{-- INSTANSI PENDUKUNG --}}
+    <div class="md:col-span-2">
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+            Instansi Pendukung
+        </label>
+
+        <textarea name="instansi_pendukung" rows="3"
+            class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
+            placeholder="Contoh: DINKES, DISDIKBUD, DAD, Kecamatan, Kelurahan/Desa">{{ old('instansi_pendukung', $indikator->instansi_pendukung ?? '') }}</textarea>
+
+        <p class="mt-1 text-xs text-slate-500">
+            Isi instansi yang mendukung indikator. Dapat diisi lebih dari satu instansi.
+        </p>
     </div>
 
 
@@ -106,8 +114,7 @@
             Satuan
         </label>
 
-        <input name="satuan"
-            value="{{ old('satuan', $indikator->satuan ?? '') }}"
+        <input name="satuan" value="{{ old('satuan', $indikator->satuan ?? '') }}"
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
             placeholder="Persen, orang, indeks, dan lainnya">
 
@@ -121,8 +128,7 @@
             Nilai Baseline
         </label>
 
-        <input name="nilai_baseline"
-            value="{{ old('nilai_baseline', $indikator->nilai_baseline ?? '') }}"
+        <input name="nilai_baseline" value="{{ old('nilai_baseline', $indikator->nilai_baseline ?? '') }}"
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
     </div>
@@ -135,10 +141,7 @@
             Tahun Baseline
         </label>
 
-        <input type="number"
-            min="1900"
-            max="2100"
-            name="tahun_baseline"
+        <input type="number" min="1900" max="2100" name="tahun_baseline"
             value="{{ old('tahun_baseline', $indikator->tahun_baseline ?? '') }}"
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
@@ -152,8 +155,7 @@
             Sumber Data
         </label>
 
-        <input name="sumber_data"
-            value="{{ old('sumber_data', $indikator->sumber_data ?? '') }}"
+        <input name="sumber_data" value="{{ old('sumber_data', $indikator->sumber_data ?? '') }}"
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
     </div>
@@ -171,8 +173,7 @@
 
     </a>
 
-    <button type="submit"
-        class="rounded-xl bg-[#0B91CF] px-6 py-3 font-semibold text-white hover:bg-[#0879AE]">
+    <button type="submit" class="rounded-xl bg-[#0B91CF] px-6 py-3 font-semibold text-white hover:bg-[#0879AE]">
 
         {{ $editing ? 'Simpan Perubahan' : 'Tambah Indikator' }}
 

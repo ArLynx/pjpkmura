@@ -47,7 +47,6 @@
         {{-- ===================================================== --}}
 
         @if (auth()->user()->role === 'superadmin')
-
             {{-- Dashboard --}}
             <a href="{{ route('admin.dashboard') }}"
                 class="{{ $menuClass }} {{ request()->routeIs('admin.dashboard') ? $activeClass : $idleClass }}">
@@ -60,6 +59,17 @@
 
             </a>
 
+            {{-- Kelola Instansi --}}
+            <a href="{{ route('admin.instansis.index') }}"
+                class="{{ $menuClass }} {{ request()->routeIs('admin.instansis.*') ? $activeClass : $idleClass }}">
+
+                <span class="material-symbols-outlined">
+                    account_balance
+                </span>
+
+                Kelola Instansi
+
+            </a>
 
             {{-- Kelola User --}}
             <a href="{{ route('admin.users.index') }}"
@@ -152,12 +162,10 @@
             </a>
 
 
-        {{-- ===================================================== --}}
-        {{-- ADMIN BIASA --}}
-        {{-- ===================================================== --}}
-
+            {{-- ===================================================== --}}
+            {{-- ADMIN BIASA --}}
+            {{-- ===================================================== --}}
         @else
-
             {{-- Capaian --}}
             <a href="{{ route('admin.capaian.index') }}"
                 class="{{ $menuClass }} {{ request()->routeIs('admin.capaian.*') ? $activeClass : $idleClass }}">
@@ -182,7 +190,6 @@
                 Profil
 
             </a>
-
         @endif
 
 
@@ -191,9 +198,7 @@
 
 
         {{-- Lihat Situs --}}
-        <a href="{{ route('home') }}"
-            target="_blank"
-            class="{{ $menuClass }} {{ $idleClass }}">
+        <a href="{{ route('home') }}" target="_blank" class="{{ $menuClass }} {{ $idleClass }}">
 
             <span class="material-symbols-outlined">
                 open_in_new
@@ -209,8 +214,7 @@
 
             @csrf
 
-            <button type="submit"
-                class="{{ $menuClass }} w-full text-red-600 hover:bg-red-100">
+            <button type="submit" class="{{ $menuClass }} w-full text-red-600 hover:bg-red-100">
 
                 <span class="material-symbols-outlined">
                     logout

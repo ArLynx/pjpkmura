@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('instansis', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama')->unique();
-            $table->timestamps();
+        Schema::table('indikators', function (Blueprint $table) {
+            $table->dropColumn('instansi');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('instansis');
+        Schema::table('indikators', function (Blueprint $table) {
+            $table->string('instansi')->nullable();
+        });
     }
 };

@@ -178,9 +178,7 @@
 
                         {{-- Instansi --}}
                         <td class="px-6 py-4 text-sm text-slate-600">
-
-                            {{ $user->instansi ?: '-' }}
-
+                            {{ $user->instansi?->nama ?? '-' }}
                         </td>
 
 

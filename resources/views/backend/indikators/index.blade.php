@@ -33,34 +33,27 @@
 
         <form method="GET" class="grid gap-3 md:grid-cols-[1fr_280px_auto]">
 
-            <input type="search"
-                name="q"
-                value="{{ request('q') }}"
+            <input type="search" name="q" value="{{ request('q') }}"
                 placeholder="Cari indikator, tujuan, atau instansi..."
                 class="rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
-            <select name="pilar_id"
-                class="rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
+            <select name="pilar_id" class="rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600">
 
                 <option value="">
                     Semua pilar
                 </option>
 
                 @foreach ($pilars as $pilar)
-
-                    <option value="{{ $pilar->id }}"
-                        @selected((string) request('pilar_id') === (string) $pilar->id)>
+                    <option value="{{ $pilar->id }}" @selected((string) request('pilar_id') === (string) $pilar->id)>
 
                         {{ $pilar->urutan }}. {{ $pilar->nama }}
 
                     </option>
-
                 @endforeach
 
             </select>
 
-            <button type="submit"
-                class="rounded-xl bg-sky-600 px-5 py-3 font-semibold text-white hover:bg-sky-700">
+            <button type="submit" class="rounded-xl bg-sky-600 px-5 py-3 font-semibold text-white hover:bg-sky-700">
 
                 Terapkan
 
@@ -114,7 +107,6 @@
                 <tbody class="divide-y divide-slate-100">
 
                     @forelse($indikators as $indikator)
-
                         <tr class="align-top hover:bg-slate-50">
 
                             {{-- INDIKATOR --}}
@@ -152,9 +144,7 @@
 
                             {{-- INSTANSI --}}
                             <td class="px-6 py-4 text-sm text-slate-600">
-
-                                {{ $indikator->instansi }}
-
+                                {{ $indikator->instansi?->nama ?? '-' }}
                             </td>
 
 
@@ -196,16 +186,14 @@
 
 
                                     {{-- DELETE --}}
-                                    <form method="POST"
-                                        action="{{ route('admin.indikators.destroy', $indikator) }}"
+                                    <form method="POST" action="{{ route('admin.indikators.destroy', $indikator) }}"
                                         onsubmit="return confirm('Menghapus indikator juga menghapus target, realisasi, dan data pendukung terkait. Lanjutkan?')">
 
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="submit"
-                                            class="rounded-lg bg-red-100 p-2 text-red-700 hover:bg-red-200"
-                                            title="Hapus">
+                                            class="rounded-lg bg-red-100 p-2 text-red-700 hover:bg-red-200" title="Hapus">
 
                                             <span class="material-symbols-outlined text-xl">
                                                 delete
@@ -225,15 +213,13 @@
 
                         <tr>
 
-                            <td colspan="6"
-                                class="px-6 py-12 text-center text-slate-500">
+                            <td colspan="6" class="px-6 py-12 text-center text-slate-500">
 
                                 Data indikator tidak ditemukan.
 
                             </td>
 
                         </tr>
-
                     @endforelse
 
                 </tbody>
@@ -244,13 +230,11 @@
 
 
         @if ($indikators->hasPages())
-
             <div class="border-t border-slate-200 px-6 py-4">
 
                 {{ $indikators->links() }}
 
             </div>
-
         @endif
 
     </div>
