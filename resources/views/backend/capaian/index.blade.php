@@ -47,7 +47,7 @@
 
                         @if (auth()->user()->role == 'superadmin')
                             <button type="button" onclick="openTambahTahun()"
-                                class="rounded-xl border border-teal-600 px-5 py-3 font-semibold text-teal-700">
+                                class="rounded-xl border border-sky-600 px-5 py-3 font-semibold text-sky-600 hover:bg-sky-50">
                                 + Tahun
                             </button>
 
@@ -60,7 +60,7 @@
                     </form>
 
                     <button type="submit" form="formCapaian"
-                        class="rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800">
+                        class="rounded-xl bg-[#0B91CF] px-6 py-3 font-semibold text-white hover:bg-[#0879AE]">
                         Simpan Semua
                     </button>
 
@@ -96,13 +96,13 @@
                             ]) }}"
                                 class="mb-3 flex min-h-[90px] items-center rounded-2xl border px-5 py-4 transition duration-200
             {{ $item->id == $pilar
-                ? 'border-teal-700 bg-teal-700 text-white shadow-md'
-                : 'border-slate-200 bg-white text-slate-700 hover:border-teal-500 hover:bg-teal-50' }}">
+                ? 'border-[#0B91CF] bg-[#0B91CF] text-white shadow-md'
+                : 'border-slate-200 bg-white text-slate-700 hover:border-[#0B91CF] hover:bg-[#E0F4FC]' }}">
 
                                 {{-- Huruf --}}
                                 <div
                                     class="mr-4 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-lg font-bold
-                {{ $item->id == $pilar ? 'bg-white text-teal-700' : 'bg-slate-100 text-slate-600' }}">
+                {{ $item->id == $pilar ? 'bg-white text-[#0B91CF]' : 'bg-slate-100 text-slate-600' }}">
 
                                     {{ chr(64 + $loop->iteration) }}
 
@@ -347,7 +347,7 @@
                                                     @endif
 
                                                     <label
-                                                        class="block cursor-pointer rounded-lg bg-teal-700 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-teal-800">
+                                                        class="block cursor-pointer rounded-lg bg-[#0B91CF] px-3 py-2 text-center text-sm font-semibold text-white hover:bg-[#0879AE]">
 
                                                         <span id="label-upload-{{ $indikator->id }}">
 
@@ -414,69 +414,21 @@
             {{-- =============================== --}}
             {{-- MODAL TAMBAH TAHUN --}}
             {{-- =============================== --}}
-            @if(auth()->user()->role == 'superadmin')
+            @if (auth()->user()->role == 'superadmin')
 
-            <div id="modalTambahTahun" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
+                <div id="modalTambahTahun" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
 
-                <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+                    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
 
-                    <h2 class="text-xl font-bold text-slate-800">
+                        <h2 class="text-xl font-bold text-slate-800">
 
-                        Tambah Tahun
+                            Tambah Tahun
 
-                    </h2>
+                        </h2>
 
-                    <form method="POST" action="{{ route('admin.tahuns.store') }}" class="mt-6">
+                        <form method="POST" action="{{ route('admin.tahuns.store') }}" class="mt-6">
 
-                        @csrf
-
-                        <label class="mb-2 block text-sm font-medium">
-
-                            Tahun
-
-                        </label>
-
-                        <input type="number" name="tahun" min="2000" max="2100" required
-                            class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-teal-600 focus:ring-teal-600">
-
-                        <div class="mt-6 flex justify-end gap-3">
-
-                            <button type="button" onclick="closeTambahTahun()" class="rounded-xl border px-5 py-2">
-
-                                Batal
-
-                            </button>
-
-                            <button class="rounded-xl bg-teal-700 px-6 py-2 text-white">
-
-                                Simpan
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-            <div id="modalEditTahun" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
-
-                <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-
-                    <h2 class="text-xl font-bold text-slate-800">
-
-                        Edit Tahun
-
-                    </h2>
-
-                    <form id="formEditTahun" method="POST">
-
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mt-5">
+                            @csrf
 
                             <label class="mb-2 block text-sm font-medium">
 
@@ -484,449 +436,498 @@
 
                             </label>
 
-                            <input id="editTahun" type="number" name="tahun" min="2000" max="2100" required
-                                class="w-full rounded-xl border border-slate-300 px-4 py-3">
+                            <input type="number" name="tahun" min="2000" max="2100" required
+                                class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-sky-600 focus:ring-sky-600">
 
-                        </div>
+                            <div class="mt-6 flex justify-end gap-3">
 
-                        <div class="mt-5">
+                                <button type="button" onclick="closeTambahTahun()" class="rounded-xl border px-5 py-2">
 
-                            <label class="mb-2 block text-sm font-medium">
+                                    Batal
 
-                                Status
+                                </button>
 
-                            </label>
+                                <button class="rounded-xl bg-[#0B91CF] px-6 py-2 text-white hover:bg-[#0879AE]">
 
-                            <select id="editStatus" name="status"
-                                class="w-full rounded-xl border border-slate-300 px-4 py-3">
+                                    Simpan
 
-                                <option value="aktif">
+                                </button>
 
-                                    Aktif
+                            </div>
 
-                                </option>
-
-                                <option value="nonaktif">
-
-                                    Nonaktif
-
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="mt-6 flex justify-end gap-3">
-
-                            <button type="button" onclick="closeEditTahun()" class="rounded-xl border px-5 py-2">
-
-                                Batal
-
-                            </button>
-
-                            <button class="rounded-xl bg-teal-700 px-6 py-2 text-white">
-
-                                Simpan
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-            <div id="modalKelolaTahun" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
-
-                <div class="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
-
-                    <div class="border-b px-6 py-5">
-
-                        <h2 class="text-xl font-bold">
-
-                            Kelola Tahun
-
-                        </h2>
-
-                        <p class="text-sm text-slate-500 mt-1">
-
-                            Tahun yang sudah memiliki data tidak dapat dihapus.
-
-                        </p>
+                        </form>
 
                     </div>
 
-                    <div class="max-h-[500px] overflow-y-auto p-6">
+                </div>
 
-                        @foreach ($tahuns as $th)
-                            @php
-                                $item = $statistikTahun[$th->id] ?? [
-                                    'target' => 0,
-                                    'realisasi' => 0,
-                                    'pendukung' => 0,
-                                    'boleh_hapus' => true,
-                                ];
-                            @endphp
+                <div id="modalEditTahun" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
 
-                            <div class="mb-4 rounded-xl border p-5">
+                    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
 
-                                <div class="flex justify-between">
+                        <h2 class="text-xl font-bold text-slate-800">
 
-                                    <div>
+                            Edit Tahun
 
-                                        <h3 class="text-lg font-bold">
+                        </h2>
 
-                                            {{ $th->tahun }}
+                        <form id="formEditTahun" method="POST">
 
-                                        </h3>
+                            @csrf
+                            @method('PUT')
 
-                                        <div class="mt-3 space-y-1 text-sm text-slate-600">
+                            <div class="mt-5">
 
-                                            <div>
+                                <label class="mb-2 block text-sm font-medium">
 
-                                                Target :
-                                                <b>{{ $item['target'] }}</b>
+                                    Tahun
 
-                                            </div>
+                                </label>
 
-                                            <div>
+                                <input id="editTahun" type="number" name="tahun" min="2000" max="2100"
+                                    required class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
-                                                Realisasi :
-                                                <b>{{ $item['realisasi'] }}</b>
+                            </div>
 
-                                            </div>
+                            <div class="mt-5">
 
-                                            <div>
+                                <label class="mb-2 block text-sm font-medium">
 
-                                                Data Pendukung :
-                                                <b>{{ $item['pendukung'] }}</b>
+                                    Status
+
+                                </label>
+
+                                <select id="editStatus" name="status"
+                                    class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-sky-600 focus:ring-sky-600">
+
+                                    <option value="aktif">
+
+                                        Aktif
+
+                                    </option>
+
+                                    <option value="nonaktif">
+
+                                        Nonaktif
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="mt-6 flex justify-end gap-3">
+
+                                <button type="button" onclick="closeEditTahun()" class="rounded-xl border px-5 py-2">
+
+                                    Batal
+
+                                </button>
+
+                                <button class="rounded-xl bg-[#0B91CF] px-6 py-2 text-white hover:bg-[#0879AE]">
+
+                                    Simpan
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div id="modalKelolaTahun" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
+
+                    <div class="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
+
+                        <div class="border-b px-6 py-5">
+
+                            <h2 class="text-xl font-bold">
+
+                                Kelola Tahun
+
+                            </h2>
+
+                            <p class="text-sm text-slate-500 mt-1">
+
+                                Tahun yang sudah memiliki data tidak dapat dihapus.
+
+                            </p>
+
+                        </div>
+
+                        <div class="max-h-[500px] overflow-y-auto p-6">
+
+                            @foreach ($tahuns as $th)
+                                @php
+                                    $item = $statistikTahun[$th->id] ?? [
+                                        'target' => 0,
+                                        'realisasi' => 0,
+                                        'pendukung' => 0,
+                                        'boleh_hapus' => true,
+                                    ];
+                                @endphp
+
+                                <div class="mb-4 rounded-xl border p-5">
+
+                                    <div class="flex justify-between">
+
+                                        <div>
+
+                                            <h3 class="text-lg font-bold">
+
+                                                {{ $th->tahun }}
+
+                                            </h3>
+
+                                            <div class="mt-3 space-y-1 text-sm text-slate-600">
+
+                                                <div>
+
+                                                    Target :
+                                                    <b>{{ $item['target'] }}</b>
+
+                                                </div>
+
+                                                <div>
+
+                                                    Realisasi :
+                                                    <b>{{ $item['realisasi'] }}</b>
+
+                                                </div>
+
+                                                <div>
+
+                                                    Data Pendukung :
+                                                    <b>{{ $item['pendukung'] }}</b>
+
+                                                </div>
 
                                             </div>
 
                                         </div>
 
-                                    </div>
+                                        <div class="flex gap-2">
 
-                                    <div class="flex gap-2">
-
-                                        <button type="button"
-                                            onclick="editTahun(
+                                            <button type="button"
+                                                onclick="editTahun(
                                                 {{ $th->id }},
                                                 '{{ $th->tahun }}',
                                                 '{{ $th->status }}'
                                             )"
-                                            class="rounded-lg bg-amber-500 px-4 py-2 text-white hover:bg-amber-600">
+                                                class="rounded-lg bg-amber-500 px-4 py-2 text-white hover:bg-amber-600">
 
-                                            Edit
+                                                Edit
 
-                                        </button>
+                                            </button>
 
-                                        @if ($item['boleh_hapus'])
-                                            <form method="POST" action="{{ route('admin.tahuns.destroy', $th->id) }}">
+                                            @if ($item['boleh_hapus'])
+                                                <form method="POST"
+                                                    action="{{ route('admin.tahuns.destroy', $th->id) }}">
 
-                                                @csrf
-                                                @method('DELETE')
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                <button onclick="return confirm('Hapus tahun {{ $th->tahun }}?')"
-                                                    class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+                                                    <button onclick="return confirm('Hapus tahun {{ $th->tahun }}?')"
+                                                        class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
 
-                                                    Hapus
+                                                        Hapus
 
-                                                </button>
+                                                    </button>
 
-                                            </form>
-                                        @else
-                                            <span class="rounded-lg bg-slate-100 px-4 py-2 text-slate-500">
+                                                </form>
+                                            @else
+                                                <span class="rounded-lg bg-slate-100 px-4 py-2 text-slate-500">
 
-                                                Digunakan
+                                                    Digunakan
 
-                                            </span>
-                                        @endif
+                                                </span>
+                                            @endif
+
+                                        </div>
 
                                     </div>
 
                                 </div>
+                            @endforeach
 
-                            </div>
-                        @endforeach
+                        </div>
 
-                    </div>
+                        <div class="border-t p-5 text-right">
 
-                    <div class="border-t p-5 text-right">
+                            <button id="btnTutupKelola" class="rounded-xl border px-5 py-2">
 
-                        <button id="btnTutupKelola" class="rounded-xl border px-5 py-2">
+                                Tutup
 
-                            Tutup
+                            </button>
 
-                        </button>
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
-
             @endif
 
-            @if(auth()->user()->role == 'superadmin')
-            <script>
-                function openTambahTahun() {
-
-                    document
-                        .getElementById('modalTambahTahun')
-                        .classList.remove('hidden');
-
-                    document
-                        .getElementById('modalTambahTahun')
-                        .classList.add('flex');
-
-                }
-
-                function closeTambahTahun() {
-
-                    document
-                        .getElementById('modalTambahTahun')
-                        .classList.remove('flex');
-
-                    document
-                        .getElementById('modalTambahTahun')
-                        .classList.add('hidden');
-
-                }
-
-                function editTahun(id, tahun, status) {
-
-                    // Tutup modal kelola
-                    document
-                        .getElementById('modalKelolaTahun')
-                        .classList.remove('flex');
-
-                    document
-                        .getElementById('modalKelolaTahun')
-                        .classList.add('hidden');
-
-                    // Isi form edit
-                    document
-                        .getElementById('editTahun')
-                        .value = tahun;
-
-                    document
-                        .getElementById('editStatus')
-                        .value = status;
-
-                    document
-                        .getElementById('formEditTahun')
-                        .action = "/admin/tahuns/" + id;
-
-                    // Buka modal edit
-                    document
-                        .getElementById('modalEditTahun')
-                        .classList.remove('hidden');
-
-                    document
-                        .getElementById('modalEditTahun')
-                        .classList.add('flex');
-
-                }
-
-                function closeEditTahun() {
-
-                    // Tutup modal edit
-                    document
-                        .getElementById('modalEditTahun')
-                        .classList.remove('flex');
-
-                    document
-                        .getElementById('modalEditTahun')
-                        .classList.add('hidden');
-
-                    // Tampilkan kembali modal kelola
-                    document
-                        .getElementById('modalKelolaTahun')
-                        .classList.remove('hidden');
-
-                    document
-                        .getElementById('modalKelolaTahun')
-                        .classList.add('flex');
-
-                }
-
-                const modalKelola =
-                    document.getElementById('modalKelolaTahun');
-
-                document
-                    .getElementById('btnKelolaTahun')
-                    .onclick = function() {
-
-                        modalKelola.classList.remove('hidden');
-
-                        modalKelola.classList.add('flex');
-
-                    };
-
-                document
-                    .getElementById('btnTutupKelola')
-                    .onclick = function() {
-
-                        modalKelola.classList.remove('flex');
-
-                        modalKelola.classList.add('hidden');
-
-                    };
-
-                document.querySelectorAll('.file-upload').forEach(function(input) {
-
-                    input.addEventListener('change', function() {
-
-                        if (this.files.length === 0) {
-                            return;
-                        }
-
-                        let file = this.files[0];
-
-                        let id = this.dataset.id;
-
-                        let icon = "📄";
-
-                        let ext = file.name.split('.').pop().toLowerCase();
-
-                        if (ext == "pdf") {
-
-                            icon = "📕";
-
-                        } else if (ext == "xls" || ext == "xlsx") {
-
-                            icon = "📊";
-
-                        } else if (ext == "jpg" || ext == "jpeg" || ext == "png") {
-
-                            icon = "🖼️";
-
-                        }
+            @if (auth()->user()->role == 'superadmin')
+                <script>
+                    function openTambahTahun() {
 
                         document
-                            .getElementById("preview-upload-" + id)
-                            .classList.remove("border-dashed");
+                            .getElementById('modalTambahTahun')
+                            .classList.remove('hidden');
 
                         document
-                            .getElementById("preview-upload-" + id)
-                            .classList.remove("border-slate-300");
+                            .getElementById('modalTambahTahun')
+                            .classList.add('flex');
+
+                    }
+
+                    function closeTambahTahun() {
 
                         document
-                            .getElementById("preview-upload-" + id)
-                            .classList.add("border-green-200");
+                            .getElementById('modalTambahTahun')
+                            .classList.remove('flex');
 
                         document
-                            .getElementById("preview-upload-" + id)
-                            .classList.add("bg-green-50");
+                            .getElementById('modalTambahTahun')
+                            .classList.add('hidden');
+
+                    }
+
+                    function editTahun(id, tahun, status) {
+
+                        // Tutup modal kelola
+                        document
+                            .getElementById('modalKelolaTahun')
+                            .classList.remove('flex');
 
                         document
-                            .getElementById("preview-text-" + id)
-                            .innerHTML =
-                            icon +
-                            " <b>" + file.name + "</b><br><span class='text-xs'>✓ File siap diupload</span>";
+                            .getElementById('modalKelolaTahun')
+                            .classList.add('hidden');
+
+                        // Isi form edit
+                        document
+                            .getElementById('editTahun')
+                            .value = tahun;
 
                         document
-                            .getElementById("label-upload-" + id)
-                            .innerHTML = "Ganti File";
+                            .getElementById('editStatus')
+                            .value = status;
 
                         document
-                            .getElementById("btn-cancel-" + id)
-                            .classList.remove("hidden");
+                            .getElementById('formEditTahun')
+                            .action = "/admin/tahuns/" + id;
+
+                        // Buka modal edit
+                        document
+                            .getElementById('modalEditTahun')
+                            .classList.remove('hidden');
+
+                        document
+                            .getElementById('modalEditTahun')
+                            .classList.add('flex');
+
+                    }
+
+                    function closeEditTahun() {
+
+                        // Tutup modal edit
+                        document
+                            .getElementById('modalEditTahun')
+                            .classList.remove('flex');
+
+                        document
+                            .getElementById('modalEditTahun')
+                            .classList.add('hidden');
+
+                        // Tampilkan kembali modal kelola
+                        document
+                            .getElementById('modalKelolaTahun')
+                            .classList.remove('hidden');
+
+                        document
+                            .getElementById('modalKelolaTahun')
+                            .classList.add('flex');
+
+                    }
+
+                    const modalKelola =
+                        document.getElementById('modalKelolaTahun');
+
+                    document
+                        .getElementById('btnKelolaTahun')
+                        .onclick = function() {
+
+                            modalKelola.classList.remove('hidden');
+
+                            modalKelola.classList.add('flex');
+
+                        };
+
+                    document
+                        .getElementById('btnTutupKelola')
+                        .onclick = function() {
+
+                            modalKelola.classList.remove('flex');
+
+                            modalKelola.classList.add('hidden');
+
+                        };
+
+                    document.querySelectorAll('.file-upload').forEach(function(input) {
+
+                        input.addEventListener('change', function() {
+
+                            if (this.files.length === 0) {
+                                return;
+                            }
+
+                            let file = this.files[0];
+
+                            let id = this.dataset.id;
+
+                            let icon = "📄";
+
+                            let ext = file.name.split('.').pop().toLowerCase();
+
+                            if (ext == "pdf") {
+
+                                icon = "📕";
+
+                            } else if (ext == "xls" || ext == "xlsx") {
+
+                                icon = "📊";
+
+                            } else if (ext == "jpg" || ext == "jpeg" || ext == "png") {
+
+                                icon = "🖼️";
+
+                            }
+
+                            document
+                                .getElementById("preview-upload-" + id)
+                                .classList.remove("border-dashed");
+
+                            document
+                                .getElementById("preview-upload-" + id)
+                                .classList.remove("border-slate-300");
+
+                            document
+                                .getElementById("preview-upload-" + id)
+                                .classList.add("border-green-200");
+
+                            document
+                                .getElementById("preview-upload-" + id)
+                                .classList.add("bg-green-50");
+
+                            document
+                                .getElementById("preview-text-" + id)
+                                .innerHTML =
+                                icon +
+                                " <b>" + file.name + "</b><br><span class='text-xs'>✓ File siap diupload</span>";
+
+                            document
+                                .getElementById("label-upload-" + id)
+                                .innerHTML = "Ganti File";
+
+                            document
+                                .getElementById("btn-cancel-" + id)
+                                .classList.remove("hidden");
+
+                        });
 
                     });
 
-                });
+                    function batalUpload(id) {
 
-                function batalUpload(id) {
+                        let input = document.querySelector(
+                            'input[name="pendukung[' + id + ']"]'
+                        );
 
-                    let input = document.querySelector(
-                        'input[name="pendukung[' + id + ']"]'
-                    );
+                        input.value = "";
 
-                    input.value = "";
+                        document
+                            .getElementById("preview-text-" + id)
+                            .innerHTML = "Belum ada file";
 
-                    document
-                        .getElementById("preview-text-" + id)
-                        .innerHTML = "Belum ada file";
+                        document
+                            .getElementById("label-upload-" + id)
+                            .innerHTML = "Upload File";
 
-                    document
-                        .getElementById("label-upload-" + id)
-                        .innerHTML = "Upload File";
+                        document
+                            .getElementById("btn-cancel-" + id)
+                            .classList.add("hidden");
 
-                    document
-                        .getElementById("btn-cancel-" + id)
-                        .classList.add("hidden");
+                        let preview =
+                            document.getElementById("preview-upload-" + id);
 
-                    let preview =
-                        document.getElementById("preview-upload-" + id);
+                        preview.classList.remove("bg-green-50");
+                        preview.classList.remove("border-green-200");
 
-                    preview.classList.remove("bg-green-50");
-                    preview.classList.remove("border-green-200");
+                        preview.classList.add("border-dashed");
+                        preview.classList.add("border-slate-300");
 
-                    preview.classList.add("border-dashed");
-                    preview.classList.add("border-slate-300");
+                    }
 
-                }
+                    function updateStatusColor(select) {
 
-                function updateStatusColor(select) {
-
-                    select.classList.remove(
-                        'bg-green-50',
-                        'border-green-500',
-                        'text-green-700',
-
-                        'bg-red-50',
-                        'border-red-500',
-                        'text-red-700',
-
-                        'bg-white',
-                        'border-slate-300',
-                        'text-slate-700'
-                    );
-
-                    if (select.value == "tercapai") {
-
-                        select.classList.add(
+                        select.classList.remove(
                             'bg-green-50',
                             'border-green-500',
-                            'text-green-700'
-                        );
+                            'text-green-700',
 
-                    } else if (select.value == "belum_tercapai") {
-
-                        select.classList.add(
                             'bg-red-50',
                             'border-red-500',
-                            'text-red-700'
-                        );
+                            'text-red-700',
 
-                    } else {
-
-                        select.classList.add(
                             'bg-white',
                             'border-slate-300',
                             'text-slate-700'
                         );
 
+                        if (select.value == "tercapai") {
+
+                            select.classList.add(
+                                'bg-green-50',
+                                'border-green-500',
+                                'text-green-700'
+                            );
+
+                        } else if (select.value == "belum_tercapai") {
+
+                            select.classList.add(
+                                'bg-red-50',
+                                'border-red-500',
+                                'text-red-700'
+                            );
+
+                        } else {
+
+                            select.classList.add(
+                                'bg-white',
+                                'border-slate-300',
+                                'text-slate-700'
+                            );
+
+                        }
+
                     }
 
-                }
+                    document.querySelectorAll(".status-select").forEach(function(select) {
 
-                document.querySelectorAll(".status-select").forEach(function(select) {
+                        updateStatusColor(select);
 
-                    updateStatusColor(select);
+                        select.addEventListener("change", function() {
 
-                    select.addEventListener("change", function() {
+                            updateStatusColor(this);
 
-                        updateStatusColor(this);
+                        });
 
                     });
-
-                });
-            </script>
+                </script>
             @endif
 
         @endsection

@@ -452,12 +452,6 @@
                                                 Status
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-center">
-
-                                                Pendukung
-
-                                            </th>
-
                                         </tr>
 
                                     </thead>
@@ -546,36 +540,6 @@
                                                     @else
                                                         <span class="text-slate-400">-</span>
                                                     @endif
-                                                </td>
-
-                                                <td class="border border-slate-200 px-4 py-3 text-center">
-
-                                                    @if ($realisasi && $realisasi->dataPendukungs->count())
-                                                        <div class="space-y-2">
-
-                                                            @foreach ($realisasi->dataPendukungs as $file)
-                                                                <a href="{{ asset('storage/' . $file->file) }}"
-                                                                    target="_blank"
-                                                                    class="inline-flex items-center gap-2 rounded-lg bg-blue-100 px-3 py-2 text-blue-700 hover:bg-blue-200">
-
-                                                                    <span class="material-symbols-outlined text-base">
-                                                                        description
-                                                                    </span>
-
-                                                                    Lihat File
-
-                                                                </a>
-                                                            @endforeach
-
-                                                        </div>
-                                                    @else
-                                                        <span class="text-slate-400">
-
-                                                            -
-
-                                                        </span>
-                                                    @endif
-
                                                 </td>
 
                                             </tr>
