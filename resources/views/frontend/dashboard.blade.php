@@ -143,52 +143,52 @@
 
                         <div class="text-sm text-slate-600 leading-relaxed">
 
-                        <p class="font-semibold text-teal-800 mb-1">
-                            Cara menggunakan filter
-                        </p>
+                            <p class="font-semibold text-teal-800 mb-1">
+                                Cara menggunakan filter
+                            </p>
 
-                        <p>
-                            Gunakan filter <strong>Tahun</strong>, <strong>Pilar</strong>, dan
-                            <strong>Instansi</strong> untuk menampilkan data indikator sesuai
-                            kebutuhan.
-                        </p>
+                            <p>
+                                Gunakan filter <strong>Tahun</strong>, <strong>Pilar</strong>, dan
+                                <strong>Instansi</strong> untuk menampilkan data indikator sesuai
+                                kebutuhan.
+                            </p>
 
-                        <ul class="mt-2 space-y-1 list-disc list-inside">
+                            <ul class="mt-2 space-y-1 list-disc list-inside">
 
-                            <li>
-                                Pilih <strong>Tahun</strong> untuk melihat data indikator
-                                pada tahun tertentu.
-                            </li>
+                                <li>
+                                    Pilih <strong>Tahun</strong> untuk melihat data indikator
+                                    pada tahun tertentu.
+                                </li>
 
-                            <li>
-                                Pilih <strong>Pilar</strong> untuk melihat indikator pada
-                                pilar tertentu sesuai dengan <strong>tahun yang dipilih</strong>.
-                            </li>
+                                <li>
+                                    Pilih <strong>Pilar</strong> untuk melihat indikator pada
+                                    pilar tertentu sesuai dengan <strong>tahun yang dipilih</strong>.
+                                </li>
 
-                            <li>
-                                Pilih <strong>Instansi</strong> untuk melihat indikator yang
-                                menjadi tanggung jawab instansi tersebut sesuai dengan
-                                <strong>tahun yang dipilih</strong>.
-                            </li>
+                                <li>
+                                    Pilih <strong>Instansi</strong> untuk melihat indikator yang
+                                    menjadi tanggung jawab instansi tersebut sesuai dengan
+                                    <strong>tahun yang dipilih</strong>.
+                                </li>
 
-                            <li>
-                                Pilih <strong>Instansi dan Pilar</strong> untuk melihat indikator
-                                dari instansi tertentu pada pilar dan tahun yang dipilih.
-                            </li>
+                                <li>
+                                    Pilih <strong>Instansi dan Pilar</strong> untuk melihat indikator
+                                    dari instansi tertentu pada pilar dan tahun yang dipilih.
+                                </li>
 
-                            <li>
-                                Pilih <strong>Semua Pilar</strong> dan <strong>Semua Instansi</strong>
-                                untuk melihat seluruh indikator pada <strong>tahun yang dipilih</strong>.
-                            </li>
+                                <li>
+                                    Pilih <strong>Semua Pilar</strong> dan <strong>Semua Instansi</strong>
+                                    untuk melihat seluruh indikator pada <strong>tahun yang dipilih</strong>.
+                                </li>
 
-                        </ul>
+                            </ul>
 
-                        <p class="mt-2">
-                            Pilar yang tidak memiliki indikator sesuai dengan filter yang dipilih
-                            tidak akan ditampilkan.
-                        </p>
+                            <p class="mt-2">
+                                Pilar yang tidak memiliki indikator sesuai dengan filter yang dipilih
+                                tidak akan ditampilkan.
+                            </p>
 
-                    </div>
+                        </div>
 
                     </div>
 
@@ -490,55 +490,49 @@
 
                             <div class="overflow-x-auto">
 
-                                <table class="w-full border-collapse">
+                                <table class="w-full table-fixed border-collapse">
 
                                     <thead class="bg-teal-600 text-white">
 
                                         <tr>
 
-                                            <th class="border border-white px-4 py-3 w-16 text-center">
-
+                                            {{-- NO --}}
+                                            <th class="border border-white px-4 py-3 text-center w-[5%]">
                                                 No
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-left">
-
+                                            {{-- TUJUAN STRATEGIS --}}
+                                            <th class="border border-white px-4 py-3 text-left w-[22%]">
                                                 Tujuan Strategis
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-left">
-
+                                            {{-- INDIKATOR --}}
+                                            <th class="border border-white px-4 py-3 text-left w-[20%]">
                                                 Indikator
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-center">
-
+                                            {{-- BASELINE --}}
+                                            <th class="border border-white px-4 py-3 text-center w-[10%]">
                                                 Baseline
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-left">
-
+                                            {{-- SUMBER DATA --}}
+                                            <th class="border border-white px-4 py-3 text-left w-[20%]">
                                                 Sumber Data
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-center">
-
+                                            {{-- TARGET --}}
+                                            <th class="border border-white px-4 py-3 text-center w-[10%]">
                                                 Target {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-center">
-
+                                            {{-- REALISASI --}}
+                                            <th class="border border-white px-4 py-3 text-center w-[10%]">
                                                 Realisasi {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
-
                                             </th>
 
-                                            <th class="border border-white px-4 py-3 text-center w-44">
+                                            {{-- STATUS --}}
+                                            <th class="border border-white px-4 py-3 text-center w-[13%]">
                                                 Status
                                             </th>
 
@@ -565,10 +559,8 @@
 
                                                 </td>
 
-                                                <td class="border border-slate-200 px-4 py-3 text-center">
-
+                                                <td class="border border-slate-200 px-4 py-3 text-left align-top break-words">
                                                     {{ $indikator->tujuan_strategis }}
-
                                                 </td>
 
                                                 <td class="border border-slate-200 px-4 py-3 text-center">

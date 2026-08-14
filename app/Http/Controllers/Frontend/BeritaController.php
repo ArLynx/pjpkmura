@@ -34,7 +34,7 @@ class BeritaController extends Controller
         */
 
         $beritaTerbaru = Berita::latest()
-            ->take(5)
+            ->take(3)
             ->get();
 
         return view('frontend.berita.index', compact(

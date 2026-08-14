@@ -18,16 +18,31 @@ class DashboardController extends Controller
     public function index(): View
     {
         return view('backend.dashboard', [
+
             'totalUser' => User::count(),
+
             'totalPilar' => Pilar::count(),
+
             'totalIndikator' => Indikator::count(),
+
             'totalTarget' => Target::count(),
+
             'totalRealisasi' => Realisasi::count(),
+
             'totalDataPendukung' => DataPendukung::count(),
+
             'totalBerita' => Berita::count(),
+
             'totalPublikasi' => Publikasi::count(),
-            'beritas' => Berita::latest()->limit(5)->get(),
-            'publikasis' => Publikasi::latest()->limit(5)->get(),
+
+            'beritas' => Berita::latest()
+                ->limit(3)
+                ->get(),
+
+            'publikasis' => Publikasi::latest()
+                ->limit(3)
+                ->get(),
+
         ]);
     }
 }

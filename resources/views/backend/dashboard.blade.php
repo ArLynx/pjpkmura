@@ -128,20 +128,32 @@
     </div>
 
 
-    {{-- BERITA & PUBLIKASI --}}
-    <div class="grid gap-6 xl:grid-cols-2">
+    {{-- ========================================================= --}}
+{{-- BERITA & PUBLIKASI --}}
+{{-- ========================================================= --}}
+
+<div class="grid gap-6 xl:grid-cols-2">
 
 
-        {{-- BERITA --}}
-        <section
-            class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    {{-- ========================================================= --}}
+    {{-- BERITA --}}
+    {{-- ========================================================= --}}
 
-            <div
-                class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+    <section
+        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+    >
 
-                <h3 class="font-bold text-slate-900">
-                    Berita Terbaru
-                </h3>
+        <div
+            class="flex items-center justify-between border-b border-slate-200 px-6 py-4"
+        >
+
+            <h3 class="font-bold text-slate-900">
+                Berita Terbaru
+            </h3>
+
+
+            {{-- HANYA SUPER ADMIN --}}
+            @if(auth()->check() && auth()->user()->role === 'superadmin')
 
                 <a
                     href="{{ route('admin.beritas.index') }}"
@@ -150,54 +162,68 @@
                     Lihat semua
                 </a>
 
-            </div>
+            @endif
+
+        </div>
 
 
-            <div class="divide-y divide-slate-100">
+        <div class="divide-y divide-slate-100">
 
-                @forelse($beritas as $berita)
+            @forelse($beritas as $berita)
 
-                    <div class="px-6 py-4">
+                <div class="px-6 py-4">
 
-                        <p class="font-semibold text-slate-800">
-                            {{ $berita->judul }}
-                        </p>
-
-                        <p class="mt-1 text-sm text-slate-500">
-
-                            {{ $berita->created_at->format('d M Y') }}
-
-                            ·
-
-                            {{ $berita->penulis ?: 'Tanpa penulis' }}
-
-                        </p>
-
-                    </div>
-
-                @empty
-
-                    <p class="px-6 py-8 text-center text-slate-500">
-                        Belum ada berita.
+                    <p class="font-semibold text-slate-800">
+                        {{ $berita->judul }}
                     </p>
 
-                @endforelse
 
-            </div>
+                    <p class="mt-1 text-sm text-slate-500">
 
-        </section>
+                        {{ $berita->created_at->format('d M Y') }}
+
+                        ·
+
+                        {{ $berita->penulis ?: 'Tanpa penulis' }}
+
+                    </p>
+
+                </div>
 
 
-        {{-- PUBLIKASI --}}
-        <section
-            class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            @empty
 
-            <div
-                class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+                <p class="px-6 py-8 text-center text-slate-500">
+                    Belum ada berita.
+                </p>
 
-                <h3 class="font-bold text-slate-900">
-                    Publikasi Terbaru
-                </h3>
+            @endforelse
+
+        </div>
+
+    </section>
+
+
+
+    {{-- ========================================================= --}}
+    {{-- PUBLIKASI --}}
+    {{-- ========================================================= --}}
+
+    <section
+        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+    >
+
+        <div
+            class="flex items-center justify-between border-b border-slate-200 px-6 py-4"
+        >
+
+            <h3 class="font-bold text-slate-900">
+                Publikasi Terbaru
+            </h3>
+
+
+            {{-- HANYA SUPER ADMIN --}}
+            @if(auth()->check() && auth()->user()->role === 'superadmin')
 
                 <a
                     href="{{ route('admin.publikasis.index') }}"
@@ -206,43 +232,47 @@
                     Lihat semua
                 </a>
 
-            </div>
+            @endif
+
+        </div>
 
 
-            <div class="divide-y divide-slate-100">
+        <div class="divide-y divide-slate-100">
 
-                @forelse($publikasis as $publikasi)
+            @forelse($publikasis as $publikasi)
 
-                    <div class="px-6 py-4">
+                <div class="px-6 py-4">
 
-                        <p class="font-semibold text-slate-800">
-                            {{ $publikasi->judul }}
-                        </p>
-
-                        <p class="mt-1 text-sm text-slate-500">
-
-                            {{ $publikasi->created_at->format('d M Y') }}
-
-                            ·
-
-                            {{ $publikasi->penulis ?: 'Tanpa penulis' }}
-
-                        </p>
-
-                    </div>
-
-                @empty
-
-                    <p class="px-6 py-8 text-center text-slate-500">
-                        Belum ada publikasi.
+                    <p class="font-semibold text-slate-800">
+                        {{ $publikasi->judul }}
                     </p>
 
-                @endforelse
 
-            </div>
+                    <p class="mt-1 text-sm text-slate-500">
 
-        </section>
+                        {{ $publikasi->created_at->format('d M Y') }}
 
-    </div>
+                        ·
+
+                        {{ $publikasi->penulis ?: 'Tanpa penulis' }}
+
+                    </p>
+
+                </div>
+
+
+            @empty
+
+                <p class="px-6 py-8 text-center text-slate-500">
+                    Belum ada publikasi.
+                </p>
+
+            @endforelse
+
+        </div>
+
+    </section>
+
+</div>
 
 @endsection
