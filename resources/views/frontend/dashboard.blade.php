@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <section class="bg-gradient-to-r from-teal-700 to-emerald-700">
+    <section class="bg-primary-hover">
 
         <div class="max-w-7xl mx-auto px-6 py-16">
 
@@ -14,7 +14,7 @@
 
             </h1>
 
-            <p class="text-teal-100 mt-3 text-lg">
+            <p class="text-primary-light mt-3 text-lg">
 
                 Monitoring indikator Peta Jalan Pembangunan Kependudukan Kabupaten Murung Raya.
 
@@ -43,7 +43,7 @@
                         </label>
 
                         <select name="tahun" onchange="this.form.submit()"
-                            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
+                            class="w-full rounded-xl border-slate-300 focus:border-primary focus:ring-primary">
 
                             @foreach ($tahuns as $item)
                                 <option value="{{ $item }}"
@@ -68,7 +68,7 @@
                         </label>
 
                         <select name="pilar" onchange="this.form.submit()"
-                            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
+                            class="w-full rounded-xl border-slate-300 focus:border-primary focus:ring-primary">
 
                             <option value="">
 
@@ -137,9 +137,9 @@
 
                     </div>
 
-                    <div class="w-14 h-14 rounded-xl bg-teal-100 flex items-center justify-center">
+                    <div class="w-14 h-14 rounded-xl bg-primary-light flex items-center justify-center">
 
-                        <span class="material-symbols-outlined text-teal-700 text-3xl">
+                        <span class="material-symbols-outlined text-primary text-3xl">
 
                             account_tree
 
@@ -178,9 +178,9 @@
 
                     </div>
 
-                    <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <div class="w-14 h-14 rounded-xl bg-primary-light flex items-center justify-center">
 
-                        <span class="material-symbols-outlined text-blue-600 text-3xl">
+                        <span class="material-symbols-outlined text-primary text-3xl">
 
                             analytics
 
@@ -269,9 +269,9 @@
 
                     </div>
 
-                    <div class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center">
+                    <div class="w-14 h-14 rounded-xl bg-primary-light flex items-center justify-center">
 
-                        <span class="material-symbols-outlined text-green-600 text-3xl">
+                        <span class="material-symbols-outlined text-primary text-3xl">
 
                             check_circle
 
@@ -315,8 +315,7 @@
                         'pilar' => request('pilar'),
                     ]) }}"
                         class="px-6 py-3 rounded-xl font-semibold transition
-
-                    {{ $mode == 'tahunan' ? 'bg-teal-700 text-white shadow' : 'bg-white border border-slate-300 hover:bg-slate-50' }}">
+                        {{ $mode == 'tahunan' ? 'bg-primary text-white shadow' : 'bg-white border border-slate-300 hover:bg-slate-50' }}">
 
                         <span class="material-symbols-outlined align-middle mr-1">
 
@@ -334,8 +333,7 @@
                         'pilar' => request('pilar'),
                     ]) }}"
                         class="px-6 py-3 rounded-xl font-semibold transition
-
-                    {{ $mode == 'gabungan' ? 'bg-teal-700 text-white shadow' : 'bg-white border border-slate-300 hover:bg-slate-50' }}">
+                        {{ $mode == 'gabungan' ? 'bg-primary text-white shadow' : 'bg-white border border-slate-300 hover:bg-slate-50' }}">
 
                         <span class="material-symbols-outlined align-middle mr-1">
 
@@ -353,7 +351,7 @@
                 <div class="flex flex-wrap gap-3 mt-6">
 
                     @if ($mode == 'tahunan')
-                        <span class="px-4 py-2 rounded-full bg-teal-100 text-teal-700 text-sm font-semibold">
+                        <span class="px-4 py-2 rounded-full bg-primary-light text-primary text-sm font-semibold">
 
                             Tahun :
 
@@ -362,7 +360,7 @@
                         </span>
                     @endif
 
-                    <span class="px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
+                    <span class="px-4 py-2 rounded-full bg-primary-light text-primary text-sm font-semibold">
 
                         Pilar :
 
@@ -382,7 +380,7 @@
                         <div class="mt-8">
 
                             {{-- Header Pilar --}}
-                            <div class="bg-gradient-to-r from-teal-700 to-emerald-700 text-white rounded-t-xl px-6 py-4">
+                            <div class="bg-gradient-to-r from-primary to-primary-hover text-white rounded-t-xl px-6 py-4">
 
                                 @php
                                     $huruf = range('A', 'Z');
@@ -402,7 +400,7 @@
 
                                 <table class="w-full border-collapse">
 
-                                    <thead class="bg-teal-600 text-white">
+                                    <thead class="bg-primary text-white">
 
                                         <tr>
 
@@ -532,7 +530,7 @@
                                                     @if ($realisasi)
                                                         @if ($realisasi->status_pencapaian == 'tercapai')
                                                             <span
-                                                                class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs">
+                                                                class="px-3 py-1 rounded-full bg-primary-light text-primary text-xs">
 
                                                                 Tercapai
 
@@ -565,7 +563,7 @@
                                                 <td class="border border-slate-200 px-4 py-3 text-center">
 
                                                     @if ($realisasi && $realisasi->dataPendukungs->count())
-                                                        <span class="text-green-600 font-semibold">
+                                                        <span class="text-primary font-semibold">
 
                                                             {{ $realisasi->dataPendukungs->count() }} File
 
@@ -611,7 +609,7 @@
                     @foreach ($pilarsMonitoring as $pilar)
                         <div class="mb-10 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
 
-                            <div class="bg-gradient-to-r from-teal-700 to-emerald-700 text-white px-6 py-4">
+                            <div class="bg-gradient-to-r from-primary to-primary-hover text-white px-6 py-4">
 
                                 @php
                                     $huruf = range('A', 'Z');
@@ -632,7 +630,7 @@
 
                                 <table class="w-full border-collapse">
 
-                                    <thead class="bg-teal-600 text-white">
+                                    <thead class="bg-primary text-white">
 
                                         <tr>
 
