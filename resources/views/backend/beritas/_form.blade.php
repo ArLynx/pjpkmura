@@ -2,8 +2,10 @@
 
 <div class="grid gap-6">
 
-
+    {{-- ========================================================= --}}
     {{-- JUDUL --}}
+    {{-- ========================================================= --}}
+
     <div>
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
@@ -20,11 +22,14 @@
     </div>
 
 
-    {{-- FOTO --}}
+    {{-- ========================================================= --}}
+    {{-- FOTO UTAMA --}}
+    {{-- ========================================================= --}}
+
     <div>
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Foto
+            Foto Utama
         </label>
 
         <input
@@ -42,6 +47,7 @@
         </p>
 
 
+        {{-- FOTO SAAT INI --}}
         @if($editing && $berita->foto)
 
             <div class="mt-3">
@@ -51,9 +57,9 @@
                 </p>
 
                 <img
-                    src="{{ Storage::url($berita->foto) }}"
-                    alt="Foto berita"
-                    class="h-36 rounded-xl object-cover"
+                    src="{{ asset('storage/' . $berita->foto) }}"
+                    alt="{{ $berita->judul }}"
+                    class="h-36 w-auto max-w-md rounded-xl object-cover border border-slate-200"
                 >
 
             </div>
@@ -63,24 +69,34 @@
     </div>
 
 
+    {{-- ========================================================= --}}
     {{-- ISI BERITA --}}
+    {{-- ========================================================= --}}
+
     <div>
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
             Isi Berita
         </label>
 
+        {{-- JANGAN PAKAI required DI TEXTAREA --}}
         <textarea
+            id="isi-berita"
             name="isi"
-            rows="12"
-            required
-            class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
         >{{ old('isi', $berita->isi ?? '') }}</textarea>
+
+        <p class="mt-2 text-xs text-slate-500">
+            Gunakan editor untuk menulis berita. Kamu juga bisa menambahkan
+            foto di dalam isi berita.
+        </p>
 
     </div>
 
 
+    {{-- ========================================================= --}}
     {{-- PENULIS --}}
+    {{-- ========================================================= --}}
+
     <div>
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
@@ -98,7 +114,10 @@
 </div>
 
 
+{{-- ============================================================= --}}
 {{-- BUTTON --}}
+{{-- ============================================================= --}}
+
 <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
     <a
@@ -108,6 +127,7 @@
         Batal
     </a>
 
+
     <button
         type="submit"
         class="rounded-xl bg-[#0B91CF] px-6 py-3 font-semibold text-white hover:bg-[#0879AE]"
@@ -116,3 +136,289 @@
     </button>
 
 </div>
+
+
+{{-- ============================================================= --}}
+{{-- CKEDITOR --}}
+{{-- ============================================================= --}}
+
+<link
+    rel="stylesheet"
+    href="https://cdn.ckeditor.com/ckeditor5/41.4.2/ckeditor5.css"
+>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+
+<style>
+
+    .ck-editor__editable {
+        min-height: 400px;
+    }
+
+    .ck-editor__editable_inline {
+        padding: 20px !important;
+    }
+
+    .ck-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+</style>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const textarea = document.querySelector('#isi-berita');
+
+    if (!textarea) {
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CEGAH CKEDITOR DIBUAT 2 KALI
+    |--------------------------------------------------------------------------
+    */
+
+    if (textarea.dataset.ckeditorInitialized === 'true') {
+        return;
+    }
+
+    textarea.dataset.ckeditorInitialized = 'true';
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CKEDITOR
+    |--------------------------------------------------------------------------
+    */
+
+    ClassicEditor
+        .create(textarea, {
+
+            toolbar: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                '|',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'link',
+                'insertTable',
+                '|',
+                'imageUpload',
+                'blockQuote',
+                '|',
+                'undo',
+                'redo'
+            ]
+
+        })
+
+        .then(editor => {
+
+            /*
+            |--------------------------------------------------------------------------
+            | CUSTOM IMAGE UPLOAD ADAPTER
+            |--------------------------------------------------------------------------
+            */
+
+            editor.plugins
+                .get('FileRepository')
+                .createUploadAdapter = function (loader) {
+
+                    return new MyUploadAdapter(loader);
+
+                };
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SIMPAN INSTANCE EDITOR
+            |--------------------------------------------------------------------------
+            */
+
+            window.beritaEditor = editor;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PASTIKAN DATA CKEDITOR MASUK KE TEXTAREA
+            |--------------------------------------------------------------------------
+            */
+
+            const form = textarea.closest('form');
+
+            if (form) {
+
+                form.addEventListener('submit', function () {
+
+                    textarea.value = editor.getData();
+
+                });
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error('CKEditor error:', error);
+
+        });
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| CUSTOM UPLOAD ADAPTER
+|--------------------------------------------------------------------------
+*/
+
+class MyUploadAdapter {
+
+    constructor(loader) {
+
+        this.loader = loader;
+
+    }
+
+
+    upload() {
+
+        return this.loader.file
+
+            .then(file => {
+
+                return new Promise((resolve, reject) => {
+
+                    this.xhr = new XMLHttpRequest();
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | URL UPLOAD GAMBAR
+                    |--------------------------------------------------------------------------
+                    */
+
+                    this.xhr.open(
+                        'POST',
+                        '{{ route('admin.beritas.upload-image') }}',
+                        true
+                    );
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | CSRF
+                    |--------------------------------------------------------------------------
+                    */
+
+                    this.xhr.setRequestHeader(
+                        'X-CSRF-TOKEN',
+                        '{{ csrf_token() }}'
+                    );
+
+
+                    this.xhr.responseType = 'json';
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | SUCCESS
+                    |--------------------------------------------------------------------------
+                    */
+
+                    this.xhr.addEventListener('load', () => {
+
+                        const response = this.xhr.response;
+
+
+                        if (!response || !response.url) {
+
+                            reject(
+                                response && response.message
+                                    ? response.message
+                                    : 'Upload gambar gagal.'
+                            );
+
+                            return;
+
+                        }
+
+
+                        resolve({
+                            default: response.url
+                        });
+
+                    });
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | ERROR
+                    |--------------------------------------------------------------------------
+                    */
+
+                    this.xhr.addEventListener('error', () => {
+
+                        reject('Gagal mengupload gambar.');
+
+                    });
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | ABORT
+                    |--------------------------------------------------------------------------
+                    */
+
+                    this.xhr.addEventListener('abort', () => {
+
+                        reject();
+
+                    });
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | FORM DATA
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const data = new FormData();
+
+                    data.append('upload', file);
+
+
+                    this.xhr.send(data);
+
+                });
+
+            });
+
+    }
+
+
+    abort() {
+
+        if (this.xhr) {
+
+            this.xhr.abort();
+
+        }
+
+    }
+
+}
+
+</script>

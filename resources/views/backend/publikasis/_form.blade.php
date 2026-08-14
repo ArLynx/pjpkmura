@@ -1,8 +1,15 @@
-@php($editing = isset($publikasi))
+@php
+    $editing = isset($publikasi);
+@endphp
+
 
 <div class="grid gap-6 md:grid-cols-2">
 
+
+    {{-- ========================================================= --}}
     {{-- JUDUL --}}
+    {{-- ========================================================= --}}
+
     <div class="md:col-span-2">
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
@@ -10,6 +17,7 @@
         </label>
 
         <input
+            type="text"
             name="judul"
             value="{{ old('judul', $publikasi->judul ?? '') }}"
             required
@@ -19,12 +27,16 @@
     </div>
 
 
+    {{-- ========================================================= --}}
     {{-- COVER --}}
+    {{-- ========================================================= --}}
+
     <div>
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
             Cover
         </label>
+
 
         <input
             type="file"
@@ -41,10 +53,13 @@
                    file:text-sky-800"
         >
 
+
         <p class="mt-2 text-xs text-slate-500">
             JPG, PNG, atau WebP. Maksimal 5 MB.
         </p>
 
+
+        {{-- COVER SAAT INI --}}
 
         @if($editing && $publikasi->cover)
 
@@ -54,10 +69,11 @@
                     Cover saat ini
                 </p>
 
+
                 <img
-                    src="{{ Storage::url($publikasi->cover) }}"
-                    alt="Cover"
-                    class="h-40 rounded-xl object-cover"
+                    src="{{ asset('storage/' . ltrim($publikasi->cover, '/')) }}"
+                    alt="{{ $publikasi->judul }}"
+                    class="h-40 w-32 rounded-xl bg-slate-100 object-contain"
                 >
 
             </div>
@@ -67,12 +83,22 @@
     </div>
 
 
+    {{-- ========================================================= --}}
     {{-- FILE PUBLIKASI --}}
+    {{-- ========================================================= --}}
+
     <div>
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
-            File Publikasi {{ $editing ? '(opsional)' : '' }}
+
+            File Publikasi
+
+            @if($editing)
+                <span class="font-normal">(opsional)</span>
+            @endif
+
         </label>
+
 
         <input
             type="file"
@@ -90,15 +116,18 @@
                    file:text-sky-800"
         >
 
+
         <p class="mt-2 text-xs text-slate-500">
             PDF atau dokumen Office. Maksimal 20 MB.
         </p>
 
 
-        @if($editing)
+        {{-- FILE SAAT INI --}}
+
+        @if($editing && $publikasi->file)
 
             <a
-                href="{{ Storage::url($publikasi->file) }}"
+                href="{{ asset('storage/' . ltrim($publikasi->file, '/')) }}"
                 target="_blank"
                 class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-[#0B91CF] hover:text-[#0879AE] hover:underline"
             >
@@ -116,7 +145,10 @@
     </div>
 
 
+    {{-- ========================================================= --}}
     {{-- DESKRIPSI --}}
+    {{-- ========================================================= --}}
+
     <div class="md:col-span-2">
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
@@ -132,7 +164,10 @@
     </div>
 
 
+    {{-- ========================================================= --}}
     {{-- PENULIS --}}
+    {{-- ========================================================= --}}
+
     <div class="md:col-span-2">
 
         <label class="mb-2 block text-sm font-semibold text-slate-700">
@@ -140,6 +175,7 @@
         </label>
 
         <input
+            type="text"
             name="penulis"
             value="{{ old('penulis', $publikasi->penulis ?? auth()->user()->name) }}"
             class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
@@ -150,21 +186,30 @@
 </div>
 
 
+{{-- ========================================================= --}}
 {{-- BUTTON --}}
+{{-- ========================================================= --}}
+
 <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
 
     <a
         href="{{ route('admin.publikasis.index') }}"
         class="rounded-xl border border-slate-300 px-5 py-3 text-center font-semibold text-slate-700 hover:bg-slate-50"
     >
+
         Batal
+
     </a>
+
 
     <button
         type="submit"
         class="rounded-xl bg-[#0B91CF] px-6 py-3 font-semibold text-white hover:bg-[#0879AE]"
     >
+
         {{ $editing ? 'Simpan Perubahan' : 'Tambah Publikasi' }}
+
     </button>
 
 </div>

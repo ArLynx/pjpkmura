@@ -5,9 +5,11 @@
 
 @section('content')
 
+    {{-- HEADER --}}
     <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
         <div>
+
             <h2 class="text-xl font-bold text-slate-900">
                 Daftar Berita
             </h2>
@@ -15,8 +17,11 @@
             <p class="mt-1 text-sm text-slate-500">
                 Kelola konten informasi untuk halaman publik.
             </p>
+
         </div>
 
+
+        {{-- TAMBAH BERITA --}}
         <a href="{{ route('admin.beritas.create') }}"
             class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B91CF] px-5 py-3 font-semibold text-white hover:bg-[#0879AE]">
 
@@ -63,6 +68,7 @@
 
             <table class="min-w-full divide-y divide-slate-200">
 
+                {{-- HEADER TABLE --}}
                 <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
 
                     <tr>
@@ -88,28 +94,98 @@
                 </thead>
 
 
+                {{-- BODY --}}
                 <tbody class="divide-y divide-slate-100">
 
                     @forelse($beritas as $berita)
 
                         <tr class="align-top hover:bg-slate-50">
 
+                            {{-- ========================================= --}}
                             {{-- BERITA --}}
+                            {{-- ========================================= --}}
                             <td class="max-w-2xl px-6 py-4">
 
                                 <div class="flex items-start gap-4">
 
+
+                                    {{-- ========================================= --}}
+                                    {{-- FOTO BERITA --}}
+                                    {{-- ========================================= --}}
+
                                     @if($berita->foto)
 
+                                        @php
+                                            $foto = $berita->foto;
+
+                                            /*
+                                            |--------------------------------------------------------------------------
+                                            | Jika sudah URL lengkap
+                                            |--------------------------------------------------------------------------
+                                            */
+
+                                            if (
+                                                str_starts_with($foto, 'http://') ||
+                                                str_starts_with($foto, 'https://')
+                                            ) {
+
+                                                $fotoUrl = $foto;
+
+                                            }
+
+                                            /*
+                                            |--------------------------------------------------------------------------
+                                            | Jika database menyimpan "storage/..."
+                                            |--------------------------------------------------------------------------
+                                            */
+
+                                            elseif (str_starts_with($foto, 'storage/')) {
+
+                                                $fotoUrl = asset($foto);
+
+                                            }
+
+                                            /*
+                                            |--------------------------------------------------------------------------
+                                            | Jika database menyimpan "/storage/..."
+                                            |--------------------------------------------------------------------------
+                                            */
+
+                                            elseif (str_starts_with($foto, '/storage/')) {
+
+                                                $fotoUrl = asset(ltrim($foto, '/'));
+
+                                            }
+
+                                            /*
+                                            |--------------------------------------------------------------------------
+                                            | Jika database menyimpan path biasa
+                                            | contoh:
+                                            | berita/foto.jpg
+                                            |--------------------------------------------------------------------------
+                                            */
+
+                                            else {
+
+                                                $fotoUrl = asset('storage/' . ltrim($foto, '/'));
+
+                                            }
+                                        @endphp
+
+
                                         <img
-                                            src="{{ Storage::url($berita->foto) }}"
+                                            src="{{ $fotoUrl }}"
                                             alt="{{ $berita->judul }}"
-                                            class="h-16 w-24 rounded-lg object-cover"
+                                            class="h-16 w-24 shrink-0 rounded-lg object-cover"
+                                            onerror="this.onerror=null;this.src='{{ asset('image/logo-murung-raya.png') }}';"
                                         >
 
                                     @else
 
-                                        <div class="flex h-16 w-24 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
+                                        {{-- Tidak ada foto --}}
+                                        <div
+                                            class="flex h-16 w-24 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400"
+                                        >
 
                                             <span class="material-symbols-outlined">
                                                 image
@@ -120,14 +196,23 @@
                                     @endif
 
 
+                                    {{-- ========================================= --}}
+                                    {{-- INFORMASI BERITA --}}
+                                    {{-- ========================================= --}}
+
                                     <div class="min-w-0">
 
                                         <div class="font-semibold text-slate-900">
+
                                             {{ $berita->judul }}
+
                                         </div>
 
+
                                         <p class="mt-1 text-sm text-slate-500">
+
                                             {{ Str::limit(strip_tags($berita->isi), 100) }}
+
                                         </p>
 
                                     </div>
@@ -137,13 +222,21 @@
                             </td>
 
 
+                            {{-- ========================================= --}}
                             {{-- PENULIS --}}
+                            {{-- ========================================= --}}
+
                             <td class="px-6 py-4 text-sm text-slate-600">
+
                                 {{ $berita->penulis ?: '-' }}
+
                             </td>
 
 
+                            {{-- ========================================= --}}
                             {{-- TANGGAL --}}
+                            {{-- ========================================= --}}
+
                             <td class="px-6 py-4 text-sm text-slate-600">
 
                                 {{ $berita->created_at->format('d M Y') }}
@@ -151,10 +244,14 @@
                             </td>
 
 
+                            {{-- ========================================= --}}
                             {{-- AKSI --}}
+                            {{-- ========================================= --}}
+
                             <td class="px-6 py-4">
 
                                 <div class="flex justify-end gap-2">
+
 
                                     {{-- EDIT --}}
                                     <a
@@ -178,7 +275,9 @@
                                     >
 
                                         @csrf
+
                                         @method('DELETE')
+
 
                                         <button
                                             type="submit"
@@ -200,6 +299,7 @@
 
                         </tr>
 
+
                     @empty
 
                         <tr>
@@ -208,7 +308,9 @@
                                 colspan="4"
                                 class="px-6 py-12 text-center text-slate-500"
                             >
+
                                 Berita tidak ditemukan.
+
                             </td>
 
                         </tr>
@@ -222,6 +324,7 @@
         </div>
 
 
+        {{-- PAGINATION --}}
         @if($beritas->hasPages())
 
             <div class="border-t border-slate-200 px-6 py-4">
