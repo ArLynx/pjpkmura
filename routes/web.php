@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\TahunController;
 use App\Http\Controllers\Backend\CapaianController;
 use App\Http\Controllers\Backend\InstansiController;
+use App\Http\Controllers\Backend\CapaianLaporanController;
 
 use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -55,11 +56,14 @@ Route::prefix('admin')
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-        Route::get('/capaian', [CapaianController::class, 'index'])->name('capaian.index');
-        Route::post('/capaian', [CapaianController::class, 'store'])->name('capaian.store');
-
         Route::resource('tahuns', TahunController::class)->except(['show', 'create', 'edit']);
 
         Route::resource('instansis', InstansiController::class)->except('show');
 
+        Route::get('/capaian', [CapaianController::class, 'index'])->name('capaian.index');
+        Route::post('/capaian', [CapaianController::class, 'store'])->name('capaian.store');
+        
+        Route::get('/capaian/pdf', [CapaianLaporanController::class, 'pdf'])->name('capaian.pdf');
+
+        Route::get('/capaian/excel', [CapaianLaporanController::class, 'excel'])->name('capaian.excel');
     });
