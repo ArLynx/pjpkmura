@@ -42,23 +42,23 @@
     {{-- Menu --}}
     <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-5">
 
+        {{-- Dashboard --}}
+        <a href="{{ route('admin.dashboard') }}"
+            class="{{ $menuClass }} {{ request()->routeIs('admin.dashboard') ? $activeClass : $idleClass }}">
+
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+
+            Dashboard
+
+        </a>
+
         {{-- ===================================================== --}}
         {{-- SUPER ADMIN --}}
         {{-- ===================================================== --}}
 
         @if (auth()->user()->role === 'superadmin')
-            {{-- Dashboard --}}
-            <a href="{{ route('admin.dashboard') }}"
-                class="{{ $menuClass }} {{ request()->routeIs('admin.dashboard') ? $activeClass : $idleClass }}">
-
-                <span class="material-symbols-outlined">
-                    dashboard
-                </span>
-
-                Dashboard
-
-            </a>
-
             {{-- Kelola Instansi --}}
             <a href="{{ route('admin.instansis.index') }}"
                 class="{{ $menuClass }} {{ request()->routeIs('admin.instansis.*') ? $activeClass : $idleClass }}">

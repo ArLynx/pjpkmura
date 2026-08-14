@@ -33,13 +33,66 @@
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+                    {{-- Pilar --}}
+                    <div>
+
+                        <label class="block mb-2 font-medium text-slate-700">
+                            Pilar
+                        </label>
+
+                        <select name="pilar" onchange="this.form.submit()"
+                            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
+
+                            <option value="">
+                                Semua Pilar
+                            </option>
+
+                            @foreach ($pilars as $pilar)
+                                <option value="{{ $pilar->id }}" {{ request('pilar') == $pilar->id ? 'selected' : '' }}>
+
+                                    {{ $pilar->nama }}
+
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- Instansi --}}
+                    <div>
+
+                        <label class="block mb-2 text-sm font-semibold text-slate-700">
+                            Instansi
+                        </label>
+
+                        <select name="instansi_id" onchange="this.form.submit()"
+                            class="w-full rounded-xl border-slate-300 px-4 py-3">
+
+                            <option value="">
+                                Semua Instansi
+                            </option>
+
+                            @foreach ($instansis as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ request('instansi_id') == $item->id ? 'selected' : '' }}>
+
+                                    {{ $item->nama }}
+
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
                     {{-- Tahun --}}
                     <div>
 
                         <label class="block mb-2 font-medium text-slate-700">
-
                             Tahun
-
                         </label>
 
                         <select name="tahun_id" onchange="this.form.submit()"
@@ -58,35 +111,6 @@
 
                     </div>
 
-                    {{-- Pilar --}}
-                    <div>
-
-                        <label class="block mb-2 font-medium text-slate-700">
-
-                            Pilar
-
-                        </label>
-
-                        <select name="pilar" onchange="this.form.submit()"
-                            class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
-
-                            <option value="">
-
-                                Semua Pilar
-
-                            </option>
-
-                            @foreach ($pilars as $pilar)
-                                <option value="{{ $pilar->id }}" {{ request('pilar') == $pilar->id ? 'selected' : '' }}>
-
-                                    {{ $pilar->nama }}
-
-                                </option>
-                            @endforeach
-
-                        </select>
-
-                    </div>
 
                     {{-- Reset --}}
                     <div class="flex items-end">
@@ -99,6 +123,72 @@
                             Reset Filter
 
                         </a>
+
+                    </div>
+
+                </div>
+
+
+                {{-- ========================================================= --}}
+                {{-- KETERANGAN FILTER --}}
+                {{-- ========================================================= --}}
+
+                <div class="mt-5 rounded-xl bg-teal-50 border border-teal-100 px-5 py-4">
+
+                    <div class="flex items-start gap-3">
+
+                        <span class="material-symbols-outlined text-teal-700 mt-0.5">
+                            info
+                        </span>
+
+                        <div class="text-sm text-slate-600 leading-relaxed">
+
+                        <p class="font-semibold text-teal-800 mb-1">
+                            Cara menggunakan filter
+                        </p>
+
+                        <p>
+                            Gunakan filter <strong>Tahun</strong>, <strong>Pilar</strong>, dan
+                            <strong>Instansi</strong> untuk menampilkan data indikator sesuai
+                            kebutuhan.
+                        </p>
+
+                        <ul class="mt-2 space-y-1 list-disc list-inside">
+
+                            <li>
+                                Pilih <strong>Tahun</strong> untuk melihat data indikator
+                                pada tahun tertentu.
+                            </li>
+
+                            <li>
+                                Pilih <strong>Pilar</strong> untuk melihat indikator pada
+                                pilar tertentu sesuai dengan <strong>tahun yang dipilih</strong>.
+                            </li>
+
+                            <li>
+                                Pilih <strong>Instansi</strong> untuk melihat indikator yang
+                                menjadi tanggung jawab instansi tersebut sesuai dengan
+                                <strong>tahun yang dipilih</strong>.
+                            </li>
+
+                            <li>
+                                Pilih <strong>Instansi dan Pilar</strong> untuk melihat indikator
+                                dari instansi tertentu pada pilar dan tahun yang dipilih.
+                            </li>
+
+                            <li>
+                                Pilih <strong>Semua Pilar</strong> dan <strong>Semua Instansi</strong>
+                                untuk melihat seluruh indikator pada <strong>tahun yang dipilih</strong>.
+                            </li>
+
+                        </ul>
+
+                        <p class="mt-2">
+                            Pilar yang tidak memiliki indikator sesuai dengan filter yang dipilih
+                            tidak akan ditampilkan.
+                        </p>
+
+                    </div>
 
                     </div>
 
@@ -390,7 +480,7 @@
 
                                 <h3 class="text-lg font-bold uppercase">
 
-                                    {{ $huruf[$loop->index] }}.
+                                    {{ $huruf[$pilar->urutan - 1] }}.
 
                                     {{ strtoupper($pilar->nama) }}
 
@@ -581,7 +671,7 @@
 
                                 <h3 class="text-lg font-bold uppercase">
 
-                                    {{ $huruf[$loop->index] }}.
+                                    {{ $huruf[$pilar->urutan - 1] }}.
 
                                     {{ strtoupper($pilar->nama) }}
 
