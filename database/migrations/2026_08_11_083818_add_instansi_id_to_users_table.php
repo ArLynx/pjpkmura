@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -23,13 +23,16 @@ return new class extends Migration
         |--------------------------------------------------------------------------
         */
 
-        DB::statement("
+        DB::statement('
             UPDATE users
-            INNER JOIN instansis
-                ON LOWER(TRIM(users.instansi)) = LOWER(TRIM(instansis.nama))
-            SET users.instansi_id = instansis.id
-            WHERE users.instansi IS NOT NULL
-        ");
+            SET instansi_id = (
+                SELECT instansis.id
+                FROM instansis
+                WHERE LOWER(TRIM(instansis.nama)) = LOWER(TRIM(instansi))
+                LIMIT 1
+            )
+            WHERE instansi IS NOT NULL
+        ');
     }
 
     public function down(): void
