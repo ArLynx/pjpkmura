@@ -375,6 +375,144 @@
 
         </div>
 
+        {{-- ========================================================= --}}
+        {{-- BLOK TREN INDIKATOR --}}
+        {{-- ========================================================= --}}
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm mb-10 overflow-hidden">
+
+            <div class="px-6 py-6 border-b border-slate-200">
+
+                <h2 class="text-2xl font-bold text-slate-800">
+
+                    Tren Indikator
+
+                </h2>
+
+                <p class="text-slate-500 mt-2">
+
+                    Grafik perkembangan target dan realisasi indikator dari tahun ke tahun.
+
+                </p>
+
+            </div>
+
+            <div class="px-6 py-6">
+
+                <form id="form-tren" method="GET" action="{{ route('dashboard.trenData') }}" onsubmit="return false;">
+
+                    <div class="grid md:grid-cols-2 gap-6">
+
+                        <div>
+
+                            <label class="block mb-2 font-medium text-slate-700">
+                                Pilar
+                            </label>
+
+                            <select name="pilar_tren" id="pilar-tren"
+                                class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
+
+                                <option value="">
+                                    Pilih Pilar
+                                </option>
+
+                                @foreach ($pilars as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $pilarTren == $item->id ? 'selected' : '' }}>
+
+                                        {{ $item->nama }}
+
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label class="block mb-2 font-medium text-slate-700">
+                                Indikator
+                            </label>
+
+                            <select name="indikator_tren" id="indikator-tren"
+                                class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"
+                                {{ $indikatorsTren->isEmpty() ? 'disabled' : '' }}>
+
+                                <option value="">
+                                    Pilih Indikator
+                                </option>
+
+                                @foreach ($indikatorsTren as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $indikatorTren == $item->id ? 'selected' : '' }}>
+
+                                        {{ $item->nama_indikator }}
+
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <div id="tren-hasil">
+
+                    @if ($indikatorDipilih)
+
+                        <div class="mt-6">
+
+                            <h3 class="text-lg font-bold text-slate-800" id="tren-nama">
+
+                                {{ $indikatorDipilih->nama_indikator }}
+
+                            </h3>
+
+                            <p class="text-slate-500 mt-1 text-sm" id="tren-tujuan">
+
+                                {{ $indikatorDipilih->tujuan_strategis }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="relative mt-6" style="height: 360px;">
+
+                            <canvas id="trenChart"></canvas>
+
+                        </div>
+
+                        @if ($dataTren->baseline)
+                            <p class="mt-4 text-sm text-slate-500" id="tren-baseline">
+
+                                Baseline:
+                                <span class="font-semibold text-slate-700">{{ $dataTren->baseline['nilai'] }}</span>
+                                @if ($dataTren->baseline['tahun'])
+                                    (tahun {{ $dataTren->baseline['tahun'] }})
+                                @endif
+
+                            </p>
+                        @endif
+
+                    @else
+
+                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
+
+                            Pilih pilar dan indikator untuk melihat grafik tren.
+
+                        </div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 
             <div class="px-6 py-6 border-b border-slate-200">
@@ -815,3 +953,189 @@
     </section>
 
 @endsection
+
+@push('scripts')
+    <script>
+        (function () {
+            const pilarSelect = document.getElementById('pilar-tren');
+            const indikatorSelect = document.getElementById('indikator-tren');
+            const hasil = document.getElementById('tren-hasil');
+            const endpoint = @json(route('dashboard.trenData'));
+
+            if (!pilarSelect || !indikatorSelect) {
+                return;
+            }
+
+            let chart = null;
+
+            const buildDatasets = (trenData) => {
+                const baselineData = { tahun: [], nilai: [] };
+
+                if (trenData && trenData.baseline && trenData.baseline.tahun) {
+                    baselineData.tahun.push(trenData.baseline.tahun);
+                    baselineData.nilai.push(trenData.baseline.nilai);
+                }
+
+                return [
+                    {
+                        label: 'Target',
+                        data: trenData ? trenData.target : [],
+                        borderColor: '#0d9488',
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                        spanGaps: false,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Realisasi',
+                        data: trenData ? trenData.realisasi : [],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        spanGaps: false,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Baseline',
+                        data: baselineData.nilai,
+                        borderColor: '#d97706',
+                        backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                        pointStyle: 'rectRounded',
+                        pointRadius: 6,
+                        showLine: false,
+                    },
+                ];
+            };
+
+            const renderChart = (trenData) => {
+                const labels = trenData ? trenData.tahun : [];
+
+                if (chart) {
+                    chart.data.labels = labels;
+                    chart.data.datasets = buildDatasets(trenData);
+                    chart.update();
+                    return;
+                }
+
+                const ctx = document.getElementById('trenChart');
+
+                if (!ctx) {
+                    return;
+                }
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: buildDatasets(trenData),
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        spanGaps: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tahun',
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Nilai',
+                                },
+                            },
+                        },
+                    },
+                });
+            };
+
+            const muatTren = async (pilarId, indikatorId) => {
+                const params = new URLSearchParams();
+
+                if (pilarId) {
+                    params.set('pilar_tren', pilarId);
+                }
+
+                if (indikatorId) {
+                    params.set('indikator_tren', indikatorId);
+                }
+
+                const response = await fetch(`${endpoint}?${params.toString()}`);
+                const data = await response.json();
+
+                const pilihanAktif = indikatorSelect.value;
+
+                indikatorSelect.innerHTML = '';
+                indikatorSelect.disabled = data.indikators.length === 0;
+
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = 'Pilih Indikator';
+                indikatorSelect.appendChild(placeholder);
+
+                data.indikators.forEach((ind) => {
+                    const option = document.createElement('option');
+                    option.value = ind.id;
+                    option.textContent = ind.nama_indikator;
+                    indikatorSelect.appendChild(option);
+                });
+
+                indikatorSelect.value = data.indikators.some((ind) => String(ind.id) === String(pilihanAktif))
+                    ? pilihanAktif
+                    : (data.indikator ? data.indikator.id : '');
+
+                if (data.indikator && data.data_tren) {
+                    hasil.innerHTML = `
+                        <div class="mt-6">
+                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
+                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
+                        </div>
+                        <div class="relative mt-6" style="height: 360px;">
+                            <canvas id="trenChart"></canvas>
+                        </div>
+                        ${data.data_tren.baseline ? `
+                            <p class="mt-4 text-sm text-slate-500">
+                                Baseline:
+                                <span class="font-semibold text-slate-700">${data.data_tren.baseline.nilai}</span>
+                                ${data.data_tren.baseline.tahun ? `(tahun ${data.data_tren.baseline.tahun})` : ''}
+                            </p>
+                        ` : ''}
+                    `;
+                    chart = null;
+                    renderChart(data.data_tren);
+                } else if (data.indikator && !data.data_tren) {
+                    hasil.innerHTML = `
+                        <div class="mt-6">
+                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
+                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
+                        </div>
+                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
+                            Belum ada data tren untuk indikator ini.
+                        </div>
+                    `;
+                    chart = null;
+                } else {
+                    hasil.innerHTML = `
+                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
+                            Pilih pilar dan indikator untuk melihat grafik tren.
+                        </div>
+                    `;
+                    chart = null;
+                }
+            };
+
+            pilarSelect.addEventListener('change', function () {
+                muatTren(this.value, '');
+            });
+
+            indikatorSelect.addEventListener('change', function () {
+                muatTren(pilarSelect.value, this.value);
+            });
+
+            @if ($indikatorDipilih && $dataTren && ! $dataTren->kosong())
+                renderChart(@json($dataTren->toArray()));
+            @endif
+        })();
+    </script>
+@endpush

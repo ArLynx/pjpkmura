@@ -9,6 +9,7 @@ use App\Models\Pilar;
 use App\Models\Realisasi;
 use App\Models\Tahun;
 use App\Models\Target;
+use App\Services\DataTrenBuilder;
 
 class DashboardController extends Controller
 {
@@ -308,6 +309,43 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | BLOK TREN INDIKATOR
+        |--------------------------------------------------------------------------
+        */
+
+        $pilarTren = request()->filled('pilar_tren')
+            ? (int) request('pilar_tren')
+            : null;
+
+        $indikatorTren = request()->filled('indikator_tren')
+            ? (int) request('indikator_tren')
+            : null;
+
+        $indikatorsTren = collect();
+
+        if ($pilarTren) {
+            $indikatorsTren = Indikator::where('pilar_id', $pilarTren)
+                ->orderBy('urutan')
+                ->get();
+        }
+
+        $indikatorDipilih = null;
+
+        $dataTren = null;
+
+        if ($indikatorTren) {
+            $indikatorDipilih = Indikator::find($indikatorTren);
+
+            if ($indikatorDipilih) {
+                $dataTren = app(DataTrenBuilder::class)->build(
+                    $indikatorDipilih,
+                    DataTrenBuilder::SCOPE_AKTIF,
+                );
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | VIEW
         |--------------------------------------------------------------------------
         */
@@ -339,7 +377,70 @@ class DashboardController extends Controller
                 'jumlahTercapai',
 
                 'pilarsMonitoring',
+
+                'pilarTren',
+                'indikatorTren',
+                'indikatorsTren',
+                'indikatorDipilih',
+                'dataTren',
             ),
         );
+    }
+
+    /**
+     * Data JSON untuk blok Tren Indikator (dimuat via AJAX agar tidak
+     * me-refresh halaman dan menggeser posisi scroll).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function trenData()
+    {
+        $pilarTren = request()->filled('pilar_tren')
+            ? (int) request('pilar_tren')
+            : null;
+
+        $indikatorTren = request()->filled('indikator_tren')
+            ? (int) request('indikator_tren')
+            : null;
+
+        $indikators = collect();
+
+        if ($pilarTren) {
+            $indikators = Indikator::where('pilar_id', $pilarTren)
+                ->orderBy('urutan')
+                ->get()
+                ->map(fn (Indikator $indikator) => [
+                    'id' => $indikator->id,
+                    'nama_indikator' => $indikator->nama_indikator,
+                ]);
+        }
+
+        $dataTren = null;
+
+        $indikatorDipilih = null;
+
+        if ($indikatorTren) {
+            $indikatorDipilih = Indikator::find($indikatorTren);
+
+            if ($indikatorDipilih) {
+                $dataTren = app(DataTrenBuilder::class)->build(
+                    $indikatorDipilih,
+                    DataTrenBuilder::SCOPE_AKTIF,
+                );
+            }
+        }
+
+        return response()->json([
+            'pilar_tren' => $pilarTren,
+            'indikator_tren' => $indikatorTren,
+            'indikators' => $indikators,
+            'indikator' => $indikatorDipilih ? [
+                'nama_indikator' => $indikatorDipilih->nama_indikator,
+                'tujuan_strategis' => $indikatorDipilih->tujuan_strategis,
+            ] : null,
+            'data_tren' => $dataTren && ! $dataTren->kosong()
+                ? $dataTren->toArray()
+                : null,
+        ]);
     }
 }

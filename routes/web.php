@@ -27,6 +27,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [FrontendDashboardController::class, 'index'])->name('dashboard');
 
+Route::get('/dashboard/tren-data', [FrontendDashboardController::class, 'trenData'])
+    ->name('dashboard.trenData');
+
 Route::get('/berita', [FrontendBeritaController::class, 'index'])->name('berita.index');
 
 Route::get('/berita/{berita}', [FrontendBeritaController::class, 'show'])->name('berita.show');
