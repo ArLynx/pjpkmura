@@ -33,9 +33,11 @@ class DataTrenBuilderTest extends TestCase
     {
         $indikator = $this->indikator();
 
+        // Dibuat tidak berurutan (2022 terlebih dahulu) untuk memastikan hasil
+        // diurutkan berdasarkan nilai tahun, bukan id.
+        $tahun2022 = Tahun::factory()->create(['tahun' => 2022]);
         $tahun2020 = Tahun::factory()->create(['tahun' => 2020]);
         $tahun2021 = Tahun::factory()->create(['tahun' => 2021]);
-        $tahun2022 = Tahun::factory()->create(['tahun' => 2022]);
 
         Target::factory()->create([
             'indikator_id' => $indikator->id,

@@ -27,7 +27,9 @@ class DataTrenBuilder
      */
     public function build(Indikator $indikator, string $scope = self::SCOPE_AKTIF): DataTren
     {
-        $tahunIdsAktif = $this->tahunDalamScope($scope);
+        $tahunById = $this->tahunDalamScope($scope);
+
+        $indikator->load(['targets', 'realisasis']);
 
         /*
         |--------------------------------------------------------------------------
@@ -40,7 +42,7 @@ class DataTrenBuilder
         foreach ($indikator->targets as $target) {
             $tahunId = $target->tahun_id;
 
-            if (! isset($tahunIdsAktif[$tahunId]) || $target->nilai_target === null) {
+            if (! isset($tahunById[$tahunId]) || $target->nilai_target === null) {
                 continue;
             }
 
@@ -50,7 +52,7 @@ class DataTrenBuilder
         foreach ($indikator->realisasis as $realisasi) {
             $tahunId = $realisasi->tahun_id;
 
-            if (! isset($tahunIdsAktif[$tahunId]) || $realisasi->nilai_realisasi === null) {
+            if (! isset($tahunById[$tahunId]) || $realisasi->nilai_realisasi === null) {
                 continue;
             }
 
@@ -68,18 +70,19 @@ class DataTrenBuilder
 
         /*
         |--------------------------------------------------------------------------
-        | Urutkan tahun naik, bangun larik paralel
+        | Urutkan berdasarkan nilai tahun naik, bukan id, agar urutan benar
+        | bahkan ketika tahun dibuat tidak berurutan. Bangun larik paralel.
         |--------------------------------------------------------------------------
         */
 
-        ksort($data, SORT_NUMERIC);
+        uksort($data, fn (int $a, int $b) => $tahunById[$a] <=> $tahunById[$b]);
 
         $tahun = [];
         $target = [];
         $realisasi = [];
 
         foreach ($data as $tahunId => $nilai) {
-            $tahun[] = $tahunIdsAktif[$tahunId];
+            $tahun[] = $tahunById[$tahunId];
             $target[] = $nilai['target'] ?? null;
             $realisasi[] = $nilai['realisasi'] ?? null;
         }
