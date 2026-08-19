@@ -4,11 +4,11 @@
 
 **Blocked by:** 01 — Builder data tren multi-tahun
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Menu "Analisis" muncul di sidebar untuk superadmin dan admin OPD, dan mengarah ke halaman yang benar.
-- [ ] Halaman menampilkan dropdown bertingkat Pilar → Indikator; memilih indikator memuat grafik yang sesuai.
-- [ ] Line chart menampilkan dataset target, realisasi, dan baseline sepanjang semua tahun.
-- [ ] Tahun tanpa data dilewati pada grafik (bukan diinterpolasi).
-- [ ] Tabel detail di bawah grafik memuat target, realisasi, dan status pencapaian per tahun.
-- [ ] Feature test: halaman terbuka (OK) untuk superadmin dan admin OPD; data view berisi indikator terpilih beserta data tren yang benar.
+- [x] Menu "Analisis" muncul di sidebar untuk superadmin dan admin OPD, dan mengarah ke halaman yang benar.
+- [x] Halaman menampilkan dropdown bertingkat Pilar → Indikator; memilih indikator memuat grafik yang sesuai.
+- [x] Line chart menampilkan dataset target, realisasi, dan baseline sepanjang semua tahun.
+- [x] Tahun tanpa data dilewati pada grafik (bukan diinterpolasi).
+- [x] Tabel detail di bawah grafik memuat target, realisasi, dan status pencapaian per tahun.
+- [x] Feature test: halaman terbuka (OK) untuk superadmin dan admin OPD; data view berisi indikator terpilih beserta data tren yang benar.

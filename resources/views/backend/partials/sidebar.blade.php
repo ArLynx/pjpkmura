@@ -122,6 +122,13 @@
 
             </a>
 
+            {{-- Analisis --}}
+            <a href="{{ route('admin.analisis.index') }}"
+                class="{{ $menuClass }} {{ request()->routeIs('admin.analisis.*') ? $activeClass : $idleClass }}">
+                <span class="material-symbols-outlined">monitoring</span>
+                Analisis
+            </a>
+
 
             {{-- Berita --}}
             <a href="{{ route('admin.beritas.index') }}"
@@ -176,6 +183,13 @@
 
                 Capaian
 
+            </a>
+
+            {{-- Analisis --}}
+            <a href="{{ route('admin.analisis.index') }}"
+                class="{{ $menuClass }} {{ request()->routeIs('admin.analisis.*') ? $activeClass : $idleClass }}">
+                <span class="material-symbols-outlined">monitoring</span>
+                Analisis
             </a>
 
 

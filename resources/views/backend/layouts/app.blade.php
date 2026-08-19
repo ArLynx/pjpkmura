@@ -7,6 +7,7 @@
     <title>@yield('title', 'Panel Admin') | PJPK Murung Raya</title>
     <link rel="icon" type="image/png" href="{{ asset('image/logo-murung-raya.png') }}">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
