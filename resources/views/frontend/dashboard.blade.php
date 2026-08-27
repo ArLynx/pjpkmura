@@ -879,91 +879,175 @@
                 <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
 
                     {{-- FORM FILTER --}}
-                    <form method="GET" action="{{ route('dashboard') }}">
+                    <form method="GET" action="{{ route('dashboard') }}" id="filterForm">
 
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_auto] xl:items-end">
 
+                            {{-- ================================================= --}}
                             {{-- PILAR --}}
-                            <div>
+                            {{-- ================================================= --}}
+                            <div class="relative">
 
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
                                     Pilar
                                 </label>
 
-                                <select name="pilar" onchange="this.form.submit()"
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                <button type="button" id="pilarButton"
+                                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
 
-                                    <option value="">
+                                    <span id="pilarText" class="truncate pr-3">
                                         Semua Pilar
-                                    </option>
+                                    </span>
 
-                                    @foreach ($pilars as $pilar)
-                                        <option value="{{ $pilar->id }}"
-                                            {{ request('pilar') == $pilar->id ? 'selected' : '' }}>
+                                    <span id="pilarIcon"
+                                        class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
+                                        expand_more
+                                    </span>
 
-                                            {{ $pilar->nama }}
+                                </button>
 
-                                        </option>
-                                    @endforeach
+                                {{-- PILAR DROPDOWN --}}
+                                <div id="pilarDropdown"
+                                    class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
 
-                                </select>
+                                    <div class="max-h-64 overflow-y-auto py-1">
+
+                                        <button type="button" data-value="" data-text="Semua Pilar"
+                                            class="pilar-option flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
+                                            Semua Pilar
+                                        </button>
+
+                                        @foreach ($pilars as $pilar)
+                                            <button type="button" data-value="{{ $pilar->id }}"
+                                                data-text="{{ $pilar->nama }}"
+                                                class="pilar-option flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
+
+                                                <span class="truncate">
+                                                    {{ $pilar->nama }}
+                                                </span>
+
+                                            </button>
+                                        @endforeach
+
+                                    </div>
+
+                                </div>
+
+                                <input type="hidden" name="pilar" id="pilarInput" value="{{ request('pilar') }}">
 
                             </div>
 
 
+                            {{-- ================================================= --}}
                             {{-- INSTANSI --}}
-                            <div>
+                            {{-- ================================================= --}}
+                            <div class="relative">
 
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
                                     Instansi
                                 </label>
 
-                                <select name="instansi_id" onchange="this.form.submit()"
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                <button type="button" id="instansiButton"
+                                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
 
-                                    <option value="">
+                                    <span id="instansiText" class="truncate pr-3">
                                         Semua Instansi
-                                    </option>
+                                    </span>
 
-                                    @foreach ($instansis as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ request('instansi_id') == $item->id ? 'selected' : '' }}>
+                                    <span id="instansiIcon"
+                                        class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
+                                        expand_more
+                                    </span>
 
-                                            {{ $item->nama }}
+                                </button>
 
-                                        </option>
-                                    @endforeach
+                                {{-- INSTANSI DROPDOWN --}}
+                                <div id="instansiDropdown"
+                                    class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
 
-                                </select>
+                                    <div class="max-h-64 overflow-y-auto py-1">
+
+                                        <button type="button" data-value="" data-text="Semua Instansi"
+                                            class="instansi-option flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
+
+                                            Semua Instansi
+
+                                        </button>
+
+                                        @foreach ($instansis as $item)
+                                            <button type="button" data-value="{{ $item->id }}"
+                                                data-text="{{ $item->nama }}"
+                                                class="instansi-option flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
+
+                                                <span class="truncate">
+                                                    {{ $item->nama }}
+                                                </span>
+
+                                            </button>
+                                        @endforeach
+
+                                    </div>
+
+                                </div>
+
+                                <input type="hidden" name="instansi_id" id="instansiInput"
+                                    value="{{ request('instansi_id') }}">
 
                             </div>
 
 
+                            {{-- ================================================= --}}
                             {{-- TAHUN --}}
-                            <div>
+                            {{-- ================================================= --}}
+                            <div class="relative">
 
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
                                     Tahun
                                 </label>
 
-                                <select name="tahun_id" onchange="this.form.submit()"
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                <button type="button" id="tahunButton"
+                                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
 
-                                    @foreach ($tahuns as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ request('tahun_id', $tahun) == $item->id ? 'selected' : '' }}>
+                                    <span id="tahunText" class="truncate pr-3">
+                                        {{ $tahuns->firstWhere('id', request('tahun_id', $tahun))->tahun ?? $tahun }}
+                                    </span>
 
-                                            {{ $item->tahun }}
+                                    <span id="tahunIcon"
+                                        class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
+                                        expand_more
+                                    </span>
 
-                                        </option>
-                                    @endforeach
+                                </button>
 
-                                </select>
+                                {{-- TAHUN DROPDOWN --}}
+                                <div id="tahunDropdown"
+                                    class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+
+                                    <div class="max-h-64 overflow-y-auto py-1">
+
+                                        @foreach ($tahuns as $item)
+                                            <button type="button" data-value="{{ $item->id }}"
+                                                data-text="{{ $item->tahun }}"
+                                                class="tahun-option flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
+
+                                                {{ $item->tahun }}
+
+                                            </button>
+                                        @endforeach
+
+                                    </div>
+
+                                </div>
+
+                                <input type="hidden" name="tahun_id" id="tahunInput"
+                                    value="{{ request('tahun_id', $tahun) }}">
 
                             </div>
 
 
+                            {{-- ================================================= --}}
                             {{-- RESET FILTER --}}
+                            {{-- ================================================= --}}
                             <div class="xl:pl-2">
 
                                 <a href="{{ route('dashboard', ['mode' => $mode]) }}"
@@ -1059,11 +1143,15 @@
             {{-- DATA MONITORING DINAMIS --}}
             {{-- ========================================================= --}}
 
-            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-                <div class="p-6 md:p-8 border-b border-slate-200">
+                {{-- ========================================================= --}}
+                {{-- HEADER CARD UTAMA --}}
+                {{-- ========================================================= --}}
 
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div class="border-b border-slate-200 p-6 md:p-8">
+
+                    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
                         <div>
 
@@ -1078,17 +1166,18 @@
                         </div>
 
 
-                        <div class="flex gap-2">
+                        {{-- MODE --}}
+                        <div class="flex flex-wrap gap-2">
 
                             <a href="{{ route('dashboard', [
                                 'mode' => 'tahunan',
                                 'tahun_id' => request('tahun_id'),
                                 'pilar' => request('pilar'),
                             ]) }}"
-                                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition
-                                {{ $mode == 'tahunan'
-                                    ? 'bg-primary text-white shadow-sm'
-                                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }}">
+                                class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition
+                    {{ $mode == 'tahunan'
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50' }}">
 
                                 <span class="material-symbols-outlined text-lg">
                                     calendar_month
@@ -1104,10 +1193,10 @@
                                 'tahun_id' => request('tahun_id'),
                                 'pilar' => request('pilar'),
                             ]) }}"
-                                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition
-                                {{ $mode == 'gabungan'
-                                    ? 'bg-primary text-white shadow-sm'
-                                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }}">
+                                class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition
+                    {{ $mode == 'gabungan'
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50' }}">
 
                                 <span class="material-symbols-outlined text-lg">
                                     table_chart
@@ -1122,11 +1211,12 @@
                     </div>
 
 
-                    <div class="flex flex-wrap gap-2 mt-5">
+                    {{-- FILTER INFO --}}
+                    <div class="mt-5 flex flex-wrap gap-2">
 
                         @if ($mode == 'tahunan')
                             <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-light text-primary text-xs font-semibold">
+                                class="inline-flex items-center gap-1.5 rounded-full bg-primary-light px-3 py-1.5 text-xs font-semibold text-primary">
 
                                 <span class="material-symbols-outlined text-sm">
                                     calendar_month
@@ -1140,7 +1230,7 @@
 
 
                         <span
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-light text-primary text-xs font-semibold">
+                            class="inline-flex items-center gap-1.5 rounded-full bg-primary-light px-3 py-1.5 text-xs font-semibold text-primary">
 
                             <span class="material-symbols-outlined text-sm">
                                 account_tree
@@ -1156,20 +1246,30 @@
                 </div>
 
 
-                <div class="overflow-x-auto">
+                {{-- ========================================================= --}}
+                {{-- AREA SEMUA TABEL --}}
+                {{-- ========================================================= --}}
+
+                <div class="py-6 md:py-8">
 
                     @if ($mode == 'tahunan')
 
-                        @foreach ($pilarsMonitoring as $pilar)
-                            <div class="border-b border-slate-200 last:border-b-0">
+                        {{-- ================================================= --}}
+                        {{-- MODE TAHUNAN --}}
+                        {{-- ================================================= --}}
 
-                                <div class="bg-primary text-white px-6 py-4">
+                        @foreach ($pilarsMonitoring as $pilar)
+                            <div
+                                class="mx-4 mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm last:mb-0 md:mx-6 lg:mx-8">
+
+                                {{-- HEADER PILAR --}}
+                                <div class="bg-primary px-5 py-4 md:px-6">
 
                                     @php
                                         $huruf = range('A', 'Z');
                                     @endphp
 
-                                    <h3 class="text-base font-bold uppercase tracking-wide">
+                                    <h3 class="text-sm font-bold uppercase tracking-wide text-white md:text-base">
 
                                         {{ $huruf[$pilar->urutan - 1] }}.
 
@@ -1179,43 +1279,47 @@
 
                                 </div>
 
+
+                                {{-- TABLE --}}
                                 <div class="overflow-x-auto">
 
-                                    <table class="w-full table-fixed border-collapse">
+                                    <table class="w-full min-w-[1100px] table-fixed border-collapse">
 
                                         <thead class="bg-primary-hover text-white">
 
                                             <tr>
 
-                                                <th class="px-4 py-3 w-[5%] text-center text-xs font-semibold uppercase">
+                                                <th class="w-[5%] px-4 py-3 text-center text-xs font-semibold uppercase">
                                                     No
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[22%] text-left text-xs font-semibold uppercase">
+                                                <th class="w-[22%] px-4 py-3 text-left text-xs font-semibold uppercase">
                                                     Tujuan Strategis
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[20%] text-left text-xs font-semibold uppercase">
+                                                <th class="w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase">
                                                     Indikator
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[10%] text-center text-xs font-semibold uppercase">
+                                                <th class="w-[10%] px-4 py-3 text-center text-xs font-semibold uppercase">
                                                     Baseline
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[20%] text-left text-xs font-semibold uppercase">
+                                                <th class="w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase">
                                                     Sumber Data
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[10%] text-center text-xs font-semibold uppercase">
-                                                    Target {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
+                                                <th class="w-[10%] px-4 py-3 text-center text-xs font-semibold uppercase">
+                                                    Target
+                                                    {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[10%] text-center text-xs font-semibold uppercase">
-                                                    Realisasi {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
+                                                <th class="w-[10%] px-4 py-3 text-center text-xs font-semibold uppercase">
+                                                    Realisasi
+                                                    {{ optional($tahuns->firstWhere('id', $tahun))->tahun }}
                                                 </th>
 
-                                                <th class="px-4 py-3 w-[13%] text-center text-xs font-semibold uppercase">
+                                                <th class="w-[13%] px-4 py-3 text-center text-xs font-semibold uppercase">
                                                     Status
                                                 </th>
 
@@ -1223,33 +1327,34 @@
 
                                         </thead>
 
+
                                         <tbody>
 
                                             @forelse ($pilar->indikators as $indikator)
                                                 @php
-
                                                     $target = $indikator->targets->first();
-
                                                     $realisasi = $indikator->realisasis->first();
-
                                                 @endphp
 
                                                 <tr
-                                                    class="border-b border-slate-100 last:border-b-0 hover:bg-primary-light transition-colors">
+                                                    class="border-b border-slate-100 last:border-b-0 transition-colors hover:bg-primary-light">
 
+                                                    {{-- NO --}}
                                                     <td class="px-4 py-4 text-center text-sm text-slate-600">
-
                                                         {{ $loop->iteration }}
-
                                                     </td>
 
+
+                                                    {{-- TUJUAN --}}
                                                     <td
-                                                        class="px-4 py-4 align-top text-sm leading-6 text-slate-700 break-words">
+                                                        class="break-words px-4 py-4 align-top text-sm leading-6 text-slate-700">
 
                                                         {{ $indikator->tujuan_strategis }}
 
                                                     </td>
 
+
+                                                    {{-- INDIKATOR --}}
                                                     <td
                                                         class="px-4 py-4 align-top text-sm font-medium leading-6 text-slate-800">
 
@@ -1257,36 +1362,44 @@
 
                                                     </td>
 
+
+                                                    {{-- BASELINE --}}
                                                     <td class="px-4 py-4 text-center text-sm text-slate-700">
 
                                                         {{ $indikator->nilai_baseline }}
 
-                                                        <span class="block text-xs text-slate-400 mt-1">
-
+                                                        <span class="mt-1 block text-xs text-slate-400">
                                                             {{ $indikator->tahun_baseline }}
-
                                                         </span>
 
                                                     </td>
 
-                                                    <td class="px-4 py-4 text-sm text-slate-600">
+
+                                                    {{-- SUMBER DATA --}}
+                                                    <td class="px-4 py-4 text-sm leading-6 text-slate-600">
 
                                                         {{ $indikator->sumber_data ?? '-' }}
 
                                                     </td>
 
+
+                                                    {{-- TARGET --}}
                                                     <td class="px-4 py-4 text-center text-sm font-semibold text-slate-800">
 
                                                         {{ $target->nilai_target ?? '-' }}
 
                                                     </td>
 
+
+                                                    {{-- REALISASI --}}
                                                     <td class="px-4 py-4 text-center text-sm font-semibold text-slate-800">
 
                                                         {{ $realisasi->nilai_realisasi ?? '-' }}
 
                                                     </td>
 
+
+                                                    {{-- STATUS --}}
                                                     <td class="px-4 py-4 text-center">
 
                                                         @if ($realisasi)
@@ -1295,7 +1408,7 @@
                                                                     class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-primary-light px-3 py-1.5 text-xs font-semibold text-primary">
 
                                                                     <span
-                                                                        class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
+                                                                        class="mr-1.5 h-1.5 w-1.5 rounded-full bg-primary"></span>
 
                                                                     Tercapai
 
@@ -1305,7 +1418,7 @@
                                                                     class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600">
 
                                                                     <span
-                                                                        class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>
+                                                                        class="mr-1.5 h-1.5 w-1.5 rounded-full bg-red-500"></span>
 
                                                                     Belum Tercapai
 
@@ -1315,7 +1428,7 @@
                                                                     class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
 
                                                                     <span
-                                                                        class="w-1.5 h-1.5 rounded-full bg-slate-400 mr-1.5"></span>
+                                                                        class="mr-1.5 h-1.5 w-1.5 rounded-full bg-slate-400"></span>
 
                                                                     Belum Diisi
 
@@ -1359,16 +1472,22 @@
                             </div>
                         @endforeach
                     @else
-                        @foreach ($pilarsMonitoring as $pilar)
-                            <div class="mb-8 overflow-hidden rounded-2xl border border-slate-200">
+                        {{-- ================================================= --}}
+                        {{-- MODE GABUNGAN --}}
+                        {{-- ================================================= --}}
 
-                                <div class="bg-primary text-white px-6 py-4">
+                        @foreach ($pilarsMonitoring as $pilar)
+                            <div
+                                class="mx-4 mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm last:mb-0 md:mx-6 lg:mx-8">
+
+                                {{-- HEADER PILAR --}}
+                                <div class="bg-primary px-5 py-4 md:px-6">
 
                                     @php
                                         $huruf = range('A', 'Z');
                                     @endphp
 
-                                    <h3 class="text-base font-bold uppercase tracking-wide">
+                                    <h3 class="text-sm font-bold uppercase tracking-wide text-white md:text-base">
 
                                         {{ $huruf[$pilar->urutan - 1] }}.
 
@@ -1379,9 +1498,11 @@
 
                                 </div>
 
+
+                                {{-- TABLE --}}
                                 <div class="overflow-x-auto">
 
-                                    <table class="w-full border-collapse">
+                                    <table class="w-full min-w-[1000px] border-collapse">
 
                                         <thead class="bg-primary-hover text-white">
 
@@ -1419,6 +1540,7 @@
 
                                             </tr>
 
+
                                             <tr>
 
                                                 @foreach ($tahuns as $item)
@@ -1433,11 +1555,12 @@
 
                                         </thead>
 
+
                                         <tbody>
 
                                             @forelse ($pilar->indikators as $indikator)
                                                 <tr
-                                                    class="border-b border-slate-100 last:border-b-0 hover:bg-primary-light transition-colors">
+                                                    class="border-b border-slate-100 last:border-b-0 transition-colors hover:bg-primary-light">
 
                                                     <td class="px-4 py-4 text-center text-sm text-slate-600">
 
@@ -1445,11 +1568,13 @@
 
                                                     </td>
 
+
                                                     <td class="px-4 py-4 text-sm leading-6 text-slate-700">
 
                                                         {{ $indikator->tujuan_strategis }}
 
                                                     </td>
+
 
                                                     <td class="px-4 py-4 text-sm font-medium leading-6 text-slate-800">
 
@@ -1457,11 +1582,12 @@
 
                                                     </td>
 
+
                                                     <td class="px-4 py-4 text-center text-sm text-slate-700">
 
                                                         {{ $indikator->nilai_baseline }}
 
-                                                        <span class="block text-xs text-slate-400 mt-1">
+                                                        <span class="mt-1 block text-xs text-slate-400">
 
                                                             {{ $indikator->tahun_baseline }}
 
@@ -1469,20 +1595,20 @@
 
                                                     </td>
 
-                                                    <td class="px-4 py-4 text-sm text-slate-600">
+
+                                                    <td class="px-4 py-4 text-sm leading-6 text-slate-600">
 
                                                         {{ $indikator->sumber_data ?? '-' }}
 
                                                     </td>
 
+
                                                     @foreach ($tahuns as $item)
                                                         @php
-
                                                             $target = $indikator->targets->firstWhere(
                                                                 'tahun_id',
                                                                 $item->id,
                                                             );
-
                                                         @endphp
 
                                                         <td
@@ -1534,4 +1660,129 @@
 
     </main>
 
+    {{-- ========================================================= --}}
+    {{-- CUSTOM FILTER SCRIPT --}}
+    {{-- ========================================================= --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const form = document.getElementById('filterForm');
+
+            const dropdowns = [{
+                    button: document.getElementById('pilarButton'),
+                    dropdown: document.getElementById('pilarDropdown'),
+                    text: document.getElementById('pilarText'),
+                    input: document.getElementById('pilarInput'),
+                    icon: document.getElementById('pilarIcon'),
+                    options: document.querySelectorAll('.pilar-option')
+                },
+                {
+                    button: document.getElementById('instansiButton'),
+                    dropdown: document.getElementById('instansiDropdown'),
+                    text: document.getElementById('instansiText'),
+                    input: document.getElementById('instansiInput'),
+                    icon: document.getElementById('instansiIcon'),
+                    options: document.querySelectorAll('.instansi-option')
+                },
+                {
+                    button: document.getElementById('tahunButton'),
+                    dropdown: document.getElementById('tahunDropdown'),
+                    text: document.getElementById('tahunText'),
+                    input: document.getElementById('tahunInput'),
+                    icon: document.getElementById('tahunIcon'),
+                    options: document.querySelectorAll('.tahun-option')
+                }
+            ];
+
+
+            function closeAllDropdowns(except = null) {
+
+                dropdowns.forEach(item => {
+
+                    if (item !== except) {
+
+                        item.dropdown.classList.add('hidden');
+
+                        item.icon.classList.remove('rotate-180');
+
+                        item.button.classList.remove(
+                            'border-primary',
+                            'ring-2',
+                            'ring-primary/20'
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            dropdowns.forEach(item => {
+
+                item.button.addEventListener('click', function(event) {
+
+                    event.stopPropagation();
+
+                    const isOpen = !item.dropdown.classList.contains('hidden');
+
+                    closeAllDropdowns(item);
+
+                    if (!isOpen) {
+
+                        item.dropdown.classList.remove('hidden');
+
+                        item.icon.classList.add('rotate-180');
+
+                        item.button.classList.add(
+                            'border-primary',
+                            'ring-2',
+                            'ring-primary/20'
+                        );
+
+                    }
+
+                });
+
+
+                item.options.forEach(option => {
+
+                    option.addEventListener('click', function() {
+
+                        const value = this.dataset.value;
+                        const text = this.dataset.text;
+
+                        item.input.value = value;
+                        item.text.textContent = text;
+
+                        closeAllDropdowns();
+
+                        form.submit();
+
+                    });
+
+                });
+
+            });
+
+
+            document.addEventListener('click', function() {
+
+                closeAllDropdowns();
+
+            });
+
+
+            dropdowns.forEach(item => {
+
+                item.dropdown.addEventListener('click', function(event) {
+
+                    event.stopPropagation();
+
+                });
+
+            });
+
+        });
+    </script>
 @endsection

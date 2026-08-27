@@ -63,7 +63,7 @@
                             </span>
 
                             <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari dokumen..."
-                                class="w-full rounded-xl border border-slate-300 py-3 pl-12 pr-4 text-sm text-slate-700 focus:border-teal-600 focus:ring-teal-600">
+                                class="w-full rounded-xl border border-slate-300 py-3 pl-12 pr-4 text-sm text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-light">
 
                         </div>
 

@@ -38,10 +38,9 @@
                                 </span>
 
                                 <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari berita..."
-                                    class="w-full rounded-2xl border border-slate-300 bg-white py-4 pl-14 pr-5 text-base text-slate-700 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100">
+                                    class="w-full rounded-2xl border border-slate-300 bg-white py-4 pl-14 pr-5 text-base text-slate-700 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary-light">
 
                             </div>
-
 
                             <button type="submit"
                                 class="rounded-2xl bg-primary px-7 font-semibold text-white transition hover:bg-primary-hover">
