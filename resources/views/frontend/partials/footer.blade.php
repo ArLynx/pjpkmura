@@ -1,3 +1,7 @@
+@php
+    use App\Helpers\VisitorCounter;
+    $statistik = VisitorCounter::count();
+@endphp
 <footer class="bg-primary text-white mt-16">
 
     {{-- ================================================= --}}
@@ -79,7 +83,7 @@
                             </span>
 
                             <span class="text-white font-semibold text-left">
-                                0
+                                {{ $statistik['total'] }}
                             </span>
 
                         </div>
@@ -95,7 +99,7 @@
                             </span>
 
                             <span class="text-white font-semibold text-left">
-                                0
+                                {{ $statistik['today'] }}
                             </span>
 
                         </div>
@@ -111,7 +115,7 @@
                             </span>
 
                             <span class="text-white font-semibold text-left">
-                                0
+                                {{ $statistik['online'] }}
                             </span>
 
                         </div>
