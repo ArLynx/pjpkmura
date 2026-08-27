@@ -62,11 +62,12 @@
                         Jumlah pilar pembangunan kependudukan.
                     </p>
 
-                    <h3 class="mt-2 text-2xl font-bold text-slate-900">
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
                         {{ $jumlahPilar }}
                     </h3>
 
                 </div>
+
 
                 {{-- ========================================================= --}}
                 {{-- TOTAL INDIKATOR --}}
@@ -95,11 +96,12 @@
                         Jumlah indikator sesuai filter yang dipilih.
                     </p>
 
-                    <h3 class="mt-2 text-2xl font-bold text-slate-900">
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
                         {{ $jumlahIndikator }}
                     </h3>
 
                 </div>
+
 
                 {{-- ========================================================= --}}
                 {{-- TARGET --}}
@@ -134,11 +136,12 @@
 
                     </p>
 
-                    <h3 class="mt-2 text-2xl font-bold text-slate-900">
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
                         {{ $jumlahTarget }}
                     </h3>
 
                 </div>
+
 
                 {{-- ========================================================= --}}
                 {{-- TERCAPAI --}}
@@ -174,7 +177,7 @@
 
                     </p>
 
-                    <h3 class="mt-2 text-2xl font-bold text-slate-900">
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
                         {{ $jumlahTercapai }}
                     </h3>
 
