@@ -644,9 +644,9 @@
 
                         </div>
 
-                        {{-- <div class="border-t border-slate-200 px-6 py-4">
+                        <div class="border-t border-slate-200 px-6 py-4">
                             {{ $indikators->links() }}
-                        </div> --}}
+                        </div>
 
                     </form>
 
