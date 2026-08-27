@@ -33,158 +33,6 @@
 
         <section class="max-w-7xl mx-auto px-6 py-8">
 
-            <section class="grid grid-cols-1 gap-4 mb-10 sm:grid-cols-2 xl:grid-cols-4">
-
-                {{-- ========================================================= --}}
-                {{-- TOTAL PILAR --}}
-                {{-- ========================================================= --}}
-                <div
-                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
-
-                    <div class="flex justify-between items-start mb-3">
-
-                        <div
-                            class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center text-primary transition group-hover:bg-primary group-hover:text-white">
-
-                            <span class="material-symbols-outlined text-[20px]">
-                                account_tree
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <p class="text-lg font-semibold text-slate-900 mb-2">
-                        Total Pilar
-                    </p>
-
-                    <p class="text-sm leading-5 text-slate-500">
-                        Jumlah pilar pembangunan kependudukan.
-                    </p>
-
-                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
-                        {{ $jumlahPilar }}
-                    </h3>
-
-                </div>
-
-
-                {{-- ========================================================= --}}
-                {{-- TOTAL INDIKATOR --}}
-                {{-- ========================================================= --}}
-                <div
-                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
-
-                    <div class="flex justify-between items-start mb-3">
-
-                        <div
-                            class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center text-primary transition group-hover:bg-primary group-hover:text-white">
-
-                            <span class="material-symbols-outlined text-[20px]">
-                                data_exploration
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <p class="text-lg font-semibold text-slate-900 mb-2">
-                        Total Indikator
-                    </p>
-
-                    <p class="text-sm leading-5 text-slate-500">
-                        Jumlah indikator sesuai filter yang dipilih.
-                    </p>
-
-                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
-                        {{ $jumlahIndikator }}
-                    </h3>
-
-                </div>
-
-
-                {{-- ========================================================= --}}
-                {{-- TARGET --}}
-                {{-- ========================================================= --}}
-                <div
-                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
-
-                    <div class="flex justify-between items-start mb-3">
-
-                        <div
-                            class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 transition group-hover:bg-amber-600 group-hover:text-white">
-
-                            <span class="material-symbols-outlined text-[20px]">
-                                flag
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <p class="text-lg font-semibold text-slate-900 mb-2">
-                        {{ $mode == 'tahunan' ? "Target $tahun" : 'Total Target' }}
-                    </p>
-
-                    <p class="text-sm leading-5 text-slate-500">
-
-                        @if ($mode == 'tahunan')
-                            Jumlah target indikator tahun {{ $tahun }}.
-                        @else
-                            Jumlah target indikator periode {{ $tahunAwal }} - {{ $tahunAkhir }}.
-                        @endif
-
-                    </p>
-
-                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
-                        {{ $jumlahTarget }}
-                    </h3>
-
-                </div>
-
-
-                {{-- ========================================================= --}}
-                {{-- TERCAPAI --}}
-                {{-- ========================================================= --}}
-                <div
-                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
-
-                    <div class="flex justify-between items-start mb-3">
-
-                        <div
-                            class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 transition group-hover:bg-green-600 group-hover:text-white">
-
-                            <span class="material-symbols-outlined text-[20px]">
-                                check_circle
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <p class="text-lg font-semibold text-slate-900 mb-2">
-                        {{ $mode == 'tahunan' ? 'Target Tercapai' : 'Total Tercapai' }}
-                    </p>
-
-                    <p class="text-sm leading-5 text-slate-500">
-
-                        @if ($mode == 'tahunan')
-                            Jumlah indikator yang mencapai target tahun {{ $tahun }}.
-                        @else
-                            Jumlah indikator yang mencapai target selama periode
-                            {{ $tahunAwal }} - {{ $tahunAkhir }}.
-                        @endif
-
-                    </p>
-
-                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
-                        {{ $jumlahTercapai }}
-                    </h3>
-
-                </div>
-
-            </section>
-
             <section class="flex flex-col lg:flex-row gap-6 mb-10">
 
                 {{-- ===================================================== --}}
@@ -1138,6 +986,159 @@
                 </div>
 
             </section>
+
+            <section class="grid grid-cols-1 gap-4 mb-10 sm:grid-cols-2 xl:grid-cols-4">
+
+                {{-- ========================================================= --}}
+                {{-- TOTAL PILAR --}}
+                {{-- ========================================================= --}}
+                <div
+                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
+
+                    <div class="flex justify-between items-start mb-3">
+
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center text-primary transition group-hover:bg-primary group-hover:text-white">
+
+                            <span class="material-symbols-outlined text-[20px]">
+                                account_tree
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-lg font-semibold text-slate-900 mb-2">
+                        Total Pilar
+                    </p>
+
+                    <p class="text-sm leading-5 text-slate-500">
+                        Jumlah pilar pembangunan kependudukan.
+                    </p>
+
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
+                        {{ $jumlahPilar }}
+                    </h3>
+
+                </div>
+
+
+                {{-- ========================================================= --}}
+                {{-- TOTAL INDIKATOR --}}
+                {{-- ========================================================= --}}
+                <div
+                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
+
+                    <div class="flex justify-between items-start mb-3">
+
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center text-primary transition group-hover:bg-primary group-hover:text-white">
+
+                            <span class="material-symbols-outlined text-[20px]">
+                                data_exploration
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-lg font-semibold text-slate-900 mb-2">
+                        Total Indikator
+                    </p>
+
+                    <p class="text-sm leading-5 text-slate-500">
+                        Jumlah indikator sesuai filter yang dipilih.
+                    </p>
+
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
+                        {{ $jumlahIndikator }}
+                    </h3>
+
+                </div>
+
+
+                {{-- ========================================================= --}}
+                {{-- TARGET --}}
+                {{-- ========================================================= --}}
+                <div
+                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
+
+                    <div class="flex justify-between items-start mb-3">
+
+                        <div
+                            class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 transition group-hover:bg-amber-600 group-hover:text-white">
+
+                            <span class="material-symbols-outlined text-[20px]">
+                                flag
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-lg font-semibold text-slate-900 mb-2">
+                        {{ $mode == 'tahunan' ? "Target $tahun" : 'Total Target' }}
+                    </p>
+
+                    <p class="text-sm leading-5 text-slate-500">
+
+                        @if ($mode == 'tahunan')
+                            Jumlah target indikator tahun {{ $tahun }}.
+                        @else
+                            Jumlah target indikator periode {{ $tahunAwal }} - {{ $tahunAkhir }}.
+                        @endif
+
+                    </p>
+
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
+                        {{ $jumlahTarget }}
+                    </h3>
+
+                </div>
+
+
+                {{-- ========================================================= --}}
+                {{-- TERCAPAI --}}
+                {{-- ========================================================= --}}
+                <div
+                    class="min-w-0 group flex flex-col bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:border-primary">
+
+                    <div class="flex justify-between items-start mb-3">
+
+                        <div
+                            class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 transition group-hover:bg-green-600 group-hover:text-white">
+
+                            <span class="material-symbols-outlined text-[20px]">
+                                check_circle
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-lg font-semibold text-slate-900 mb-2">
+                        {{ $mode == 'tahunan' ? 'Target Tercapai' : 'Total Tercapai' }}
+                    </p>
+
+                    <p class="text-sm leading-5 text-slate-500">
+
+                        @if ($mode == 'tahunan')
+                            Jumlah indikator yang mencapai target tahun {{ $tahun }}.
+                        @else
+                            Jumlah indikator yang mencapai target selama periode
+                            {{ $tahunAwal }} - {{ $tahunAkhir }}.
+                        @endif
+
+                    </p>
+
+                    <h3 class="mt-auto pt-4 text-2xl font-bold text-slate-900">
+                        {{ $jumlahTercapai }}
+                    </h3>
+
+                </div>
+
+            </section>
+
 
             {{-- ========================================================= --}}
             {{-- DATA MONITORING DINAMIS --}}
