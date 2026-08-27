@@ -9,12 +9,7 @@ class Target extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'indikator_id',
-        'tahun',
-        'nilai_target',
-        'created_by',
-    ];
+    protected $fillable = ['indikator_id', 'tahun_id', 'nilai_target', 'created_by'];
 
     public function indikator()
     {
@@ -24,5 +19,10 @@ class Target extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function tahun()
+    {
+        return $this->belongsTo(Tahun::class);
     }
 }

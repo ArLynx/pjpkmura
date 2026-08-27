@@ -2,16 +2,18 @@
 
     <div class="max-w-7xl mx-auto px-6">
 
-        <div class="h-20 flex items-center justify-between">
+        <div class="relative h-20 flex items-center justify-between">
 
-            {{-- Logo --}}
+            {{-- ================================================= --}}
+            {{-- LOGO --}}
+            {{-- ================================================= --}}
+
             <a href="{{ route('home') }}" class="flex items-center gap-4">
 
-                <div class="w-14 h-14 rounded-xl bg-white text-primary flex items-center justify-center shadow">
+                <div class="w-18 h-18 flex items-center justify-center">
 
-                    <span class="material-symbols-outlined text-3xl">
-                        monitoring
-                    </span>
+                    <img src="{{ asset('image/sipelanduk.png') }}" alt="Logo SIPELANDUK"
+                        class="w-full h-full object-contain">
 
                 </div>
 
@@ -29,38 +31,54 @@
 
             </a>
 
-            {{-- Menu --}}
-            <nav class="hidden lg:flex items-center gap-10">
 
-                <a href="{{ route('home') }}" class="text-primary-light hover:text-white transition">
+            {{-- ================================================= --}}
+            {{-- MENU --}}
+            {{-- ================================================= --}}
 
+            <nav class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-10">
+
+                {{-- HOME --}}
+                <a href="{{ route('home') }}"
+                    class="transition-colors duration-300
+                    {{ request()->routeIs('home') ? 'text-white font-semibold' : 'text-primary-light hover:text-white' }}">
                     Home
-
                 </a>
 
-                <a href="{{ route('dashboard') }}" class="text-primary-light hover:text-white transition">
 
+                {{-- DASHBOARD --}}
+                <a href="{{ route('dashboard') }}"
+                    class="transition-colors duration-300
+                    {{ request()->routeIs('dashboard') ? 'text-white font-semibold' : 'text-primary-light hover:text-white' }}">
                     Dashboard
-
                 </a>
 
-                <a href="#" class="text-primary-light hover:text-white transition">
 
+                {{-- BERITA --}}
+                <a href="{{ route('berita.index') }}"
+                    class="transition-colors duration-300
+                    {{ request()->routeIs('berita.*') ? 'text-white font-semibold' : 'text-primary-light hover:text-white' }}">
                     Berita
-
                 </a>
 
-                <a href="#" class="text-primary-light hover:text-white transition">
 
+                {{-- PUBLIKASI --}}
+                <a href="{{ route('publikasi.index') }}"
+                    class="transition-colors duration-300
+                    {{ request()->routeIs('publikasi.*') ? 'text-white font-semibold' : 'text-primary-light hover:text-white' }}">
                     Publikasi
-
                 </a>
 
             </nav>
 
-            {{-- Login --}}
+
+            {{-- ================================================= --}}
+            {{-- LOGIN / PANEL ADMIN --}}
+            {{-- ================================================= --}}
+
             <a href="{{ auth()->check() ? route('admin.dashboard') : route('login') }}"
-                class="bg-white text-primary font-semibold px-6 py-3 rounded-xl hover:bg-primary-light transition">
+                class="bg-white text-primary font-semibold px-6 py-3 rounded-xl
+                transition-colors duration-300 hover:bg-primary-light">
 
                 {{ auth()->check() ? 'Panel Admin' : 'Login' }}
 

@@ -9,14 +9,7 @@ class Realisasi extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'indikator_id',
-        'tahun',
-        'nilai_realisasi',
-        'status_pencapaian',
-        'keterangan',
-        'created_by',
-    ];
+    protected $fillable = ['indikator_id', 'tahun_id', 'nilai_realisasi', 'status_pencapaian', 'keterangan', 'created_by'];
 
     public function indikator()
     {
@@ -31,5 +24,10 @@ class Realisasi extends Model
     public function dataPendukungs()
     {
         return $this->hasMany(DataPendukung::class);
+    }
+
+    public function tahun()
+    {
+        return $this->belongsTo(Tahun::class);
     }
 }

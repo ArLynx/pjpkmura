@@ -13,12 +13,7 @@ class PilarController extends Controller
 {
     public function index(Request $request): View
     {
-        $pilars = Pilar::query()
-            ->withCount('indikators')
-            ->when($request->filled('q'), fn ($query) => $query->where('nama', 'like', '%'.$request->string('q')->trim().'%'))
-            ->orderBy('urutan')
-            ->paginate(15)
-            ->withQueryString();
+        $pilars = Pilar::query()->withCount('indikators')->when($request->filled('q'), fn($query) => $query->where('nama', 'like', '%' . $request->string('q')->trim() . '%'))->orderBy('urutan')->paginate(15)->withQueryString();
 
         return view('backend.pilars.index', compact('pilars'));
     }
@@ -30,10 +25,15 @@ class PilarController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
-            'urutan' => ['required', 'integer', 'min:1'],
-        ]);
+        $validated = $request->validate(
+            [
+                'nama' => ['required', 'string', 'max:255'],
+                'urutan' => ['required', 'integer', 'min:1', 'unique:pilars,urutan'],
+            ],
+            [
+                'urutan.unique' => 'Nomor urutan tersebut sudah digunakan oleh pilar lain.',
+            ],
+        );
 
         Pilar::create($validated);
 
@@ -47,10 +47,15 @@ class PilarController extends Controller
 
     public function update(Request $request, Pilar $pilar): RedirectResponse
     {
-        $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
-            'urutan' => ['required', 'integer', 'min:1'],
-        ]);
+        $validated = $request->validate(
+            [
+                'nama' => ['required', 'string', 'max:255'],
+                'urutan' => ['required', 'integer', 'min:1', 'unique:pilars,urutan,' . $pilar->id],
+            ],
+            [
+                'urutan.unique' => 'Nomor urutan tersebut sudah digunakan oleh pilar lain.',
+            ],
+        );
 
         $pilar->update($validated);
 
@@ -59,7 +64,7 @@ class PilarController extends Controller
 
     public function destroy(Pilar $pilar): RedirectResponse
     {
-        $files = \App\Models\DataPendukung::whereHas('realisasi.indikator', fn ($query) => $query->where('pilar_id', $pilar->id))->pluck('file')->all();
+        $files = \App\Models\DataPendukung::whereHas('realisasi.indikator', fn($query) => $query->where('pilar_id', $pilar->id))->pluck('file')->all();
         if ($files) {
             Storage::disk('public')->delete($files);
         }
