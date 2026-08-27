@@ -119,7 +119,7 @@
                         for="password"
                         class="mb-2 block text-sm font-semibold text-slate-700"
                     >
-                        Kata Sandi Baru
+                        Kata Sandi Baru 
                     </label>
 
                     <input
@@ -131,7 +131,7 @@
                     >
 
                     <p class="mt-1 text-xs text-slate-500">
-                        Kosongkan bila tidak diubah.
+                        Kosongkan bila tidak diubah. Kata Sandi Minimal 8 kombinasi angka dan huruf
                     </p>
 
                 </div>

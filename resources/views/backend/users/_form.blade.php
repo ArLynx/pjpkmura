@@ -35,7 +35,7 @@
     {{-- Email --}}
     <div>
         <label for="email" class="mb-2 block text-sm font-semibold text-slate-700">
-            Email
+            Email Aktif
         </label>
 
         <input
@@ -144,7 +144,7 @@
     {{-- Password --}}
     <div>
         <label for="password" class="mb-2 block text-sm font-semibold text-slate-700">
-            Kata Sandi {{ $editing ? '(opsional)' : '' }}
+            Kata Sandi (Minimal 8 kombinasi angka dan huruf) {{ $editing ? '(opsional)' : '' }}
         </label>
 
         <input
@@ -158,7 +158,7 @@
 
         @if($editing)
             <p class="mt-1 text-xs text-slate-500">
-                Kosongkan bila tidak diubah.
+                 Kosongkan bila tidak diubah. Kata Sandi Minimal 8 kombinasi angka dan huruf
             </p>
         @endif
     </div>

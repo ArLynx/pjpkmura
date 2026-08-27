@@ -113,6 +113,28 @@ class CapaianController extends Controller
 
     public function store(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | CEK TAHUN AKTIF
+        |--------------------------------------------------------------------------
+        */
+
+        if (!Tahun::where('status', 'aktif')->exists()) {
+
+            return back()->with(
+                'error',
+                'Penginputan capaian tidak dapat dilakukan karena belum ada tahun aktif. Silakan tambahkan tahun terlebih dahulu.'
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDASI
+        |--------------------------------------------------------------------------
+        */
+
         $request->validate([
             'tahun_id' => ['required', 'exists:tahuns,id'],
             'pilar' => ['required', 'exists:pilars,id'],
