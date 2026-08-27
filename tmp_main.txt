@@ -1,835 +1,235 @@
-@extends('frontend.layouts.app')
+﻿@extends('frontend.layouts.app')
 
 @section('title', 'Dashboard Monitoring')
-
+ΓÇª 1 lines elided (caveman) ΓÇª
 @section('content')
-
+ΓÇª 1 lines elided (caveman) ΓÇª
     <main class="min-h-screen bg-slate-50">
-
-        {{-- ========================================================= --}}
+ΓÇª 2 lines elided (caveman) ΓÇª
         {{-- DASHBOARD HEADER --}}
-        {{-- ========================================================= --}}
-
+ΓÇª 2 lines elided (caveman) ΓÇª
         <section class="bg-primary-hover">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
             <div class="max-w-7xl mx-auto px-6 py-16">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                 <h1 class="text-4xl font-bold text-white">
-
-                    Dashboard Monitoring
-
-                </h1>
-
+ΓÇª 5 lines elided (caveman) ΓÇª
                 <p class="text-primary-light mt-3 text-lg">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                     Monitoring indikator Peta Jalan Pembangunan Kependudukan Kabupaten Murung Raya.
-
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <section class="max-w-7xl mx-auto px-6 py-8">
-
+ΓÇª 10 lines elided (caveman) ΓÇª
             <section class="flex flex-col lg:flex-row gap-6 mb-10">
-
-                {{-- ===================================================== --}}
-                {{-- TREN INDIKATOR --}}
-                {{-- ===================================================== --}}
-
-                <div class="w-full bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
-
-                    <div class="mb-6">
-
-                        <h4 class="text-xl font-semibold text-slate-900 mb-2">
-                            Tren Indikator
-                        </h4>
-
-                        <p class="text-sm text-slate-500">
-                            Grafik perkembangan target dan realisasi indikator dari tahun ke tahun.
-                        </p>
-
-                    </div>
-
-                    <form id="form-tren" method="GET" action="{{ route('dashboard.trenData') }}" onsubmit="return false;">
-
-                        <div class="grid md:grid-cols-2 gap-6">
-
-                            <div>
-
-                                <label class="block mb-2 font-medium text-slate-700">
-                                    Pilar
-                                </label>
-
-                                <select name="pilar_tren" id="pilar-tren"
-                                    class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
-
-                                    <option value="">
-                                        Pilih Pilar
-                                    </option>
-
-                                    @foreach ($pilars as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $pilarTren == $item->id ? 'selected' : '' }}>
-
-                                            {{ $item->nama }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
-
-                            </div>
-
-                            <div>
-
-                                <label class="block mb-2 font-medium text-slate-700">
-                                    Indikator
-                                </label>
-
-                                <select name="indikator_tren" id="indikator-tren"
-                                    class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"
-                                    {{ $indikatorsTren->isEmpty() ? 'disabled' : '' }}>
-
-                                    <option value="">
-                                        Pilih Indikator
-                                    </option>
-
-                                    @foreach ($indikatorsTren as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $indikatorTren == $item->id ? 'selected' : '' }}>
-
-                                            {{ $item->nama_indikator }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                    </form>
-
-                    <div id="tren-hasil">
-
-                        @if ($indikatorDipilih)
-
-                            <div class="mt-6">
-
-                                <h3 class="text-lg font-bold text-slate-800" id="tren-nama">
-
-                                    {{ $indikatorDipilih->nama_indikator }}
-
-                                </h3>
-
-                                <p class="text-slate-500 mt-1 text-sm" id="tren-tujuan">
-
-                                    {{ $indikatorDipilih->tujuan_strategis }}
-
-                                </p>
-
-                            </div>
-
-                            <div class="relative mt-6" style="height: 360px;">
-
-                                <canvas id="trenChart"></canvas>
-
-                            </div>
-
-                            @if ($dataTren->baseline)
-                                <p class="mt-4 text-sm text-slate-500" id="tren-baseline">
-
-                                    Baseline:
-                                    <span class="font-semibold text-slate-700">{{ $dataTren->baseline['nilai'] }}</span>
-                                    @if ($dataTren->baseline['tahun'])
-                                        (tahun {{ $dataTren->baseline['tahun'] }})
-                                    @endif
-
-                                </p>
-                            @endif
-
-                        @else
-
-                            <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-
-                                Pilih pilar dan indikator untuk melihat grafik tren.
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
-                {{-- ===================================================== --}}
+ΓÇª 2 lines elided (caveman) ΓÇª
+                {{-- TREN CAPAIAN PJPK --}}
+ΓÇª 2 lines elided (caveman) ΓÇª
+                <div class="w-full lg:flex-[2.5] bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+ΓÇª 3 lines elided (caveman) ΓÇª
+                            <h4 class="text-xl font-semibold text-slate-900">
+                                Tren Capaian PJPK 2025ΓÇô2030
+ΓÇª 2 lines elided (caveman) ΓÇª
+                            <p class="mt-1 text-sm text-slate-500">
+                                Target Kinerja vs Realisasi Tahunan
+ΓÇª 8 lines elided (caveman) ΓÇª
+                                <span class="w-3 h-3 rounded-full bg-primary"></span>
+ΓÇª 1 lines elided (caveman) ΓÇª
+                                <span class="text-xs font-medium text-slate-600">
+ΓÇª 7 lines elided (caveman) ΓÇª
+                                <span class="w-3 h-3 rounded-full bg-primary-light border border-primary"></span>
+ΓÇª 11 lines elided (caveman) ΓÇª
+                    <div class="w-full rounded-xl border border-slate-200 overflow-hidden bg-white">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                        <img src="/image/pjpk.jpg" alt="PJPK Achievement Trends 2025-2030 Chart"
+                            class="w-full h-auto object-contain block">
+ΓÇª 6 lines elided (caveman) ΓÇª
                 {{-- STATUS INDIKATOR --}}
-                {{-- ===================================================== --}}
-
-                <div
-                    class="w-full lg:flex-1 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
-
-                    <h4 class="text-xl font-semibold text-slate-900">
+ΓÇª 6 lines elided (caveman) ΓÇª
                         Status Indikator Tahun 2025
-                    </h4>
-
-                    <p class="mt-1 text-sm text-slate-500">
+ΓÇª 3 lines elided (caveman) ΓÇª
                         Proporsi pencapaian per indikator
-                    </p>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                     <div class="flex-grow flex items-center justify-center relative my-8">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                         <div class="w-40 h-40 rounded-full border-8 border-slate-100 flex items-center justify-center">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <div class="text-center">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                 <span class="text-3xl font-bold text-slate-700">
                                     0%
-                                </span>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 <p class="mt-1 text-xs text-slate-500">
                                     Total Progres
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+ΓÇª 8 lines elided (caveman) ΓÇª
                     <div class="grid grid-cols-2 gap-3">
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 3 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-green-600"></div>
-
-                            <span class="text-xs text-slate-600">
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 Tercapai: {{ $jumlahTercapai }}
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-red-600"></div>
-
-                            <span class="text-xs text-slate-600">
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 Belum: 0
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-amber-600"></div>
-
-                            <span class="text-xs text-slate-600">
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 Verifikasi: 0
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-slate-500"></div>
-
-                            <span class="text-xs text-slate-600">
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 Belum Isi: 30
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            {{-- ========================================================= --}}
+ΓÇª 11 lines elided (caveman) ΓÇª
             {{-- FIVE PILLARS --}}
-            {{-- ========================================================= --}}
-
-            <section class="mb-10">
-
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                     <h4 class="text-2xl font-bold text-slate-900">
                         Ringkasan 5 Pilar PJPK
-                    </h4>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                     <button type="button"
                         class="text-primary text-sm font-semibold inline-flex items-center gap-1 hover:underline">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                         Detail Pilar
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                         <span class="material-symbols-outlined text-lg">
                             chevron_right
-                        </span>
-
-                    </button>
-
-                </div>
-
-
+ΓÇª 7 lines elided (caveman) ΓÇª
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                     {{-- Pilar A --}}
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
+ΓÇª 3 lines elided (caveman) ΓÇª
                             <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar A
-                            </h5>
-
+ΓÇª 3 lines elided (caveman) ΓÇª
                             <p class="text-sm leading-5 text-slate-500">
                                 Pengendalian Kuantitas Penduduk
-                            </p>
-
-                        </div>
-
+ΓÇª 4 lines elided (caveman) ΓÇª
                         <div class="mt-auto">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    6 Indikator
-                                </span>
-
+ΓÇª 5 lines elided (caveman) ΓÇª
                                 <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
+ΓÇª 7 lines elided (caveman) ΓÇª
                                 <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+ΓÇª 7 lines elided (caveman) ΓÇª
                     {{-- Pilar B --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar B
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
+ΓÇª 9 lines elided (caveman) ΓÇª
                                 Peningkatan Kualitas Penduduk
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    8 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+ΓÇª 28 lines elided (caveman) ΓÇª
                     {{-- Pilar C --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar C
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
+ΓÇª 9 lines elided (caveman) ΓÇª
                                 Pengarahan Persebaran Penduduk
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    4 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+ΓÇª 28 lines elided (caveman) ΓÇª
                     {{-- Pilar D --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar D
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
+ΓÇª 9 lines elided (caveman) ΓÇª
                                 Pembangunan Keluarga Berencana
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    7 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+ΓÇª 28 lines elided (caveman) ΓÇª
                     {{-- Pilar E --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar E
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
+ΓÇª 9 lines elided (caveman) ΓÇª
                                 Penataan Administrasi Kependudukan
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    5 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            {{-- ========================================================= --}}
+ΓÇª 33 lines elided (caveman) ΓÇª
             {{-- STATIC SUMMARY TABLE --}}
-            {{-- ========================================================= --}}
+ΓÇª 1 lines elided (caveman) ΓÇª
             <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                 <div class="p-6 md:p-8 border-b border-slate-200">
-
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-
-                        <div>
-
-                            <h4 class="text-2xl font-bold text-slate-900">
+ΓÇª 6 lines elided (caveman) ΓÇª
                                 Ringkasan Indikator Tahun 2025
-                            </h4>
-
-                            <p class="mt-1 text-sm text-slate-500">
+ΓÇª 3 lines elided (caveman) ΓÇª
                                 Detail target dan realisasi indikator strategis daerah
-                            </p>
-
-                        </div>
-
+ΓÇª 4 lines elided (caveman) ΓÇª
                         <div class="flex gap-2 w-full md:w-auto">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <div class="relative w-full md:w-64">
-
-                                <span
+ΓÇª 2 lines elided (caveman) ΓÇª
                                     class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                                     search
-                                </span>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 <input type="text" placeholder="Cari indikator..."
                                     class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary">
-
-                            </div>
-
-                            <button type="button"
+ΓÇª 4 lines elided (caveman) ΓÇª
                                 class="p-2.5 bg-slate-50 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
-
-                                <span class="material-symbols-outlined">
+ΓÇª 2 lines elided (caveman) ΓÇª
                                     download
-                                </span>
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
+ΓÇª 11 lines elided (caveman) ΓÇª
                 <div class="overflow-x-auto">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                     <table class="w-full text-left">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                         <thead class="bg-slate-50">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <tr>
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                 <th class="px-8 py-4 text-xs font-semibold text-slate-500 uppercase">
-                                    Indikator
-                                </th>
-
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">
-                                    Pilar
-                                </th>
-
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">
+ΓÇª 8 lines elided (caveman) ΓÇª
                                     Target 2025
-                                </th>
-
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">
-                                    Realisasi
-                                </th>
-
-                                <th class="px-8 py-4 text-xs font-semibold text-slate-500 uppercase text-center">
-                                    Status
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
+ΓÇª 14 lines elided (caveman) ΓÇª
                         <tbody class="divide-y divide-slate-100">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             {{-- STATIC ROW 1 --}}
                             <tr class="hover:bg-slate-50 transition-colors">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                 <td class="px-8 py-5 text-sm font-semibold text-slate-800">
                                     Total Fertility Rate (TFR)
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
+ΓÇª 5 lines elided (caveman) ΓÇª
                                         class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar A
-                                    </span>
-
-                                </td>
-
+ΓÇª 5 lines elided (caveman) ΓÇª
                                 <td class="px-6 py-5 text-sm text-slate-700 text-right">
                                     2.21
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                                 <td class="px-8 py-5 text-center">
-
-                                    <span
+ΓÇª 2 lines elided (caveman) ΓÇª
                                         class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                         <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                         Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 2 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
+ΓÇª 12 lines elided (caveman) ΓÇª
                                     Prevalensi Stunting
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar B
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
+ΓÇª 12 lines elided (caveman) ΓÇª
                                     14.5%
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 3 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
+ΓÇª 26 lines elided (caveman) ΓÇª
                                     Gini Ratio
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar B
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
+ΓÇª 12 lines elided (caveman) ΓÇª
                                     0.320
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 4 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
+ΓÇª 26 lines elided (caveman) ΓÇª
                                     Persentase Migrasi Masuk
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar C
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
+ΓÇª 12 lines elided (caveman) ΓÇª
                                     2.5%
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 5 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
+ΓÇª 26 lines elided (caveman) ΓÇª
                                     Unmet Need KB
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar D
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
+ΓÇª 12 lines elided (caveman) ΓÇª
                                     7.2%
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-
+ΓÇª 28 lines elided (caveman) ΓÇª
                 <div class="p-6 bg-slate-50 flex justify-center items-center gap-4">
-
-                    <button type="button"
+ΓÇª 2 lines elided (caveman) ΓÇª
                         class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed"
                         disabled>
-
-                        <span class="material-symbols-outlined">
+ΓÇª 2 lines elided (caveman) ΓÇª
                             chevron_left
-                        </span>
-
-                    </button>
-
+ΓÇª 4 lines elided (caveman) ΓÇª
                     <span class="text-sm font-medium text-slate-600">
                         Halaman 1 dari 6
-                    </span>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                     <button type="button" class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
-
-                        <span class="material-symbols-outlined">
-                            chevron_right
-                        </span>
-
-                    </button>
-
-                </div>
-
-            </section>
-
-            {{-- ========================================================= --}}
+ΓÇª 12 lines elided (caveman) ΓÇª
             {{-- FILTER --}}
-            {{-- ========================================================= --}}
-            <section class="mb-8">
-
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
-
+ΓÇª 5 lines elided (caveman) ΓÇª
                     {{-- FORM FILTER --}}
                     <form method="GET" action="{{ route('dashboard') }}" id="filterForm">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_auto] xl:items-end">
-
-                            {{-- ================================================= --}}
-                            {{-- PILAR --}}
-                            {{-- ================================================= --}}
-                            <div class="relative">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
-                                    Pilar
-                                </label>
-
+ΓÇª 3 lines elided (caveman) ΓÇª
                                 <button type="button" id="pilarButton"
                                     class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                     <span id="pilarText" class="truncate pr-3">
                                         Semua Pilar
-                                    </span>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                                     <span id="pilarIcon"
                                         class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
                                         expand_more
-                                    </span>
-
-                                </button>
-
+ΓÇª 4 lines elided (caveman) ΓÇª
                                 {{-- PILAR DROPDOWN --}}
                                 <div id="pilarDropdown"
                                     class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
@@ -1863,189 +1263,4 @@
         });
     </script>
 @endsection
-
-@push('scripts')
-    <script>
-        (function () {
-            const pilarSelect = document.getElementById('pilar-tren');
-            const indikatorSelect = document.getElementById('indikator-tren');
-            const hasil = document.getElementById('tren-hasil');
-            const endpoint = @json(route('dashboard.trenData'));
-
-            if (!pilarSelect || !indikatorSelect) {
-                return;
-            }
-
-            let chart = null;
-
-            const buildDatasets = (trenData) => {
-                const baselineData = { tahun: [], nilai: [] };
-
-                if (trenData && trenData.baseline && trenData.baseline.tahun) {
-                    baselineData.tahun.push(trenData.baseline.tahun);
-                    baselineData.nilai.push(trenData.baseline.nilai);
-                }
-
-                return [
-                    {
-                        label: 'Target',
-                        data: trenData ? trenData.target : [],
-                        borderColor: '#0d9488',
-                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
-                        spanGaps: false,
-                        tension: 0.3,
-                    },
-                    {
-                        label: 'Realisasi',
-                        data: trenData ? trenData.realisasi : [],
-                        borderColor: '#2563eb',
-                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                        spanGaps: false,
-                        tension: 0.3,
-                    },
-                    {
-                        label: 'Baseline',
-                        data: baselineData.nilai,
-                        borderColor: '#d97706',
-                        backgroundColor: 'rgba(217, 119, 6, 0.2)',
-                        pointStyle: 'rectRounded',
-                        pointRadius: 6,
-                        showLine: false,
-                    },
-                ];
-            };
-
-            const renderChart = (trenData) => {
-                const labels = trenData ? trenData.tahun : [];
-
-                if (chart) {
-                    chart.data.labels = labels;
-                    chart.data.datasets = buildDatasets(trenData);
-                    chart.update();
-                    return;
-                }
-
-                const ctx = document.getElementById('trenChart');
-
-                if (!ctx) {
-                    return;
-                }
-
-                chart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: buildDatasets(trenData),
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        spanGaps: false,
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Tahun',
-                                },
-                            },
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Nilai',
-                                },
-                            },
-                        },
-                    },
-                });
-            };
-
-            const muatTren = async (pilarId, indikatorId) => {
-                const params = new URLSearchParams();
-
-                if (pilarId) {
-                    params.set('pilar_tren', pilarId);
-                }
-
-                if (indikatorId) {
-                    params.set('indikator_tren', indikatorId);
-                }
-
-                const response = await fetch(`${endpoint}?${params.toString()}`);
-                const data = await response.json();
-
-                const pilihanAktif = indikatorSelect.value;
-
-                indikatorSelect.innerHTML = '';
-                indikatorSelect.disabled = data.indikators.length === 0;
-
-                const placeholder = document.createElement('option');
-                placeholder.value = '';
-                placeholder.textContent = 'Pilih Indikator';
-                indikatorSelect.appendChild(placeholder);
-
-                data.indikators.forEach((ind) => {
-                    const option = document.createElement('option');
-                    option.value = ind.id;
-                    option.textContent = ind.nama_indikator;
-                    indikatorSelect.appendChild(option);
-                });
-
-                indikatorSelect.value = data.indikators.some((ind) => String(ind.id) === String(pilihanAktif))
-                    ? pilihanAktif
-                    : (data.indikator ? data.indikator.id : '');
-
-                if (data.indikator && data.data_tren) {
-                    hasil.innerHTML = `
-                        <div class="mt-6">
-                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
-                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
-                        </div>
-                        <div class="relative mt-6" style="height: 360px;">
-                            <canvas id="trenChart"></canvas>
-                        </div>
-                        ${data.data_tren.baseline ? `
-                            <p class="mt-4 text-sm text-slate-500">
-                                Baseline:
-                                <span class="font-semibold text-slate-700">${data.data_tren.baseline.nilai}</span>
-                                ${data.data_tren.baseline.tahun ? `(tahun ${data.data_tren.baseline.tahun})` : ''}
-                            </p>
-                        ` : ''}
-                    `;
-                    chart = null;
-                    renderChart(data.data_tren);
-                } else if (data.indikator && !data.data_tren) {
-                    hasil.innerHTML = `
-                        <div class="mt-6">
-                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
-                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
-                        </div>
-                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-                            Belum ada data tren untuk indikator ini.
-                        </div>
-                    `;
-                    chart = null;
-                } else {
-                    hasil.innerHTML = `
-                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-                            Pilih pilar dan indikator untuk melihat grafik tren.
-                        </div>
-                    `;
-                    chart = null;
-                }
-            };
-
-            pilarSelect.addEventListener('change', function () {
-                muatTren(this.value, '');
-            });
-
-            indikatorSelect.addEventListener('change', function () {
-                muatTren(pilarSelect.value, this.value);
-            });
-
-            @if ($indikatorDipilih && $dataTren && ! $dataTren->kosong())
-                renderChart(@json($dataTren->toArray()));
-            @endif
-        })();
-    </script>
-@endpush
+ΓÇ╣caveman: shrank ┬╖ 11291ΓåÆ9614 estimated tokens ┬╖ counter o200k_base ┬╖ inferred ┬╖ recover: caveman retrieve ccr_8b426f0d278e3f9a9a5f182bc3a38f2fΓÇ║
