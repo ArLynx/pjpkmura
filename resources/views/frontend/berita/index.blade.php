@@ -44,7 +44,7 @@
 
 
                             <button type="submit"
-                                class="rounded-2xl bg-teal-700 px-7 font-semibold text-white transition hover:bg-teal-800">
+                                class="rounded-2xl bg-primary px-7 font-semibold text-white transition hover:bg-primary-hover">
                                 Cari
                             </button>
 
@@ -140,7 +140,7 @@
                                         {{-- DETAIL --}}
 
                                         <a href="{{ route('berita.show', $berita) }}"
-                                            class="inline-flex shrink-0 items-center gap-1 font-semibold text-teal-700 transition hover:text-teal-900">
+                                            class="inline-flex shrink-0 items-center gap-1 font-semibold text-primary transition hover:text-primary-hover">
 
                                             Selengkapnya
 
@@ -292,7 +292,7 @@
                     {{-- INFORMASI TERKINI --}}
                     {{-- ================================================= --}}
 
-                    <div class="rounded-2xl bg-teal-700 p-6 text-white shadow-sm">
+                    <div class="rounded-2xl bg-primary p-6 text-white shadow-sm">
 
                         <span class="material-symbols-outlined text-3xl">
                             notifications_active
@@ -312,7 +312,7 @@
 
 
                         <a href="{{ route('berita.index') }}"
-                            class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-3 font-semibold text-teal-700 transition hover:bg-teal-50">
+                            class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-3 font-semibold text-primary transition hover:bg-primary-light">
 
                             Lihat Berita Sekarang
 

@@ -644,9 +644,9 @@
 
                         </div>
 
-                        <div class="border-t border-slate-200 px-6 py-4">
+                        {{-- <div class="border-t border-slate-200 px-6 py-4">
                             {{ $indikators->links() }}
-                        </div>
+                        </div> --}}
 
                     </form>
 
@@ -919,11 +919,11 @@
 
             <script>
                 /*
-                                                    |--------------------------------------------------------------------------
-                                                    | MODAL TAHUN
-                                                    |--------------------------------------------------------------------------
-                                                    | Hanya digunakan Superadmin.
-                                                    */
+                                                                                        |--------------------------------------------------------------------------
+                                                                                        | MODAL TAHUN
+                                                                                        |--------------------------------------------------------------------------
+                                                                                        | Hanya digunakan Superadmin.
+                                                                                        */
 
                 function openTambahTahun() {
                     const modal = document.getElementById('modalTambahTahun');

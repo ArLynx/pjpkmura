@@ -1,41 +1,41 @@
-<footer class="bg-teal-800 text-white mt-20">
+<footer class="bg-primary text-white mt-16">
 
-    <div class="max-w-7xl mx-auto px-6 py-14">
+    {{-- ================================================= --}}
+    {{-- MAIN FOOTER --}}
+    {{-- ================================================= --}}
+    <div class="max-w-7xl mx-auto px-6 py-7">
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-12 items-start">
 
-            {{-- Logo --}}
-            <div>
+            {{-- ================================================= --}}
+            {{-- KOLOM KIRI : IDENTITAS --}}
+            {{-- ================================================= --}}
+            <div class="min-w-0">
 
                 <div class="flex items-center gap-3">
 
-                    <div class="w-12 h-12 rounded-xl bg-white text-teal-700 flex items-center justify-center shadow">
+                    <div class="w-12 h-12 flex items-center justify-center shrink-0">
 
-                        <span class="material-symbols-outlined">
-                            monitoring
-                        </span>
+                        <img src="{{ asset('image/sipelanduk.png') }}" alt="Logo SIPELANDUK"
+                            class="w-full h-full object-contain">
 
                     </div>
 
-                    <div>
+                    <div class="min-w-0">
 
-                        <h2 class="text-2xl font-bold">
-
+                        <h2 class="text-xl font-bold leading-tight">
                             PJPK
-
                         </h2>
 
-                        <p class="text-teal-100 text-sm">
-
+                        <p class="text-primary-light text-sm leading-tight">
                             Kabupaten Murung Raya
-
                         </p>
 
                     </div>
 
                 </div>
 
-                <p class="mt-6 text-teal-100 leading-7">
+                <p class="mt-3 max-w-md text-sm leading-6 text-primary-light">
 
                     Website resmi Peta Jalan Pembangunan Kependudukan (PJPK)
                     Kabupaten Murung Raya sebagai media publikasi informasi,
@@ -46,100 +46,137 @@
 
             </div>
 
-            {{-- Menu --}}
-            <div>
 
-                <h3 class="font-semibold text-lg mb-5">
+            {{-- ================================================= --}}
+            {{-- KOLOM TENGAH : DATA STATISTIK --}}
+            {{-- ================================================= --}}
+            <div class="flex justify-center">
 
-                    Menu
+                <div class="w-full max-w-xs">
 
-                </h3>
+                    <h3 class="flex items-center gap-2 text-base font-semibold leading-5 mb-3">
 
-                <div class="space-y-3">
+                        <span class="material-symbols-outlined text-lg shrink-0">
+                            bar_chart
+                        </span>
 
-                    <a href="{{ route('home') }}" class="block text-teal-100 hover:text-white transition">
+                        <span>
+                            Statistik Pengunjung
+                        </span>
 
-                        Home
+                    </h3>
 
-                    </a>
+                    <div class="space-y-2 text-sm">
 
-                    <a href="{{ route('dashboard') }}" class="block text-teal-100 hover:text-white transition">
+                        <div class="grid grid-cols-[185px_20px_32px] items-center">
 
-                        Dashboard
+                            <span class="text-primary-light">
+                                Total Pengunjung
+                            </span>
 
-                    </a>
+                            <span class="text-primary-light text-center">
+                                :
+                            </span>
 
-                    <a href="#" class="block text-teal-100 hover:text-white transition">
+                            <span class="text-white font-semibold text-left">
+                                0
+                            </span>
 
-                        Berita
+                        </div>
 
-                    </a>
+                        <div class="grid grid-cols-[185px_20px_32px] items-center">
 
-                    <a href="#" class="block text-teal-100 hover:text-white transition">
+                            <span class="text-primary-light">
+                                Pengunjung Hari Ini
+                            </span>
 
-                        Publikasi
+                            <span class="text-primary-light text-center">
+                                :
+                            </span>
 
-                    </a>
+                            <span class="text-white font-semibold text-left">
+                                0
+                            </span>
+
+                        </div>
+
+                        <div class="grid grid-cols-[185px_20px_32px] items-center">
+
+                            <span class="text-primary-light">
+                                Pengunjung Online
+                            </span>
+
+                            <span class="text-primary-light text-center">
+                                :
+                            </span>
+
+                            <span class="text-white font-semibold text-left">
+                                0
+                            </span>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            {{-- Kontak --}}
-            <div>
 
-                <h3 class="font-semibold text-lg mb-5">
+            {{-- ================================================= --}}
+            {{-- KOLOM KANAN : KONTAK --}}
+            {{-- ================================================= --}}
+            <div class="md:justify-self-end w-full md:max-w-sm">
 
-                    Kontak
+                <h3 class="flex items-center gap-2 text-base font-semibold leading-5 mb-3">
+
+                    <span class="material-symbols-outlined text-lg shrink-0">
+                        support_agent
+                    </span>
+
+                    <span>
+                        Kontak
+                    </span>
 
                 </h3>
 
-                <div class="space-y-4 text-teal-100">
+                <div class="space-y-2 text-sm text-primary-light">
 
+                    {{-- Alamat --}}
                     <div class="flex items-start gap-3">
 
-                        <span class="material-symbols-outlined">
-
+                        <span class="material-symbols-outlined text-lg shrink-0">
                             location_on
-
                         </span>
 
-                        <span>
-
+                        <span class="leading-5">
                             Diskominfo Kabupaten Murung Raya
-
                         </span>
 
                     </div>
 
+                    {{-- Email --}}
                     <div class="flex items-start gap-3">
 
-                        <span class="material-symbols-outlined">
-
+                        <span class="material-symbols-outlined text-lg shrink-0">
                             mail
-
                         </span>
 
-                        <span>
-
+                        <span class="leading-5 break-words">
                             diskominfo@murungrayakab.go.id
-
                         </span>
 
                     </div>
 
+                    {{-- Telepon --}}
                     <div class="flex items-start gap-3">
 
-                        <span class="material-symbols-outlined">
-
+                        <span class="material-symbols-outlined text-lg shrink-0">
                             call
-
                         </span>
 
-                        <span>
-
+                        <span class="leading-5">
                             (0532) XXXXXXX
-
                         </span>
 
                     </div>
@@ -152,23 +189,24 @@
 
     </div>
 
-    {{-- Copyright --}}
-    <div class="border-t border-teal-700">
 
-        <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-3">
+    {{-- ================================================= --}}
+    {{-- COPYRIGHT --}}
+    {{-- ================================================= --}}
+    <div class="border-t border-white/20">
 
-            <p class="text-sm text-teal-200">
+        <div class="max-w-7xl mx-auto px-6 py-3">
 
-                © 2026 Tim Pengembang Dinas Kominfo SP Kabupaten Murung Raya.
-                Seluruh Hak Cipta Dilindungi.
+            <div class="text-center">
 
-            </p>
+                <a href="https://diskominfo.murungrayakab.go.id/developers" target="_blank" rel="noopener noreferrer"
+                    class="inline-block text-xs leading-5 text-white transition-colors duration-300 hover:text-sky-200">
 
-            <span class="px-3 py-1 rounded-full bg-teal-700 text-xs font-medium">
+                    © {{ date('Y') }} Dinas Komunikasi, Informatika, Statistik dan Persandian Kabupaten Murung Raya
 
-                Version 1.0.0
+                </a>
 
-            </span>
+            </div>
 
         </div>
 
