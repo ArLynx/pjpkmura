@@ -31,80 +31,198 @@
 
                 <div class="flex items-center gap-2">
 
-                    {{-- FILTER TAHUN --}}
-                    <form method="GET" class="flex items-center">
+                    {{-- ===================================================== --}}
+                    {{-- TOMBOL YANG BERHUBUNGAN DENGAN DATA CAPAIAN --}}
+                    {{-- HANYA MUNCUL JIKA SUDAH ADA TAHUN AKTIF --}}
+                    {{-- ===================================================== --}}
 
-                        <input type="hidden" name="pilar" value="{{ $pilar }}">
+                    @if ($tahuns->isNotEmpty())
 
-                        <select name="tahun_id" onchange="this.form.submit()"
-                            class="h-14 w-28 rounded-xl border border-slate-300 bg-white px-4 text-base font-medium text-slate-700 outline-none focus:border-[#0B91CF] focus:ring-2 focus:ring-[#0B91CF]/20">
-                            @foreach ($tahuns as $item)
-                                <option value="{{ $item->id }}" {{ $tahun == $item->id ? 'selected' : '' }}>
-                                    {{ $item->tahun }}
-                                </option>
-                            @endforeach
-                        </select>
+                        {{-- FILTER TAHUN --}}
+                        <form method="GET" class="flex items-center">
 
-                    </form>
+                            <input
+                                type="hidden"
+                                name="pilar"
+                                value="{{ $pilar }}"
+                            >
+
+                            <select
+                                name="tahun_id"
+                                onchange="this.form.submit()"
+                                class="h-14 w-28 rounded-xl border border-slate-300 bg-white px-4 text-base font-medium text-slate-700 outline-none focus:border-[#0B91CF] focus:ring-2 focus:ring-[#0B91CF]/20"
+                            >
+
+                                @foreach ($tahuns as $item)
+
+                                    <option
+                                        value="{{ $item->id }}"
+                                        {{ $tahun == $item->id ? 'selected' : '' }}
+                                    >
+                                        {{ $item->tahun }}
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </form>
 
 
-                    {{-- PDF --}}
-                    <a href="{{ route('admin.capaian.pdf', ['tahun_id' => $tahun]) }}" target="_blank"
-                        class="inline-flex h-14 items-center gap-2 rounded-xl bg-red-600 px-5 text-base font-semibold text-white transition hover:bg-red-700">
-                        <span class="material-symbols-outlined text-xl">
-                            picture_as_pdf
-                        </span>
+                        {{-- PDF --}}
+                        <a
+                            href="{{ route('admin.capaian.pdf', ['tahun_id' => $tahun]) }}"
+                            target="_blank"
+                            class="inline-flex h-14 items-center gap-2 rounded-xl bg-red-600 px-5 text-base font-semibold text-white transition hover:bg-red-700"
+                        >
 
-                        PDF
-                    </a>
+                            <span class="material-symbols-outlined text-xl">
+                                picture_as_pdf
+                            </span>
+
+                            PDF
+
+                        </a>
 
 
-                    {{-- EXCEL --}}
-                    <a href="{{ route('admin.capaian.excel', ['tahun_id' => $tahun]) }}"
-                        class="inline-flex h-14 items-center gap-2 rounded-xl bg-green-600 px-5 text-base font-semibold text-white transition hover:bg-green-700">
-                        <span class="material-symbols-outlined text-xl">
-                            table_view
-                        </span>
+                        {{-- EXCEL --}}
+                        <a
+                            href="{{ route('admin.capaian.excel', ['tahun_id' => $tahun]) }}"
+                            class="inline-flex h-14 items-center gap-2 rounded-xl bg-green-600 px-5 text-base font-semibold text-white transition hover:bg-green-700"
+                        >
 
-                        Excel
-                    </a>
+                            <span class="material-symbols-outlined text-xl">
+                                table_view
+                            </span>
 
+                            Excel
+
+                        </a>
+
+                    @endif
+
+
+                    {{-- ===================================================== --}}
+                    {{-- SUPERADMIN --}}
+                    {{-- + TAHUN DAN KELOLA TAHUN TETAP MUNCUL --}}
+                    {{-- ===================================================== --}}
 
                     @if (auth()->user()->role == 'superadmin')
+
                         {{-- TAMBAH TAHUN --}}
-                        <button type="button" onclick="openTambahTahun()"
-                            class="inline-flex h-14 items-center rounded-xl border-2 border-[#0B91CF] bg-white px-5 text-base font-semibold text-[#0B91CF] transition hover:bg-[#E0F4FC]">
+                        <button
+                            type="button"
+                            onclick="openTambahTahun()"
+                            class="inline-flex h-14 items-center rounded-xl border-2 border-[#0B91CF] bg-white px-5 text-base font-semibold text-[#0B91CF] transition hover:bg-[#E0F4FC]"
+                        >
+
                             <span class="material-symbols-outlined mr-1 text-lg">
                                 add
                             </span>
 
                             Tahun
+
                         </button>
 
 
                         {{-- KELOLA TAHUN --}}
-                        <button id="btnKelolaTahun" type="button"
-                            class="inline-flex h-14 items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-base font-semibold text-slate-700 transition hover:bg-slate-100">
+                        <button
+                            id="btnKelolaTahun"
+                            type="button"
+                            class="inline-flex h-14 items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-base font-semibold text-slate-700 transition hover:bg-slate-100"
+                        >
+
                             <span class="material-symbols-outlined text-lg">
                                 settings
                             </span>
 
                             Kelola Tahun
+
                         </button>
+
                     @endif
 
 
-                    {{-- SIMPAN --}}
-                    <button type="submit" form="formCapaian"
-                        class="inline-flex h-14 items-center rounded-xl bg-[#0B91CF] px-5 text-base font-semibold text-white shadow-sm transition hover:bg-[#0879AE]">
-                        Simpan Semua
-                    </button>
+                    {{-- ===================================================== --}}
+                    {{-- SIMPAN HANYA JIKA ADA TAHUN --}}
+                    {{-- ===================================================== --}}
+
+                    @if ($tahuns->isNotEmpty())
+
+                        <button
+                            type="submit"
+                            form="formCapaian"
+                            class="inline-flex h-14 items-center rounded-xl bg-[#0B91CF] px-5 text-base font-semibold text-white shadow-sm transition hover:bg-[#0879AE]"
+                        >
+
+                            Simpan Semua
+
+                        </button>
+
+                    @endif
 
                 </div>
 
             </div>
 
         </div>
+
+        @if ($tahuns->isEmpty())
+
+            {{-- ================================================= --}}
+            {{-- BELUM ADA TAHUN --}}
+            {{-- ================================================= --}}
+
+            <div class="rounded-2xl border border-amber-200 bg-amber-50 p-8 shadow-sm">
+
+                <div class="flex flex-col items-center justify-center text-center">
+
+                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-amber-100">
+
+                        <span class="material-symbols-outlined text-4xl text-amber-600">
+                            calendar_month
+                        </span>
+
+                    </div>
+
+                    <h3 class="mt-5 text-xl font-bold text-slate-800">
+                        Belum Ada Tahun
+                    </h3>
+
+                    <p class="mt-2 max-w-lg text-sm leading-6 text-slate-600">
+                        Belum terdapat tahun aktif untuk penginputan capaian indikator.
+                        Silakan tambahkan tahun terlebih dahulu sebelum melakukan
+                        penginputan capaian.
+                    </p>
+
+                    @if (auth()->user()->role == 'superadmin')
+
+                        <button
+                            type="button"
+                            onclick="openTambahTahun()"
+                            class="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#0B91CF] px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-[#0879AE]"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+
+                            Tambah Tahun
+
+                        </button>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+        @else
+
+            {{-- ================================================= --}}
+            {{-- KODE PENGISIAN CAPAIAN LAMA --}}
+            {{-- ================================================= --}}
+
 
         {{-- Layout --}}
         <div class="grid grid-cols-12 gap-6">
@@ -536,6 +654,8 @@
                 </div> {{-- grid --}}
 
             </div> {{-- space-y-6 --}}
+
+            @endif
 
             {{-- =============================== --}}
             {{-- MODAL TAMBAH TAHUN --}}

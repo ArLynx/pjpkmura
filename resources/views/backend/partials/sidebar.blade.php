@@ -17,16 +17,14 @@
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
 
             {{-- Icon --}}
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0B91CF] text-white shadow-sm">
-                <span class="material-symbols-outlined">
-                    monitoring
-                </span>
+            <div class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm">
+                <img src="{{ asset('image/logo-sipelanduk.png') }}" alt="Logo PJPK" class="h-full w-full object-contain p-1">
             </div>
 
             {{-- Nama --}}
             <div>
                 <div class="text-xl font-bold text-[#075985]">
-                    PJPK
+                    SIPELANDUK
                 </div>
 
                 <div class="text-xs text-[#0879AE]">
