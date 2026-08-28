@@ -173,22 +173,56 @@
                 <div
                     class="w-full lg:flex-1 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
 
-                    <h4 class="text-xl font-semibold text-slate-900">
-                        Status Indikator Tahun 2025
-                    </h4>
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h4 class="text-xl font-semibold text-slate-900">
+                                Status Indikator
+                            </h4>
 
-                    <p class="mt-1 text-sm text-slate-500">
-                        Proporsi pencapaian per indikator
-                    </p>
+                            <p class="mt-1 text-sm text-slate-500">
+                                Proporsi pencapaian per indikator
+                            </p>
+                        </div>
 
-                    <div class="flex-grow flex items-center justify-center relative my-8">
+                        <div class="relative">
+                            <button type="button" id="statusTahunButton"
+                                class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
 
-                        <div class="w-40 h-40 rounded-full border-8 border-slate-100 flex items-center justify-center">
+                                <span id="statusTahunText" class="pr-2">
+                                    {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Pilih Tahun' }}
+                                </span>
+
+                                <span id="statusTahunIcon"
+                                    class="material-symbols-outlined text-[18px] text-slate-500 transition-transform duration-200">
+                                    expand_more
+                                </span>
+
+                            </button>
+
+                            <div id="statusTahunDropdown"
+                                class="absolute right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg min-w-[120px]">
+
+                                <div class="max-h-64 overflow-y-auto py-1">
+                                    @foreach ($tahuns as $item)
+                                        <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
+                                            class="flex w-full items-center px-4 py-2.5 text-left text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary {{ $item->id == $tahun ? 'bg-primary-light text-primary' : 'text-slate-700' }}">
+                                            {{ $item->tahun }}
+                                        </a>
+                                    @endforeach
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow flex items-center justify-center relative my-6">
+
+                        <div class="w-36 h-36 rounded-full border-8 border-slate-100 flex items-center justify-center">
 
                             <div class="text-center">
 
                                 <span class="text-3xl font-bold text-slate-700">
-                                    0%
+                                    {{ $persentaseProgres }}%
                                 </span>
 
                                 <p class="mt-1 text-xs text-slate-500">
@@ -218,7 +252,7 @@
                             <div class="w-2 h-2 rounded-full bg-red-600"></div>
 
                             <span class="text-xs text-slate-600">
-                                Belum: 0
+                                Belum: {{ $jumlahBelumTercapai }}
                             </span>
 
                         </div>
@@ -228,7 +262,7 @@
                             <div class="w-2 h-2 rounded-full bg-amber-600"></div>
 
                             <span class="text-xs text-slate-600">
-                                Verifikasi: 0
+                                Verifikasi: {{ $jumlahVerifikasi }}
                             </span>
 
                         </div>
@@ -238,7 +272,7 @@
                             <div class="w-2 h-2 rounded-full bg-slate-500"></div>
 
                             <span class="text-xs text-slate-600">
-                                Belum Isi: 30
+                                Belum Isi: {{ $jumlahBelumIsi }}
                             </span>
 
                         </div>
@@ -261,223 +295,57 @@
                         Ringkasan 5 Pilar PJPK
                     </h4>
 
-                    <button type="button"
-                        class="text-primary text-sm font-semibold inline-flex items-center gap-1 hover:underline">
-
-                        Detail Pilar
-
-                        <span class="material-symbols-outlined text-lg">
-                            chevron_right
-                        </span>
-
-                    </button>
-
                 </div>
 
 
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
 
-                    {{-- Pilar A --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
+                    @foreach ($ringkasanPilar as $item)
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
 
-                        <div class="mb-6">
+                            <div class="mb-6">
 
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar A
-                            </h5>
+                                <h5 class="text-lg font-semibold text-slate-900 mb-2">
+                                    Pilar {{ chr(64 + $item['urutan']) }}
+                                </h5>
 
-                            <p class="text-sm leading-5 text-slate-500">
-                                Pengendalian Kuantitas Penduduk
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    6 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
+                                <p class="text-sm leading-5 text-slate-500">
+                                    {{ $item['nama'] }}
+                                </p>
 
                             </div>
 
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="mt-auto">
 
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
+                                <div class="flex justify-between items-end mb-2">
 
-                            </div>
+                                    <span class="text-xs font-medium text-slate-600">
+                                        {{ $item['jumlah_indikator'] }} Indikator
+                                    </span>
 
-                        </div>
+                                    <span class="text-xs font-semibold text-primary">
+                                        {{ $item['persentase'] }}%
+                                    </span>
 
-                    </div>
+                                </div>
 
-                    {{-- Pilar B --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
+                                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
 
-                        <div class="mb-6">
+                                    <div class="h-full bg-primary rounded-full" style="width: {{ $item['persentase'] }}%"></div>
 
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar B
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
-                                Peningkatan Kualitas Penduduk
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    8 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
+                                </div>
 
                             </div>
 
                         </div>
-
-                    </div>
-
-                    {{-- Pilar C --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar C
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
-                                Pengarahan Persebaran Penduduk
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    4 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    {{-- Pilar D --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar D
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
-                                Pembangunan Keluarga Berencana
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    7 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    {{-- Pilar E --}}
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                        <div class="mb-6">
-
-                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                Pilar E
-                            </h5>
-
-                            <p class="text-sm leading-5 text-slate-500">
-                                Penataan Administrasi Kependudukan
-                            </p>
-
-                        </div>
-
-                        <div class="mt-auto">
-
-                            <div class="flex justify-between items-end mb-2">
-
-                                <span class="text-xs font-medium text-slate-600">
-                                    5 Indikator
-                                </span>
-
-                                <span class="text-xs font-semibold text-primary">
-                                    0%
-                                </span>
-
-                            </div>
-
-                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 </div>
 
             </section>
 
             {{-- ========================================================= --}}
-            {{-- STATIC SUMMARY TABLE --}}
+            {{-- RINGKASAN INDIKATOR --}}
             {{-- ========================================================= --}}
             <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10">
 
@@ -488,7 +356,7 @@
                         <div>
 
                             <h4 class="text-2xl font-bold text-slate-900">
-                                Ringkasan Indikator Tahun 2025
+                                Ringkasan Indikator
                             </h4>
 
                             <p class="mt-1 text-sm text-slate-500">
@@ -499,6 +367,41 @@
 
                         <div class="flex gap-2 w-full md:w-auto">
 
+                            <div class="relative w-full md:w-48">
+                                <button type="button" id="ringkasanTahunButton"
+                                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
+
+                                    <span id="ringkasanTahunText" class="truncate pr-3">
+                                        {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Semua Tahun' }}
+                                    </span>
+
+                                    <span id="ringkasanTahunIcon"
+                                        class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
+                                        expand_more
+                                    </span>
+
+                                </button>
+
+                                <div id="ringkasanTahunDropdown"
+                                    class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+
+                                    <div class="max-h-64 overflow-y-auto py-1">
+
+                                        @foreach ($tahuns as $item)
+                                            <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
+                                                class="flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
+
+                                                {{ $item->tahun }}
+
+                                            </a>
+                                        @endforeach
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                             <div class="relative w-full md:w-64">
 
                                 <span
@@ -506,19 +409,10 @@
                                     search
                                 </span>
 
-                                <input type="text" placeholder="Cari indikator..."
+                                <input type="text" id="ringkasanSearch" placeholder="Cari indikator..."
                                     class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary">
 
                             </div>
-
-                            <button type="button"
-                                class="p-2.5 bg-slate-50 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
-
-                                <span class="material-symbols-outlined">
-                                    download
-                                </span>
-
-                            </button>
 
                         </div>
 
@@ -529,7 +423,7 @@
 
                 <div class="overflow-x-auto">
 
-                    <table class="w-full text-left">
+                    <table class="w-full text-left" id="ringkasanTable">
 
                         <thead class="bg-slate-50">
 
@@ -544,7 +438,7 @@
                                 </th>
 
                                 <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">
-                                    Target 2025
+                                    Target {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? '' }}
                                 </th>
 
                                 <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">
@@ -561,204 +455,63 @@
 
                         <tbody class="divide-y divide-slate-100">
 
-                            {{-- STATIC ROW 1 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
-                                    Total Fertility Rate (TFR)
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar A
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                    2.21
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 2 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
-                                    Prevalensi Stunting
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar B
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                    14.5%
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 3 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
-                                    Gini Ratio
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar B
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                    0.320
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 4 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
-                                    Persentase Migrasi Masuk
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar C
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                    2.5%
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            {{-- STATIC ROW 5 --}}
-                            <tr class="hover:bg-slate-50 transition-colors">
-
-                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
-                                    Unmet Need KB
-                                </td>
-
-                                <td class="px-6 py-5">
-
-                                    <span
-                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                        Pilar D
-                                    </span>
-
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                    7.2%
-                                </td>
-
-                                <td class="px-6 py-5 text-sm text-slate-400 text-right">
-                                    -
-                                </td>
-
-                                <td class="px-8 py-5 text-center">
-
-                                    <span
-                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
-
-                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-
-                                        Belum Diisi
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
+                            @forelse ($ringkasanIndikator->items() as $item)
+                                <tr class="hover:bg-slate-50 transition-colors ringkasan-row">
+
+                                    <td class="px-8 py-5 text-sm font-semibold text-slate-800">
+                                        {{ $item['nama'] }}
+                                    </td>
+
+                                    <td class="px-6 py-5">
+                                        <span
+                                            class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
+                                            {{ $item['pilar'] }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-6 py-5 text-sm text-slate-700 text-right">
+                                        {{ $item['target'] }}
+                                    </td>
+
+                                    <td class="px-6 py-5 text-sm text-slate-700 text-right">
+                                        {{ $item['realisasi'] }}
+                                    </td>
+
+                                    <td class="px-8 py-5 text-center">
+                                        @if ($item['status'] === 'tercapai')
+                                            <span
+                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-primary-light px-3 py-1.5 text-xs font-semibold text-primary">
+                                                <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-primary"></span>
+                                                Tercapai
+                                            </span>
+                                        @elseif ($item['status'] === 'belum_tercapai')
+                                            <span
+                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600">
+                                                <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-red-500"></span>
+                                                Belum Tercapai
+                                            </span>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
+                                                <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+                                                Belum Diisi
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-12 text-center">
+                                        <span class="material-symbols-outlined text-4xl text-slate-300">
+                                            table_rows
+                                        </span>
+                                        <p class="mt-3 text-sm text-slate-500">
+                                            Belum ada data indikator.
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endforelse
 
                         </tbody>
 
@@ -766,32 +519,48 @@
 
                 </div>
 
+                @if ($ringkasanIndikator->hasPages())
+                    <div class="p-6 bg-slate-50 flex justify-center items-center gap-2">
+                        @if ($ringkasanIndikator->onFirstPage())
+                            <button type="button" disabled
+                                class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                        @else
+                            <a href="{{ $ringkasanIndikator->previousPageUrl() }}"
+                                class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </a>
+                        @endif
 
-                <div class="p-6 bg-slate-50 flex justify-center items-center gap-4">
+                        @foreach ($ringkasanIndikator->getUrlRange(max(1, $ringkasanIndikator->currentPage() - 2), min($ringkasanIndikator->lastPage(), $ringkasanIndikator->currentPage() + 2)) as $page => $url)
+                            @if ($page == $ringkasanIndikator->currentPage())
+                                <a href="{{ $url }}" class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-primary text-white">{{ $page }}</a>
+                            @else
+                                <a href="{{ $url }}" class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">{{ $page }}</a>
+                            @endif
+                        @endforeach
 
-                    <button type="button"
-                        class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed"
-                        disabled>
+                        <span class="text-sm text-slate-400 mx-1">...</span>
 
-                        <span class="material-symbols-outlined">
-                            chevron_left
-                        </span>
+                        <a href="{{ $ringkasanIndikator->url($ringkasanIndikator->lastPage()) }}"
+                            class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">
+                            {{ $ringkasanIndikator->lastPage() }}
+                        </a>
 
-                    </button>
-
-                    <span class="text-sm font-medium text-slate-600">
-                        Halaman 1 dari 6
-                    </span>
-
-                    <button type="button" class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
-
-                        <span class="material-symbols-outlined">
-                            chevron_right
-                        </span>
-
-                    </button>
-
-                </div>
+                        @if ($ringkasanIndikator->hasMorePages())
+                            <a href="{{ $ringkasanIndikator->nextPageUrl() }}"
+                                class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </a>
+                        @else
+                            <button type="button" disabled
+                                class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        @endif
+                    </div>
+                @endif
 
             </section>
 
@@ -1867,6 +1636,30 @@
 @push('scripts')
     <script>
         (function () {
+            const statusTahunButton = document.getElementById('statusTahunButton');
+            const statusTahunDropdown = document.getElementById('statusTahunDropdown');
+
+            if (statusTahunButton && statusTahunDropdown) {
+                statusTahunButton.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    statusTahunDropdown.classList.toggle('hidden');
+                    const icon = document.getElementById('statusTahunIcon');
+                    if (icon) icon.classList.toggle('rotate-180');
+                });
+
+                document.addEventListener('click', function () {
+                    statusTahunDropdown.classList.add('hidden');
+                    const icon = document.getElementById('statusTahunIcon');
+                    if (icon) icon.classList.remove('rotate-180');
+                });
+
+                statusTahunDropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+        })();
+
+        (function () {
             const pilarSelect = document.getElementById('pilar-tren');
             const indikatorSelect = document.getElementById('indikator-tren');
             const hasil = document.getElementById('tren-hasil');
@@ -2046,6 +1839,48 @@
             @if ($indikatorDipilih && $dataTren && ! $dataTren->kosong())
                 renderChart(@json($dataTren->toArray()));
             @endif
+        })();
+
+        (function () {
+            const ringkasanTahunButton = document.getElementById('ringkasanTahunButton');
+            const ringkasanTahunDropdown = document.getElementById('ringkasanTahunDropdown');
+            const ringkasanSearch = document.getElementById('ringkasanSearch');
+            const ringkasanTable = document.getElementById('ringkasanTable');
+
+            if (ringkasanTahunButton && ringkasanTahunDropdown) {
+                ringkasanTahunButton.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    ringkasanTahunDropdown.classList.toggle('hidden');
+                    const icon = document.getElementById('ringkasanTahunIcon');
+                    if (icon) {
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
+
+                document.addEventListener('click', function () {
+                    ringkasanTahunDropdown.classList.add('hidden');
+                    const icon = document.getElementById('ringkasanTahunIcon');
+                    if (icon) {
+                        icon.classList.remove('rotate-180');
+                    }
+                });
+
+                ringkasanTahunDropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+
+            if (ringkasanSearch && ringkasanTable) {
+                ringkasanSearch.addEventListener('input', function () {
+                    const keyword = this.value.toLowerCase();
+                    const rows = ringkasanTable.querySelectorAll('.ringkasan-row');
+
+                    rows.forEach(function (row) {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(keyword) ? '' : 'none';
+                    });
+                });
+            }
         })();
     </script>
 @endpush

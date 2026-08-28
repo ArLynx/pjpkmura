@@ -125,6 +125,42 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | RINGKASAN 5 PILAR
+        |--------------------------------------------------------------------------
+        */
+
+        $ringkasanPilar = Pilar::orderBy('urutan')
+            ->get()
+            ->map(function ($pilar) use ($tahun) {
+                $totalIndikator = $pilar->indikators()->count();
+
+                $totalTarget = Target::where('tahun_id', $tahun)
+                    ->whereHas('indikator', function ($q) use ($pilar) {
+                        $q->where('pilar_id', $pilar->id);
+                    })
+                    ->count();
+
+                $tercapai = Realisasi::where('tahun_id', $tahun)
+                    ->where('status_pencapaian', 'tercapai')
+                    ->whereHas('indikator', function ($q) use ($pilar) {
+                        $q->where('pilar_id', $pilar->id);
+                    })
+                    ->count();
+
+                $persentase = $totalTarget > 0
+                    ? round(($tercapai / $totalTarget) * 100, 1)
+                    : 0;
+
+                return [
+                    'urutan' => $pilar->urutan,
+                    'nama' => $pilar->nama,
+                    'jumlah_indikator' => $totalIndikator,
+                    'persentase' => $persentase,
+                ];
+            });
+
+        /*
+        |--------------------------------------------------------------------------
         | TOTAL INDIKATOR
         |--------------------------------------------------------------------------
         */
@@ -187,6 +223,107 @@ class DashboardController extends Controller
             })
 
             ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL BELUM TERCAPAI
+        |--------------------------------------------------------------------------
+        */
+
+        $jumlahBelumTercapai = Realisasi::query()
+            ->where('tahun_id', $tahun)
+            ->where('status_pencapaian', 'belum_tercapai')
+
+            ->when($pilar, function ($query) use ($pilar) {
+                $query->whereHas('indikator', function ($q) use ($pilar) {
+                    $q->where('pilar_id', $pilar);
+                });
+            })
+
+            ->when($instansiId, function ($query) use ($instansiId) {
+                $query->whereHas('indikator', function ($q) use ($instansiId) {
+                    $q->where('instansi_id', $instansiId);
+                });
+            })
+
+            ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL VERIFIKASI (status_pencapaian = verifikasi)
+        |--------------------------------------------------------------------------
+        */
+
+        $jumlahVerifikasi = Realisasi::query()
+            ->where('tahun_id', $tahun)
+            ->where('status_pencapaian', 'verifikasi')
+
+            ->when($pilar, function ($query) use ($pilar) {
+                $query->whereHas('indikator', function ($q) use ($pilar) {
+                    $q->where('pilar_id', $pilar);
+                });
+            })
+
+            ->when($instansiId, function ($query) use ($instansiId) {
+                $query->whereHas('indikator', function ($q) use ($instansiId) {
+                    $q->where('instansi_id', $instansiId);
+                });
+            })
+
+            ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL BELUM ISI (target ada tapi realisasi kosong)
+        |--------------------------------------------------------------------------
+        */
+
+        $jumlahBelumIsi = Target::query()
+            ->where('tahun_id', $tahun)
+            ->whereDoesntHave('indikator.realisasis', function ($q) use ($tahun) {
+                $q->where('tahun_id', $tahun);
+            })
+
+            ->when($pilar, function ($query) use ($pilar) {
+                $query->whereHas('indikator', function ($q) use ($pilar) {
+                    $q->where('pilar_id', $pilar);
+                });
+            })
+
+            ->when($instansiId, function ($query) use ($instansiId) {
+                $query->whereHas('indikator', function ($q) use ($instansiId) {
+                    $q->where('instansi_id', $instansiId);
+                });
+            })
+
+            ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOTAL TARGET TAHUN INI (untuk denominador persentase)
+        |--------------------------------------------------------------------------
+        */
+
+        $totalTargetTahunIni = Target::query()
+            ->where('tahun_id', $tahun)
+
+            ->when($pilar, function ($query) use ($pilar) {
+                $query->whereHas('indikator', function ($q) use ($pilar) {
+                    $q->where('pilar_id', $pilar);
+                });
+            })
+
+            ->when($instansiId, function ($query) use ($instansiId) {
+                $query->whereHas('indikator', function ($q) use ($instansiId) {
+                    $q->where('instansi_id', $instansiId);
+                });
+            })
+
+            ->count();
+
+        $persentaseProgres = $totalTargetTahunIni > 0
+            ? round(($jumlahTercapai / $totalTargetTahunIni) * 100, 1)
+            : 0;
 
             /*
         |--------------------------------------------------------------------------
@@ -346,6 +483,36 @@ class DashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | RINGKASAN INDIKATOR
+        |--------------------------------------------------------------------------
+        */
+
+        $ringkasanIndikator = Indikator::with(['pilar', 'targets', 'realisasis'])
+            ->when($pilar, function ($query) use ($pilar) {
+                $query->where('pilar_id', $pilar);
+            })
+            ->when($instansiId, function ($query) use ($instansiId) {
+                $query->where('instansi_id', $instansiId);
+            })
+            ->orderBy('pilar_id')
+            ->orderBy('urutan')
+            ->paginate(5)
+            ->through(function ($indikator) use ($tahun) {
+                $target = $indikator->targets->firstWhere('tahun_id', $tahun);
+                $realisasi = $indikator->realisasis->firstWhere('tahun_id', $tahun);
+
+                return [
+                    'nama' => $indikator->nama_indikator,
+                    'pilar' => $indikator->pilar->nama ?? '-',
+                    'pilar_urutan' => $indikator->pilar->urutan ?? 0,
+                    'target' => $target?->nilai_target ?? '-',
+                    'realisasi' => $realisasi?->nilai_realisasi ?? '-',
+                    'status' => $realisasi?->status_pencapaian ?? null,
+                ];
+            });
+
+        /*
+        |--------------------------------------------------------------------------
         | VIEW
         |--------------------------------------------------------------------------
         */
@@ -375,6 +542,10 @@ class DashboardController extends Controller
                 'jumlahIndikator',
                 'jumlahTarget',
                 'jumlahTercapai',
+                'jumlahBelumTercapai',
+                'jumlahVerifikasi',
+                'jumlahBelumIsi',
+                'persentaseProgres',
 
                 'pilarsMonitoring',
 
@@ -383,6 +554,9 @@ class DashboardController extends Controller
                 'indikatorsTren',
                 'indikatorDipilih',
                 'dataTren',
+
+                'ringkasanIndikator',
+                'ringkasanPilar',
             ),
         );
     }
