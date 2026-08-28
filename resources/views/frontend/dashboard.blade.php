@@ -71,8 +71,7 @@
                                     </option>
 
                                     @foreach ($pilars as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $pilarTren == $item->id ? 'selected' : '' }}>
+                                        <option value="{{ $item->id }}" {{ $pilarTren == $item->id ? 'selected' : '' }}>
 
                                             {{ $item->nama }}
 
@@ -151,10 +150,9 @@
 
                                 </p>
                             @endif
-
                         @else
-
-                            <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
+                            <div
+                                class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
 
                                 Pilih pilar dan indikator untuk melihat grafik tren.
 
@@ -252,17 +250,7 @@
                             <div class="w-2 h-2 rounded-full bg-red-600"></div>
 
                             <span class="text-xs text-slate-600">
-                                Belum: {{ $jumlahBelumTercapai }}
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
-                            <div class="w-2 h-2 rounded-full bg-amber-600"></div>
-
-                            <span class="text-xs text-slate-600">
-                                Verifikasi: {{ $jumlahVerifikasi }}
+                                Belum Tercapai: {{ $jumlahBelumTercapai }}
                             </span>
 
                         </div>
@@ -331,7 +319,8 @@
 
                                 <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
 
-                                    <div class="h-full bg-primary rounded-full" style="width: {{ $item['persentase'] }}%"></div>
+                                    <div class="h-full bg-primary rounded-full" style="width: {{ $item['persentase'] }}%">
+                                    </div>
 
                                 </div>
 
@@ -462,11 +451,13 @@
                                         {{ $item['nama'] }}
                                     </td>
 
-                                    <td class="px-6 py-5">
-                                        <span
-                                            class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                            {{ $item['pilar'] }}
-                                        </span>
+                                    <td class="px-6 py-5 align-middle">
+                                        <div class="flex w-full justify-start">
+                                            <span
+                                                class="inline-block max-w-full rounded-full bg-primary-light px-3 py-1.5 text-left text-xs font-semibold leading-5 text-primary break-words">
+                                                {{ $item['pilar'] }}
+                                            </span>
+                                        </div>
                                     </td>
 
                                     <td class="px-6 py-5 text-sm text-slate-700 text-right">
@@ -535,9 +526,11 @@
 
                         @foreach ($ringkasanIndikator->getUrlRange(max(1, $ringkasanIndikator->currentPage() - 2), min($ringkasanIndikator->lastPage(), $ringkasanIndikator->currentPage() + 2)) as $page => $url)
                             @if ($page == $ringkasanIndikator->currentPage())
-                                <a href="{{ $url }}" class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-primary text-white">{{ $page }}</a>
+                                <a href="{{ $url }}"
+                                    class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-primary text-white">{{ $page }}</a>
                             @else
-                                <a href="{{ $url }}" class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">{{ $page }}</a>
+                                <a href="{{ $url }}"
+                                    class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">{{ $page }}</a>
                             @endif
                         @endforeach
 
@@ -1635,31 +1628,31 @@
 
 @push('scripts')
     <script>
-        (function () {
+        (function() {
             const statusTahunButton = document.getElementById('statusTahunButton');
             const statusTahunDropdown = document.getElementById('statusTahunDropdown');
 
             if (statusTahunButton && statusTahunDropdown) {
-                statusTahunButton.addEventListener('click', function (e) {
+                statusTahunButton.addEventListener('click', function(e) {
                     e.stopPropagation();
                     statusTahunDropdown.classList.toggle('hidden');
                     const icon = document.getElementById('statusTahunIcon');
                     if (icon) icon.classList.toggle('rotate-180');
                 });
 
-                document.addEventListener('click', function () {
+                document.addEventListener('click', function() {
                     statusTahunDropdown.classList.add('hidden');
                     const icon = document.getElementById('statusTahunIcon');
                     if (icon) icon.classList.remove('rotate-180');
                 });
 
-                statusTahunDropdown.addEventListener('click', function (e) {
+                statusTahunDropdown.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
             }
         })();
 
-        (function () {
+        (function() {
             const pilarSelect = document.getElementById('pilar-tren');
             const indikatorSelect = document.getElementById('indikator-tren');
             const hasil = document.getElementById('tren-hasil');
@@ -1672,15 +1665,17 @@
             let chart = null;
 
             const buildDatasets = (trenData) => {
-                const baselineData = { tahun: [], nilai: [] };
+                const baselineData = {
+                    tahun: [],
+                    nilai: []
+                };
 
                 if (trenData && trenData.baseline && trenData.baseline.tahun) {
                     baselineData.tahun.push(trenData.baseline.tahun);
                     baselineData.nilai.push(trenData.baseline.nilai);
                 }
 
-                return [
-                    {
+                return [{
                         label: 'Target',
                         data: trenData ? trenData.target : [],
                         borderColor: '#0d9488',
@@ -1784,9 +1779,9 @@
                     indikatorSelect.appendChild(option);
                 });
 
-                indikatorSelect.value = data.indikators.some((ind) => String(ind.id) === String(pilihanAktif))
-                    ? pilihanAktif
-                    : (data.indikator ? data.indikator.id : '');
+                indikatorSelect.value = data.indikators.some((ind) => String(ind.id) === String(pilihanAktif)) ?
+                    pilihanAktif :
+                    (data.indikator ? data.indikator.id : '');
 
                 if (data.indikator && data.data_tren) {
                     hasil.innerHTML = `
@@ -1798,12 +1793,12 @@
                             <canvas id="trenChart"></canvas>
                         </div>
                         ${data.data_tren.baseline ? `
-                            <p class="mt-4 text-sm text-slate-500">
-                                Baseline:
-                                <span class="font-semibold text-slate-700">${data.data_tren.baseline.nilai}</span>
-                                ${data.data_tren.baseline.tahun ? `(tahun ${data.data_tren.baseline.tahun})` : ''}
-                            </p>
-                        ` : ''}
+                                <p class="mt-4 text-sm text-slate-500">
+                                    Baseline:
+                                    <span class="font-semibold text-slate-700">${data.data_tren.baseline.nilai}</span>
+                                    ${data.data_tren.baseline.tahun ? `(tahun ${data.data_tren.baseline.tahun})` : ''}
+                                </p>
+                            ` : ''}
                     `;
                     chart = null;
                     renderChart(data.data_tren);
@@ -1828,27 +1823,27 @@
                 }
             };
 
-            pilarSelect.addEventListener('change', function () {
+            pilarSelect.addEventListener('change', function() {
                 muatTren(this.value, '');
             });
 
-            indikatorSelect.addEventListener('change', function () {
+            indikatorSelect.addEventListener('change', function() {
                 muatTren(pilarSelect.value, this.value);
             });
 
-            @if ($indikatorDipilih && $dataTren && ! $dataTren->kosong())
+            @if ($indikatorDipilih && $dataTren && !$dataTren->kosong())
                 renderChart(@json($dataTren->toArray()));
             @endif
         })();
 
-        (function () {
+        (function() {
             const ringkasanTahunButton = document.getElementById('ringkasanTahunButton');
             const ringkasanTahunDropdown = document.getElementById('ringkasanTahunDropdown');
             const ringkasanSearch = document.getElementById('ringkasanSearch');
             const ringkasanTable = document.getElementById('ringkasanTable');
 
             if (ringkasanTahunButton && ringkasanTahunDropdown) {
-                ringkasanTahunButton.addEventListener('click', function (e) {
+                ringkasanTahunButton.addEventListener('click', function(e) {
                     e.stopPropagation();
                     ringkasanTahunDropdown.classList.toggle('hidden');
                     const icon = document.getElementById('ringkasanTahunIcon');
@@ -1857,7 +1852,7 @@
                     }
                 });
 
-                document.addEventListener('click', function () {
+                document.addEventListener('click', function() {
                     ringkasanTahunDropdown.classList.add('hidden');
                     const icon = document.getElementById('ringkasanTahunIcon');
                     if (icon) {
@@ -1865,17 +1860,17 @@
                     }
                 });
 
-                ringkasanTahunDropdown.addEventListener('click', function (e) {
+                ringkasanTahunDropdown.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
             }
 
             if (ringkasanSearch && ringkasanTable) {
-                ringkasanSearch.addEventListener('input', function () {
+                ringkasanSearch.addEventListener('input', function() {
                     const keyword = this.value.toLowerCase();
                     const rows = ringkasanTable.querySelectorAll('.ringkasan-row');
 
-                    rows.forEach(function (row) {
+                    rows.forEach(function(row) {
                         const text = row.textContent.toLowerCase();
                         row.style.display = text.includes(keyword) ? '' : 'none';
                     });

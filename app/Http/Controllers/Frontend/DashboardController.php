@@ -248,29 +248,7 @@ class DashboardController extends Controller
 
             ->count();
 
-        /*
-        |--------------------------------------------------------------------------
-        | TOTAL VERIFIKASI (status_pencapaian = verifikasi)
-        |--------------------------------------------------------------------------
-        */
-
-        $jumlahVerifikasi = Realisasi::query()
-            ->where('tahun_id', $tahun)
-            ->where('status_pencapaian', 'verifikasi')
-
-            ->when($pilar, function ($query) use ($pilar) {
-                $query->whereHas('indikator', function ($q) use ($pilar) {
-                    $q->where('pilar_id', $pilar);
-                });
-            })
-
-            ->when($instansiId, function ($query) use ($instansiId) {
-                $query->whereHas('indikator', function ($q) use ($instansiId) {
-                    $q->where('instansi_id', $instansiId);
-                });
-            })
-
-            ->count();
+      
 
         /*
         |--------------------------------------------------------------------------
@@ -278,26 +256,14 @@ class DashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $jumlahBelumIsi = Target::query()
-            ->where('tahun_id', $tahun)
-            ->whereDoesntHave('indikator.realisasis', function ($q) use ($tahun) {
+        $jumlahBelumIsi = Indikator::query()
+            ->when($pilar, function ($query) use ($pilar) {
+                $query->where('pilar_id', $pilar);
+            })
+            ->whereDoesntHave('realisasis', function ($q) use ($tahun) {
                 $q->where('tahun_id', $tahun);
             })
-
-            ->when($pilar, function ($query) use ($pilar) {
-                $query->whereHas('indikator', function ($q) use ($pilar) {
-                    $q->where('pilar_id', $pilar);
-                });
-            })
-
-            ->when($instansiId, function ($query) use ($instansiId) {
-                $query->whereHas('indikator', function ($q) use ($instansiId) {
-                    $q->where('instansi_id', $instansiId);
-                });
-            })
-
             ->count();
-
         /*
         |--------------------------------------------------------------------------
         | TOTAL TARGET TAHUN INI (untuk denominador persentase)
@@ -481,32 +447,78 @@ class DashboardController extends Controller
             }
         }
 
-        /*
+       /*
         |--------------------------------------------------------------------------
         | RINGKASAN INDIKATOR
         |--------------------------------------------------------------------------
         */
 
-        $ringkasanIndikator = Indikator::with(['pilar', 'targets', 'realisasis'])
+        $ringkasanIndikator = Indikator::with([
+                'pilar',
+                'targets',
+                'realisasis'
+            ])
+
             ->when($pilar, function ($query) use ($pilar) {
                 $query->where('pilar_id', $pilar);
             })
+
             ->when($instansiId, function ($query) use ($instansiId) {
                 $query->where('instansi_id', $instansiId);
             })
-            ->orderBy('pilar_id')
+
+            /*
+            |--------------------------------------------------------------------------
+            | URUTAN BERDASARKAN PILAR
+            |--------------------------------------------------------------------------
+            | Pilar 1
+            |   -> indikator urutan 1
+            |   -> indikator urutan 2
+            |
+            | Pilar 2
+            |   -> indikator urutan 1
+            |   -> indikator urutan 2
+            |
+            | dst.
+            |--------------------------------------------------------------------------
+            */
+
+            ->orderBy(
+                Pilar::select('urutan')
+                    ->whereColumn('pilars.id', 'indikators.pilar_id')
+            )
+
+            /*
+            |--------------------------------------------------------------------------
+            | URUTAN INDIKATOR
+            |--------------------------------------------------------------------------
+            */
+
             ->orderBy('urutan')
+
             ->paginate(5)
+
             ->through(function ($indikator) use ($tahun) {
-                $target = $indikator->targets->firstWhere('tahun_id', $tahun);
-                $realisasi = $indikator->realisasis->firstWhere('tahun_id', $tahun);
+
+                $target = $indikator->targets
+                    ->firstWhere('tahun_id', $tahun);
+
+                $realisasi = $indikator->realisasis
+                    ->firstWhere('tahun_id', $tahun);
 
                 return [
                     'nama' => $indikator->nama_indikator,
+
                     'pilar' => $indikator->pilar->nama ?? '-',
+
                     'pilar_urutan' => $indikator->pilar->urutan ?? 0,
+
+                    'indikator_urutan' => $indikator->urutan,
+
                     'target' => $target?->nilai_target ?? '-',
+
                     'realisasi' => $realisasi?->nilai_realisasi ?? '-',
+
                     'status' => $realisasi?->status_pencapaian ?? null,
                 ];
             });
@@ -543,7 +555,6 @@ class DashboardController extends Controller
                 'jumlahTarget',
                 'jumlahTercapai',
                 'jumlahBelumTercapai',
-                'jumlahVerifikasi',
                 'jumlahBelumIsi',
                 'persentaseProgres',
 
