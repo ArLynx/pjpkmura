@@ -17,6 +17,11 @@ return new class extends Migration
         Schema::table('targets', function (Blueprint $table) {
 
             if (Schema::hasColumn('targets', 'tahun')) {
+
+                // Lepas unique lama yang masih mereferensikan kolom tahun
+                // sebelum kolom dihapus (diperlukan untuk SQLite).
+                $table->dropUnique('targets_indikator_id_tahun_unique');
+
                 $table->dropColumn('tahun');
             }
 
@@ -31,6 +36,11 @@ return new class extends Migration
         Schema::table('realisasis', function (Blueprint $table) {
 
             if (Schema::hasColumn('realisasis', 'tahun')) {
+
+                // Lepas unique lama yang masih mereferensikan kolom tahun
+                // sebelum kolom dihapus (diperlukan untuk SQLite).
+                $table->dropUnique('realisasis_indikator_id_tahun_unique');
+
                 $table->dropColumn('tahun');
             }
 

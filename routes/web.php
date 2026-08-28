@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\TahunController;
 use App\Http\Controllers\Backend\CapaianController;
 use App\Http\Controllers\Backend\InstansiController;
 use App\Http\Controllers\Backend\CapaianLaporanController;
+use App\Http\Controllers\Backend\AnalisisController;
 
 use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -26,6 +27,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [FrontendDashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard/tren-data', [FrontendDashboardController::class, 'trenData'])
+    ->name('dashboard.trenData');
 
 Route::get('/berita', [FrontendBeritaController::class, 'index'])->name('berita.index');
 
@@ -83,4 +87,6 @@ Route::prefix('admin')
         Route::get('/capaian/pdf', [CapaianLaporanController::class, 'pdf'])->name('capaian.pdf');
 
         Route::get('/capaian/excel', [CapaianLaporanController::class, 'excel'])->name('capaian.excel');
+
+        Route::get('/analisis', [AnalisisController::class, 'index'])->name('analisis.index');
     });

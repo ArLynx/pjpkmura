@@ -1,604 +1,235 @@
-@extends('frontend.layouts.app')
+﻿@extends('frontend.layouts.app')
 
 @section('title', 'Dashboard Monitoring')
-
+ΓÇª 1 lines elided (caveman) ΓÇª
 @section('content')
-
+ΓÇª 1 lines elided (caveman) ΓÇª
     <main class="min-h-screen bg-slate-50">
-
-        {{-- ========================================================= --}}
+ΓÇª 2 lines elided (caveman) ΓÇª
         {{-- DASHBOARD HEADER --}}
-        {{-- ========================================================= --}}
-
+ΓÇª 2 lines elided (caveman) ΓÇª
         <section class="bg-primary-hover">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
             <div class="max-w-7xl mx-auto px-6 py-16">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                 <h1 class="text-4xl font-bold text-white">
-
-                    Dashboard Monitoring
-
-                </h1>
-
+ΓÇª 5 lines elided (caveman) ΓÇª
                 <p class="text-primary-light mt-3 text-lg">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                     Monitoring indikator Peta Jalan Pembangunan Kependudukan Kabupaten Murung Raya.
-
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <section class="max-w-7xl mx-auto px-6 py-8">
-
+ΓÇª 10 lines elided (caveman) ΓÇª
             <section class="flex flex-col lg:flex-row gap-6 mb-10">
-
-                {{-- ===================================================== --}}
-                {{-- TREN INDIKATOR --}}
-                {{-- ===================================================== --}}
-
-                <div class="w-full bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
-
-                    <div class="mb-6">
-
-                        <h4 class="text-xl font-semibold text-slate-900 mb-2">
-                            Tren Indikator
-                        </h4>
-
-                        <p class="text-sm text-slate-500">
-                            Grafik perkembangan target dan realisasi indikator dari tahun ke tahun.
-                        </p>
-
-                    </div>
-
-                    <form id="form-tren" method="GET" action="{{ route('dashboard.trenData') }}" onsubmit="return false;">
-
-                        <div class="grid md:grid-cols-2 gap-6">
-
-                            <div>
-
-                                <label class="block mb-2 font-medium text-slate-700">
-                                    Pilar
-                                </label>
-
-                                <select name="pilar_tren" id="pilar-tren"
-                                    class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
-
-                                    <option value="">
-                                        Pilih Pilar
-                                    </option>
-
-                                    @foreach ($pilars as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $pilarTren == $item->id ? 'selected' : '' }}>
-
-                                            {{ $item->nama }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
-
-                            </div>
-
-                            <div>
-
-                                <label class="block mb-2 font-medium text-slate-700">
-                                    Indikator
-                                </label>
-
-                                <select name="indikator_tren" id="indikator-tren"
-                                    class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"
-                                    {{ $indikatorsTren->isEmpty() ? 'disabled' : '' }}>
-
-                                    <option value="">
-                                        Pilih Indikator
-                                    </option>
-
-                                    @foreach ($indikatorsTren as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $indikatorTren == $item->id ? 'selected' : '' }}>
-
-                                            {{ $item->nama_indikator }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                    </form>
-
-                    <div id="tren-hasil">
-
-                        @if ($indikatorDipilih)
-
-                            <div class="mt-6">
-
-                                <h3 class="text-lg font-bold text-slate-800" id="tren-nama">
-
-                                    {{ $indikatorDipilih->nama_indikator }}
-
-                                </h3>
-
-                                <p class="text-slate-500 mt-1 text-sm" id="tren-tujuan">
-
-                                    {{ $indikatorDipilih->tujuan_strategis }}
-
-                                </p>
-
-                            </div>
-
-                            <div class="relative mt-6" style="height: 360px;">
-
-                                <canvas id="trenChart"></canvas>
-
-                            </div>
-
-                            @if ($dataTren->baseline)
-                                <p class="mt-4 text-sm text-slate-500" id="tren-baseline">
-
-                                    Baseline:
-                                    <span class="font-semibold text-slate-700">{{ $dataTren->baseline['nilai'] }}</span>
-                                    @if ($dataTren->baseline['tahun'])
-                                        (tahun {{ $dataTren->baseline['tahun'] }})
-                                    @endif
-
-                                </p>
-                            @endif
-
-                        @else
-
-                            <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-
-                                Pilih pilar dan indikator untuk melihat grafik tren.
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
-                {{-- ===================================================== --}}
-                {{-- STATUS INDIKATOR --}}
-                {{-- ===================================================== --}}
-
-                <div
-                    class="w-full lg:flex-1 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
-
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
+ΓÇª 2 lines elided (caveman) ΓÇª
+                {{-- TREN CAPAIAN PJPK --}}
+ΓÇª 2 lines elided (caveman) ΓÇª
+                <div class="w-full lg:flex-[2.5] bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+ΓÇª 3 lines elided (caveman) ΓÇª
                             <h4 class="text-xl font-semibold text-slate-900">
-                                Status Indikator
-                            </h4>
-
+                                Tren Capaian PJPK 2025ΓÇô2030
+ΓÇª 2 lines elided (caveman) ΓÇª
                             <p class="mt-1 text-sm text-slate-500">
-                                Proporsi pencapaian per indikator
-                            </p>
-                        </div>
-
-                        <div class="relative">
-                            <button type="button" id="statusTahunButton"
-                                class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
-
-                                <span id="statusTahunText" class="pr-2">
-                                    {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Pilih Tahun' }}
-                                </span>
-
-                                <span id="statusTahunIcon"
-                                    class="material-symbols-outlined text-[18px] text-slate-500 transition-transform duration-200">
-                                    expand_more
-                                </span>
-
-                            </button>
-
-                            <div id="statusTahunDropdown"
-                                class="absolute right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg min-w-[120px]">
-
-                                <div class="max-h-64 overflow-y-auto py-1">
-                                    @foreach ($tahuns as $item)
-                                        <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
-                                            class="flex w-full items-center px-4 py-2.5 text-left text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary {{ $item->id == $tahun ? 'bg-primary-light text-primary' : 'text-slate-700' }}">
-                                            {{ $item->tahun }}
-                                        </a>
-                                    @endforeach
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-grow flex items-center justify-center relative my-6">
-
-                        <div class="w-36 h-36 rounded-full border-8 border-slate-100 flex items-center justify-center">
-
+                                Target Kinerja vs Realisasi Tahunan
+ΓÇª 8 lines elided (caveman) ΓÇª
+                                <span class="w-3 h-3 rounded-full bg-primary"></span>
+ΓÇª 1 lines elided (caveman) ΓÇª
+                                <span class="text-xs font-medium text-slate-600">
+ΓÇª 7 lines elided (caveman) ΓÇª
+                                <span class="w-3 h-3 rounded-full bg-primary-light border border-primary"></span>
+ΓÇª 11 lines elided (caveman) ΓÇª
+                    <div class="w-full rounded-xl border border-slate-200 overflow-hidden bg-white">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                        <img src="/image/pjpk.jpg" alt="PJPK Achievement Trends 2025-2030 Chart"
+                            class="w-full h-auto object-contain block">
+ΓÇª 6 lines elided (caveman) ΓÇª
+                {{-- STATUS INDIKATOR --}}
+ΓÇª 6 lines elided (caveman) ΓÇª
+                        Status Indikator Tahun 2025
+ΓÇª 3 lines elided (caveman) ΓÇª
+                        Proporsi pencapaian per indikator
+ΓÇª 2 lines elided (caveman) ΓÇª
+                    <div class="flex-grow flex items-center justify-center relative my-8">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                        <div class="w-40 h-40 rounded-full border-8 border-slate-100 flex items-center justify-center">
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <div class="text-center">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                 <span class="text-3xl font-bold text-slate-700">
-                                    {{ $persentaseProgres }}%
-                                </span>
-
+                                    0%
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 <p class="mt-1 text-xs text-slate-500">
                                     Total Progres
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+ΓÇª 8 lines elided (caveman) ΓÇª
                     <div class="grid grid-cols-2 gap-3">
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 3 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-green-600"></div>
-
-                            <span class="text-xs text-slate-600">
+ΓÇª 2 lines elided (caveman) ΓÇª
                                 Tercapai: {{ $jumlahTercapai }}
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-red-600"></div>
-
-                            <span class="text-xs text-slate-600">
-                                Belum: {{ $jumlahBelumTercapai }}
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 2 lines elided (caveman) ΓÇª
+                                Belum: 0
+ΓÇª 6 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-amber-600"></div>
-
-                            <span class="text-xs text-slate-600">
-                                Verifikasi: {{ $jumlahVerifikasi }}
-                            </span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2">
-
+ΓÇª 2 lines elided (caveman) ΓÇª
+                                Verifikasi: 0
+ΓÇª 6 lines elided (caveman) ΓÇª
                             <div class="w-2 h-2 rounded-full bg-slate-500"></div>
-
-                            <span class="text-xs text-slate-600">
-                                Belum Isi: {{ $jumlahBelumIsi }}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            {{-- ========================================================= --}}
+ΓÇª 2 lines elided (caveman) ΓÇª
+                                Belum Isi: 30
+ΓÇª 11 lines elided (caveman) ΓÇª
             {{-- FIVE PILLARS --}}
-            {{-- ========================================================= --}}
-
-            <section class="mb-10">
-
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                     <h4 class="text-2xl font-bold text-slate-900">
                         Ringkasan 5 Pilar PJPK
-                    </h4>
-
-                </div>
-
-
+ΓÇª 2 lines elided (caveman) ΓÇª
+                    <button type="button"
+                        class="text-primary text-sm font-semibold inline-flex items-center gap-1 hover:underline">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                        Detail Pilar
+ΓÇª 1 lines elided (caveman) ΓÇª
+                        <span class="material-symbols-outlined text-lg">
+                            chevron_right
+ΓÇª 7 lines elided (caveman) ΓÇª
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
-
-                    @foreach ($ringkasanPilar as $item)
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
-
-                            <div class="mb-6">
-
-                                <h5 class="text-lg font-semibold text-slate-900 mb-2">
-                                    Pilar {{ chr(64 + $item['urutan']) }}
-                                </h5>
-
-                                <p class="text-sm leading-5 text-slate-500">
-                                    {{ $item['nama'] }}
-                                </p>
-
-                            </div>
-
-                            <div class="mt-auto">
-
-                                <div class="flex justify-between items-end mb-2">
-
-                                    <span class="text-xs font-medium text-slate-600">
-                                        {{ $item['jumlah_indikator'] }} Indikator
-                                    </span>
-
-                                    <span class="text-xs font-semibold text-primary">
-                                        {{ $item['persentase'] }}%
-                                    </span>
-
-                                </div>
-
-                                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-
-                                    <div class="h-full bg-primary rounded-full" style="width: {{ $item['persentase'] }}%"></div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    @endforeach
-
-                </div>
-
-            </section>
-
-            {{-- ========================================================= --}}
-            {{-- RINGKASAN INDIKATOR --}}
-            {{-- ========================================================= --}}
+ΓÇª 1 lines elided (caveman) ΓÇª
+                    {{-- Pilar A --}}
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
+ΓÇª 3 lines elided (caveman) ΓÇª
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2">
+ΓÇª 3 lines elided (caveman) ΓÇª
+                            <p class="text-sm leading-5 text-slate-500">
+                                Pengendalian Kuantitas Penduduk
+ΓÇª 4 lines elided (caveman) ΓÇª
+                        <div class="mt-auto">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                            <div class="flex justify-between items-end mb-2">
+ΓÇª 5 lines elided (caveman) ΓÇª
+                                <span class="text-xs font-semibold text-primary">
+ΓÇª 7 lines elided (caveman) ΓÇª
+                                <div class="h-full bg-primary rounded-full" style="width: 0%"></div>
+ΓÇª 7 lines elided (caveman) ΓÇª
+                    {{-- Pilar B --}}
+ΓÇª 9 lines elided (caveman) ΓÇª
+                                Peningkatan Kualitas Penduduk
+ΓÇª 28 lines elided (caveman) ΓÇª
+                    {{-- Pilar C --}}
+ΓÇª 9 lines elided (caveman) ΓÇª
+                                Pengarahan Persebaran Penduduk
+ΓÇª 28 lines elided (caveman) ΓÇª
+                    {{-- Pilar D --}}
+ΓÇª 9 lines elided (caveman) ΓÇª
+                                Pembangunan Keluarga Berencana
+ΓÇª 28 lines elided (caveman) ΓÇª
+                    {{-- Pilar E --}}
+ΓÇª 9 lines elided (caveman) ΓÇª
+                                Penataan Administrasi Kependudukan
+ΓÇª 33 lines elided (caveman) ΓÇª
+            {{-- STATIC SUMMARY TABLE --}}
+ΓÇª 1 lines elided (caveman) ΓÇª
             <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                 <div class="p-6 md:p-8 border-b border-slate-200">
-
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-
-                        <div>
-
-                            <h4 class="text-2xl font-bold text-slate-900">
-                                Ringkasan Indikator
-                            </h4>
-
-                            <p class="mt-1 text-sm text-slate-500">
+ΓÇª 6 lines elided (caveman) ΓÇª
+                                Ringkasan Indikator Tahun 2025
+ΓÇª 3 lines elided (caveman) ΓÇª
                                 Detail target dan realisasi indikator strategis daerah
-                            </p>
-
-                        </div>
-
+ΓÇª 4 lines elided (caveman) ΓÇª
                         <div class="flex gap-2 w-full md:w-auto">
-
-                            <div class="relative w-full md:w-48">
-                                <button type="button" id="ringkasanTahunButton"
-                                    class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
-
-                                    <span id="ringkasanTahunText" class="truncate pr-3">
-                                        {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Semua Tahun' }}
-                                    </span>
-
-                                    <span id="ringkasanTahunIcon"
-                                        class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
-                                        expand_more
-                                    </span>
-
-                                </button>
-
-                                <div id="ringkasanTahunDropdown"
-                                    class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
-
-                                    <div class="max-h-64 overflow-y-auto py-1">
-
-                                        @foreach ($tahuns as $item)
-                                            <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
-                                                class="flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
-
-                                                {{ $item->tahun }}
-
-                                            </a>
-                                        @endforeach
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <div class="relative w-full md:w-64">
-
-                                <span
+ΓÇª 2 lines elided (caveman) ΓÇª
                                     class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                                     search
-                                </span>
-
-                                <input type="text" id="ringkasanSearch" placeholder="Cari indikator..."
+ΓÇª 2 lines elided (caveman) ΓÇª
+                                <input type="text" placeholder="Cari indikator..."
                                     class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary">
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
+ΓÇª 4 lines elided (caveman) ΓÇª
+                                class="p-2.5 bg-slate-50 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
+ΓÇª 2 lines elided (caveman) ΓÇª
+                                    download
+ΓÇª 11 lines elided (caveman) ΓÇª
                 <div class="overflow-x-auto">
-
-                    <table class="w-full text-left" id="ringkasanTable">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
+                    <table class="w-full text-left">
+ΓÇª 1 lines elided (caveman) ΓÇª
                         <thead class="bg-slate-50">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                             <tr>
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                 <th class="px-8 py-4 text-xs font-semibold text-slate-500 uppercase">
-                                    Indikator
-                                </th>
-
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase">
-                                    Pilar
-                                </th>
-
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">
-                                    Target {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? '' }}
-                                </th>
-
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase text-right">
-                                    Realisasi
-                                </th>
-
-                                <th class="px-8 py-4 text-xs font-semibold text-slate-500 uppercase text-center">
-                                    Status
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
+ΓÇª 8 lines elided (caveman) ΓÇª
+                                    Target 2025
+ΓÇª 14 lines elided (caveman) ΓÇª
                         <tbody class="divide-y divide-slate-100">
-
-                            @forelse ($ringkasanIndikator->items() as $item)
-                                <tr class="hover:bg-slate-50 transition-colors ringkasan-row">
-
-                                    <td class="px-8 py-5 text-sm font-semibold text-slate-800">
-                                        {{ $item['nama'] }}
-                                    </td>
-
-                                    <td class="px-6 py-5">
-                                        <span
-                                            class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                            {{ $item['pilar'] }}
-                                        </span>
-                                    </td>
-
-                                    <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                        {{ $item['target'] }}
-                                    </td>
-
-                                    <td class="px-6 py-5 text-sm text-slate-700 text-right">
-                                        {{ $item['realisasi'] }}
-                                    </td>
-
-                                    <td class="px-8 py-5 text-center">
-                                        @if ($item['status'] === 'tercapai')
-                                            <span
-                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-primary-light px-3 py-1.5 text-xs font-semibold text-primary">
-                                                <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-primary"></span>
-                                                Tercapai
-                                            </span>
-                                        @elseif ($item['status'] === 'belum_tercapai')
-                                            <span
-                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600">
-                                                <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                                                Belum Tercapai
-                                            </span>
-                                        @else
-                                            <span
-                                                class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
-                                                <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-slate-400"></span>
-                                                Belum Diisi
-                                            </span>
-                                        @endif
-                                    </td>
-
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="px-6 py-12 text-center">
-                                        <span class="material-symbols-outlined text-4xl text-slate-300">
-                                            table_rows
-                                        </span>
-                                        <p class="mt-3 text-sm text-slate-500">
-                                            Belum ada data indikator.
-                                        </p>
-                                    </td>
-                                </tr>
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-                @if ($ringkasanIndikator->hasPages())
-                    <div class="p-6 bg-slate-50 flex justify-center items-center gap-2">
-                        @if ($ringkasanIndikator->onFirstPage())
-                            <button type="button" disabled
-                                class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed">
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </button>
-                        @else
-                            <a href="{{ $ringkasanIndikator->previousPageUrl() }}"
-                                class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </a>
-                        @endif
-
-                        @foreach ($ringkasanIndikator->getUrlRange(max(1, $ringkasanIndikator->currentPage() - 2), min($ringkasanIndikator->lastPage(), $ringkasanIndikator->currentPage() + 2)) as $page => $url)
-                            @if ($page == $ringkasanIndikator->currentPage())
-                                <a href="{{ $url }}" class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-primary text-white">{{ $page }}</a>
-                            @else
-                                <a href="{{ $url }}" class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">{{ $page }}</a>
-                            @endif
-                        @endforeach
-
-                        <span class="text-sm text-slate-400 mx-1">...</span>
-
-                        <a href="{{ $ringkasanIndikator->url($ringkasanIndikator->lastPage()) }}"
-                            class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">
-                            {{ $ringkasanIndikator->lastPage() }}
-                        </a>
-
-                        @if ($ringkasanIndikator->hasMorePages())
-                            <a href="{{ $ringkasanIndikator->nextPageUrl() }}"
-                                class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </a>
-                        @else
-                            <button type="button" disabled
-                                class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
-                        @endif
-                    </div>
-                @endif
-
-            </section>
-
-            {{-- ========================================================= --}}
+ΓÇª 1 lines elided (caveman) ΓÇª
+                            {{-- STATIC ROW 1 --}}
+                            <tr class="hover:bg-slate-50 transition-colors">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                                <td class="px-8 py-5 text-sm font-semibold text-slate-800">
+                                    Total Fertility Rate (TFR)
+ΓÇª 5 lines elided (caveman) ΓÇª
+                                        class="bg-primary-light text-primary px-3 py-1 rounded-full text-xs font-semibold">
+ΓÇª 5 lines elided (caveman) ΓÇª
+                                <td class="px-6 py-5 text-sm text-slate-700 text-right">
+                                    2.21
+ΓÇª 6 lines elided (caveman) ΓÇª
+                                <td class="px-8 py-5 text-center">
+ΓÇª 2 lines elided (caveman) ΓÇª
+                                        class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1">
+ΓÇª 1 lines elided (caveman) ΓÇª
+                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+ΓÇª 1 lines elided (caveman) ΓÇª
+                                        Belum Diisi
+ΓÇª 12 lines elided (caveman) ΓÇª
+                                    Prevalensi Stunting
+ΓÇª 12 lines elided (caveman) ΓÇª
+                                    14.5%
+ΓÇª 26 lines elided (caveman) ΓÇª
+                                    Gini Ratio
+ΓÇª 12 lines elided (caveman) ΓÇª
+                                    0.320
+ΓÇª 26 lines elided (caveman) ΓÇª
+                                    Persentase Migrasi Masuk
+ΓÇª 12 lines elided (caveman) ΓÇª
+                                    2.5%
+ΓÇª 26 lines elided (caveman) ΓÇª
+                                    Unmet Need KB
+ΓÇª 12 lines elided (caveman) ΓÇª
+                                    7.2%
+ΓÇª 28 lines elided (caveman) ΓÇª
+                <div class="p-6 bg-slate-50 flex justify-center items-center gap-4">
+ΓÇª 2 lines elided (caveman) ΓÇª
+                        class="p-2 border border-slate-200 rounded-xl text-slate-400 opacity-50 cursor-not-allowed"
+                        disabled>
+ΓÇª 2 lines elided (caveman) ΓÇª
+                            chevron_left
+ΓÇª 4 lines elided (caveman) ΓÇª
+                    <span class="text-sm font-medium text-slate-600">
+                        Halaman 1 dari 6
+ΓÇª 2 lines elided (caveman) ΓÇª
+                    <button type="button" class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
+ΓÇª 12 lines elided (caveman) ΓÇª
             {{-- FILTER --}}
-            {{-- ========================================================= --}}
-            <section class="mb-8">
-
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
-
+ΓÇª 5 lines elided (caveman) ΓÇª
                     {{-- FORM FILTER --}}
                     <form method="GET" action="{{ route('dashboard') }}" id="filterForm">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_auto] xl:items-end">
-
-                            {{-- ================================================= --}}
-                            {{-- PILAR --}}
-                            {{-- ================================================= --}}
-                            <div class="relative">
-
+ΓÇª 6 lines elided (caveman) ΓÇª
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">
-                                    Pilar
-                                </label>
-
+ΓÇª 3 lines elided (caveman) ΓÇª
                                 <button type="button" id="pilarButton"
                                     class="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
-
+ΓÇª 1 lines elided (caveman) ΓÇª
                                     <span id="pilarText" class="truncate pr-3">
                                         Semua Pilar
-                                    </span>
-
+ΓÇª 2 lines elided (caveman) ΓÇª
                                     <span id="pilarIcon"
                                         class="material-symbols-outlined shrink-0 text-[20px] text-slate-500 transition-transform duration-200">
                                         expand_more
-                                    </span>
-
-                                </button>
-
+ΓÇª 4 lines elided (caveman) ΓÇª
                                 {{-- PILAR DROPDOWN --}}
                                 <div id="pilarDropdown"
                                     class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
@@ -1632,255 +1263,4 @@
         });
     </script>
 @endsection
-
-@push('scripts')
-    <script>
-        (function () {
-            const statusTahunButton = document.getElementById('statusTahunButton');
-            const statusTahunDropdown = document.getElementById('statusTahunDropdown');
-
-            if (statusTahunButton && statusTahunDropdown) {
-                statusTahunButton.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    statusTahunDropdown.classList.toggle('hidden');
-                    const icon = document.getElementById('statusTahunIcon');
-                    if (icon) icon.classList.toggle('rotate-180');
-                });
-
-                document.addEventListener('click', function () {
-                    statusTahunDropdown.classList.add('hidden');
-                    const icon = document.getElementById('statusTahunIcon');
-                    if (icon) icon.classList.remove('rotate-180');
-                });
-
-                statusTahunDropdown.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
-            }
-        })();
-
-        (function () {
-            const pilarSelect = document.getElementById('pilar-tren');
-            const indikatorSelect = document.getElementById('indikator-tren');
-            const hasil = document.getElementById('tren-hasil');
-            const endpoint = @json(route('dashboard.trenData'));
-
-            if (!pilarSelect || !indikatorSelect) {
-                return;
-            }
-
-            let chart = null;
-
-            const buildDatasets = (trenData) => {
-                const baselineData = { tahun: [], nilai: [] };
-
-                if (trenData && trenData.baseline && trenData.baseline.tahun) {
-                    baselineData.tahun.push(trenData.baseline.tahun);
-                    baselineData.nilai.push(trenData.baseline.nilai);
-                }
-
-                return [
-                    {
-                        label: 'Target',
-                        data: trenData ? trenData.target : [],
-                        borderColor: '#0d9488',
-                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
-                        spanGaps: false,
-                        tension: 0.3,
-                    },
-                    {
-                        label: 'Realisasi',
-                        data: trenData ? trenData.realisasi : [],
-                        borderColor: '#2563eb',
-                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                        spanGaps: false,
-                        tension: 0.3,
-                    },
-                    {
-                        label: 'Baseline',
-                        data: baselineData.nilai,
-                        borderColor: '#d97706',
-                        backgroundColor: 'rgba(217, 119, 6, 0.2)',
-                        pointStyle: 'rectRounded',
-                        pointRadius: 6,
-                        showLine: false,
-                    },
-                ];
-            };
-
-            const renderChart = (trenData) => {
-                const labels = trenData ? trenData.tahun : [];
-
-                if (chart) {
-                    chart.data.labels = labels;
-                    chart.data.datasets = buildDatasets(trenData);
-                    chart.update();
-                    return;
-                }
-
-                const ctx = document.getElementById('trenChart');
-
-                if (!ctx) {
-                    return;
-                }
-
-                chart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: buildDatasets(trenData),
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        spanGaps: false,
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Tahun',
-                                },
-                            },
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Nilai',
-                                },
-                            },
-                        },
-                    },
-                });
-            };
-
-            const muatTren = async (pilarId, indikatorId) => {
-                const params = new URLSearchParams();
-
-                if (pilarId) {
-                    params.set('pilar_tren', pilarId);
-                }
-
-                if (indikatorId) {
-                    params.set('indikator_tren', indikatorId);
-                }
-
-                const response = await fetch(`${endpoint}?${params.toString()}`);
-                const data = await response.json();
-
-                const pilihanAktif = indikatorSelect.value;
-
-                indikatorSelect.innerHTML = '';
-                indikatorSelect.disabled = data.indikators.length === 0;
-
-                const placeholder = document.createElement('option');
-                placeholder.value = '';
-                placeholder.textContent = 'Pilih Indikator';
-                indikatorSelect.appendChild(placeholder);
-
-                data.indikators.forEach((ind) => {
-                    const option = document.createElement('option');
-                    option.value = ind.id;
-                    option.textContent = ind.nama_indikator;
-                    indikatorSelect.appendChild(option);
-                });
-
-                indikatorSelect.value = data.indikators.some((ind) => String(ind.id) === String(pilihanAktif))
-                    ? pilihanAktif
-                    : (data.indikator ? data.indikator.id : '');
-
-                if (data.indikator && data.data_tren) {
-                    hasil.innerHTML = `
-                        <div class="mt-6">
-                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
-                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
-                        </div>
-                        <div class="relative mt-6" style="height: 360px;">
-                            <canvas id="trenChart"></canvas>
-                        </div>
-                        ${data.data_tren.baseline ? `
-                            <p class="mt-4 text-sm text-slate-500">
-                                Baseline:
-                                <span class="font-semibold text-slate-700">${data.data_tren.baseline.nilai}</span>
-                                ${data.data_tren.baseline.tahun ? `(tahun ${data.data_tren.baseline.tahun})` : ''}
-                            </p>
-                        ` : ''}
-                    `;
-                    chart = null;
-                    renderChart(data.data_tren);
-                } else if (data.indikator && !data.data_tren) {
-                    hasil.innerHTML = `
-                        <div class="mt-6">
-                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
-                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
-                        </div>
-                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-                            Belum ada data tren untuk indikator ini.
-                        </div>
-                    `;
-                    chart = null;
-                } else {
-                    hasil.innerHTML = `
-                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-                            Pilih pilar dan indikator untuk melihat grafik tren.
-                        </div>
-                    `;
-                    chart = null;
-                }
-            };
-
-            pilarSelect.addEventListener('change', function () {
-                muatTren(this.value, '');
-            });
-
-            indikatorSelect.addEventListener('change', function () {
-                muatTren(pilarSelect.value, this.value);
-            });
-
-            @if ($indikatorDipilih && $dataTren && ! $dataTren->kosong())
-                renderChart(@json($dataTren->toArray()));
-            @endif
-        })();
-
-        (function () {
-            const ringkasanTahunButton = document.getElementById('ringkasanTahunButton');
-            const ringkasanTahunDropdown = document.getElementById('ringkasanTahunDropdown');
-            const ringkasanSearch = document.getElementById('ringkasanSearch');
-            const ringkasanTable = document.getElementById('ringkasanTable');
-
-            if (ringkasanTahunButton && ringkasanTahunDropdown) {
-                ringkasanTahunButton.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    ringkasanTahunDropdown.classList.toggle('hidden');
-                    const icon = document.getElementById('ringkasanTahunIcon');
-                    if (icon) {
-                        icon.classList.toggle('rotate-180');
-                    }
-                });
-
-                document.addEventListener('click', function () {
-                    ringkasanTahunDropdown.classList.add('hidden');
-                    const icon = document.getElementById('ringkasanTahunIcon');
-                    if (icon) {
-                        icon.classList.remove('rotate-180');
-                    }
-                });
-
-                ringkasanTahunDropdown.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
-            }
-
-            if (ringkasanSearch && ringkasanTable) {
-                ringkasanSearch.addEventListener('input', function () {
-                    const keyword = this.value.toLowerCase();
-                    const rows = ringkasanTable.querySelectorAll('.ringkasan-row');
-
-                    rows.forEach(function (row) {
-                        const text = row.textContent.toLowerCase();
-                        row.style.display = text.includes(keyword) ? '' : 'none';
-                    });
-                });
-            }
-        })();
-    </script>
-@endpush
+ΓÇ╣caveman: shrank ┬╖ 11291ΓåÆ9614 estimated tokens ┬╖ counter o200k_base ┬╖ inferred ┬╖ recover: caveman retrieve ccr_8b426f0d278e3f9a9a5f182bc3a38f2fΓÇ║
