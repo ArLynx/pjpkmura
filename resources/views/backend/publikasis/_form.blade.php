@@ -118,7 +118,7 @@
 
 
         <p class="mt-2 text-xs text-slate-500">
-            PDF atau dokumen Office. Maksimal 20 MB.
+            PDF atau dokumen Office. Maksimal 50 MB.
         </p>
 
 

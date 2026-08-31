@@ -88,6 +88,10 @@
                         </th>
 
                         <th class="px-6 py-4">
+                            Instansi Pendukung
+                        </th>
+
+                        <th class="px-6 py-4">
                             Sumber Data
                         </th>
 
@@ -145,6 +149,17 @@
                             {{-- INSTANSI --}}
                             <td class="px-6 py-4 text-sm text-slate-600">
                                 {{ $indikator->instansi?->nama ?? '-' }}
+                            </td>
+
+                            {{-- INSTANSI PENDUKUNG --}}
+                            <td class="px-6 py-4 text-sm text-slate-600">
+
+                                @if ($indikator->instansi_pendukung)
+                                    {{ $indikator->instansi_pendukung }}
+                                @else
+                                    -
+                                @endif
+
                             </td>
 
 

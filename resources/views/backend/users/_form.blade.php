@@ -149,21 +149,42 @@
             Kata Sandi (Minimal 8 kombinasi angka dan huruf) {{ $editing ? '(opsional)' : '' }}
         </label>
 
-        <input
-            id="password"
-            type="password"
-            name="password"
-            {{ $editing ? '' : 'required' }}
-            class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
-            autocomplete="new-password"
-        >
+        <div class="relative">
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                {{ $editing ? '' : 'required' }}
+                class="w-full rounded-xl border-slate-300 pr-12 focus:border-sky-600 focus:ring-sky-600"
+                autocomplete="new-password"
+            >
+
+            {{-- Tombol lihat password --}}
+            <button
+                type="button"
+                onclick="togglePassword('password', 'passwordIcon')"
+                class="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-slate-400 hover:text-sky-600"
+                tabindex="-1"
+                title="Lihat kata sandi"
+            >
+                <span
+                    id="passwordIcon"
+                    class="material-symbols-outlined"
+                >
+                    visibility
+                </span>
+            </button>
+
+        </div>
 
         @if($editing)
             <p class="mt-1 text-xs text-slate-500">
-                 Kosongkan bila tidak diubah. Kata Sandi Minimal 8 kombinasi angka dan huruf
+                Kosongkan bila tidak diubah. Kata Sandi Minimal 8 kombinasi angka dan huruf
             </p>
         @endif
     </div>
+
 
     {{-- Konfirmasi Password --}}
     <div>
@@ -171,16 +192,35 @@
             Konfirmasi Kata Sandi
         </label>
 
-        <input
-            id="password_confirmation"
-            type="password"
-            name="password_confirmation"
-            {{ $editing ? '' : 'required' }}
-            class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
-            autocomplete="new-password"
-        >
-    </div>
+        <div class="relative">
 
+            <input
+                id="password_confirmation"
+                type="password"
+                name="password_confirmation"
+                {{ $editing ? '' : 'required' }}
+                class="w-full rounded-xl border-slate-300 pr-12 focus:border-sky-600 focus:ring-sky-600"
+                autocomplete="new-password"
+            >
+
+            {{-- Tombol lihat konfirmasi password --}}
+            <button
+                type="button"
+                onclick="togglePassword('password_confirmation', 'passwordConfirmationIcon')"
+                class="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-slate-400 hover:text-sky-600"
+                tabindex="-1"
+                title="Lihat konfirmasi kata sandi"
+            >
+                <span
+                    id="passwordConfirmationIcon"
+                    class="material-symbols-outlined"
+                >
+                    visibility
+                </span>
+            </button>
+
+        </div>
+    </div>
 </div>
 
 {{-- Tombol --}}
@@ -201,3 +241,25 @@
     </button>
 
 </div>
+
+<script>
+    function togglePassword(inputId, iconId) {
+
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (input.type === 'password') {
+
+            input.type = 'text';
+
+            icon.textContent = 'visibility_off';
+
+        } else {
+
+            input.type = 'password';
+
+            icon.textContent = 'visibility';
+
+        }
+    }
+</script>

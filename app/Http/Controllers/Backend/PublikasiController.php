@@ -89,7 +89,7 @@ class PublikasiController extends Controller
         return $request->validate([
             'judul' => ['required', 'string', 'max:255'],
             'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'file' => [$updating ? 'nullable' : 'required', 'file', 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx', 'max:20480'],
+            'file' => [$updating ? 'nullable' : 'required', 'file', 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx', 'max:61440'],
             'deskripsi' => ['nullable', 'string'],
             'penulis' => ['nullable', 'string', 'max:255'],
         ]);

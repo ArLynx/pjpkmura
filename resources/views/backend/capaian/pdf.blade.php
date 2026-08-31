@@ -153,7 +153,7 @@
         }
 
         /* =========================================================
-           TANDA TANGAN
+        TANDA TANGAN
         ========================================================= */
 
         .signature-wrapper {
@@ -162,29 +162,44 @@
         }
 
         .signature {
-            width: 40%;
-            margin-left: 60%;
+            width: 45%;
+            margin-left: 55%;
             text-align: center;
         }
 
         .signature-date {
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+            font-size: 8px;
         }
 
         .signature-title {
-            margin-top: 4px;
+            margin-top: 7px;
+
+            font-size: 8px;
+            line-height: 1.35;
             font-weight: bold;
+
+            text-align: center;
+
+            /* penting untuk nama instansi panjang */
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .signature-space {
-            height: 65px;
+            height: 75px;
         }
 
         .signature-line {
             border-top: 1px solid #000;
             width: 75%;
             margin: 0 auto;
-            padding-top: 3px;
+        }
+
+        .signature-instansi {
+            max-width: 100%;
+            margin: 0 auto;
         }
     </style>
 
@@ -212,7 +227,7 @@
 
     {{-- =========================================================
      IDENTITAS LAPORAN
-========================================================= --}}
+    ========================================================= --}}
 
     <div style="margin-bottom: 8px;">
 
@@ -602,7 +617,7 @@
 
             <div class="signature-date">
 
-                Murung Raya,
+                Puruk Cahu,
                 {{ now()->translatedFormat('d F Y') }}
 
             </div>
@@ -617,14 +632,29 @@
 
             {{-- NAMA INSTANSI --}}
 
+            @php
+                $namaInstansi = $instansi->nama ?? 'PEMERINTAH';
+
+                $namaInstansiLower = strtolower($namaInstansi);
+
+                $tanpaKepala =
+                    str_contains($namaInstansiLower, 'sekretariat daerah') ||
+                    str_contains($namaInstansiLower, 'setda') ||
+                    str_contains($namaInstansiLower, 'sekda');
+            @endphp
+
             <div class="signature-title">
 
-                Kepala
-                {{ $instansi->nama ?? 'PEMERINTAH' }}
+                @if (!$tanpaKepala)
+                    <div>Kepala</div>
+                @endif
 
-                <br>
+                <div class="signature-instansi">
+                    {{ $namaInstansi }}
+                </div>
 
-                KABUPATEN MURUNG RAYA
+                <div>
+                    Kabupaten Murung Raya
 
             </div>
 

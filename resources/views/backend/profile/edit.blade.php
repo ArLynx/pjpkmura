@@ -93,7 +93,7 @@
 
 
                 {{-- INSTANSI --}}
-                <div>
+                {{-- <div>
 
                     <label
                         for="instansi"
@@ -109,7 +109,7 @@
                         class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
                     >
 
-                </div>
+                </div> --}}
 
 
                 {{-- PASSWORD --}}
@@ -119,16 +119,38 @@
                         for="password"
                         class="mb-2 block text-sm font-semibold text-slate-700"
                     >
-                        Kata Sandi Baru 
+                        Kata Sandi Baru
                     </label>
 
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
-                        autocomplete="new-password"
-                    >
+                    <div class="relative">
+
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            class="w-full rounded-xl border-slate-300 pr-12 focus:border-sky-600 focus:ring-sky-600"
+                            autocomplete="new-password"
+                        >
+
+                        {{-- Tombol lihat password --}}
+                        <button
+                            type="button"
+                            onclick="togglePassword('password', 'passwordIcon')"
+                            class="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-slate-400 transition hover:text-sky-600"
+                            tabindex="-1"
+                            title="Lihat kata sandi"
+                        >
+
+                            <span
+                                id="passwordIcon"
+                                class="material-symbols-outlined"
+                            >
+                                visibility
+                            </span>
+
+                        </button>
+
+                    </div>
 
                     <p class="mt-1 text-xs text-slate-500">
                         Kosongkan bila tidak diubah. Kata Sandi Minimal 8 kombinasi angka dan huruf
@@ -147,13 +169,35 @@
                         Konfirmasi Kata Sandi
                     </label>
 
-                    <input
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
-                        autocomplete="new-password"
-                    >
+                    <div class="relative">
+
+                        <input
+                            id="password_confirmation"
+                            type="password"
+                            name="password_confirmation"
+                            class="w-full rounded-xl border-slate-300 pr-12 focus:border-sky-600 focus:ring-sky-600"
+                            autocomplete="new-password"
+                        >
+
+                        {{-- Tombol lihat konfirmasi password --}}
+                        <button
+                            type="button"
+                            onclick="togglePassword('password_confirmation', 'passwordConfirmationIcon')"
+                            class="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-slate-400 transition hover:text-sky-600"
+                            tabindex="-1"
+                            title="Lihat konfirmasi kata sandi"
+                        >
+
+                            <span
+                                id="passwordConfirmationIcon"
+                                class="material-symbols-outlined"
+                            >
+                                visibility
+                            </span>
+
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -181,5 +225,36 @@
         </form>
 
     </div>
+
+
+    {{-- ===================================================== --}}
+    {{-- JAVASCRIPT LIHAT PASSWORD --}}
+    {{-- ===================================================== --}}
+
+    <script>
+        function togglePassword(inputId, iconId) {
+
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (!input || !icon) {
+                return;
+            }
+
+            if (input.type === 'password') {
+
+                input.type = 'text';
+
+                icon.textContent = 'visibility_off';
+
+            } else {
+
+                input.type = 'password';
+
+                icon.textContent = 'visibility';
+
+            }
+        }
+    </script>
 
 @endsection

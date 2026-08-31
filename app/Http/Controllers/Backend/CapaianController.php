@@ -49,22 +49,29 @@ class CapaianController extends Controller
 
         $pilarAktif = Pilar::find($pilar);
 
-        $indikators = collect();
+       if ($pilar) {
 
-        if ($pilarAktif) {
             $indikators = Indikator::where('pilar_id', $pilar)
-            ->with([
-                'targets' => function ($q) use ($tahun) {
-                    $q->where('tahun_id', $tahun);
-                },
-                'realisasis' => function ($q) use ($tahun) {
-                    $q->where('tahun_id', $tahun)
-                        ->with('dataPendukungs');
-                },
-            ])
-            ->orderBy('urutan')
-            ->paginate(3)
-            ->withQueryString();
+                ->with([
+                    'targets' => function ($q) use ($tahun) {
+                        $q->where('tahun_id', $tahun);
+                    },
+
+                    'realisasis' => function ($q) use ($tahun) {
+                        $q->where('tahun_id', $tahun)
+                            ->with('dataPendukungs');
+                    },
+                ])
+                ->orderBy('urutan')
+                ->paginate(3)
+                ->withQueryString();
+
+        } else {
+
+            $indikators = Indikator::whereRaw('1 = 0')
+                ->paginate(3)
+                ->withQueryString();
+
         }
 
         /*
