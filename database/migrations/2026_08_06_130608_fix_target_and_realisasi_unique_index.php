@@ -19,9 +19,6 @@ return new class extends Migration
             // Hapus foreign key indikator_id.
             $table->dropForeign(['indikator_id']);
 
-            // Buat index biasa untuk foreign key.
-            $table->index('indikator_id');
-
             // Buat unique baru berbasis tahun_id.
             $table->unique(['indikator_id', 'tahun_id']);
 
@@ -42,9 +39,6 @@ return new class extends Migration
 
             // Hapus foreign key indikator_id.
             $table->dropForeign(['indikator_id']);
-
-            // Buat index biasa untuk foreign key.
-            $table->index('indikator_id');
 
             // Buat unique baru berbasis tahun_id.
             $table->unique(['indikator_id', 'tahun_id']);

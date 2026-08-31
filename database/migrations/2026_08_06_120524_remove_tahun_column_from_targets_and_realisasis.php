@@ -18,8 +18,11 @@ return new class extends Migration
 
             if (Schema::hasColumn('targets', 'tahun')) {
 
+                // MySQL menggunakan unique key [indikator_id, tahun] untuk mendukung foreign key indikator_id.
+                // Tambahkan index biasa terlebih dahulu agar foreign key tetap valid saat unique key dihapus.
+                $table->index('indikator_id', 'targets_indikator_id_index');
+
                 // Lepas unique lama yang masih mereferensikan kolom tahun
-                // sebelum kolom dihapus (diperlukan untuk SQLite).
                 $table->dropUnique('targets_indikator_id_tahun_unique');
 
                 $table->dropColumn('tahun');
@@ -37,8 +40,10 @@ return new class extends Migration
 
             if (Schema::hasColumn('realisasis', 'tahun')) {
 
+                // Tambahkan index biasa terlebih dahulu agar foreign key tetap valid saat unique key dihapus.
+                $table->index('indikator_id', 'realisasis_indikator_id_index');
+
                 // Lepas unique lama yang masih mereferensikan kolom tahun
-                // sebelum kolom dihapus (diperlukan untuk SQLite).
                 $table->dropUnique('realisasis_indikator_id_tahun_unique');
 
                 $table->dropColumn('tahun');

@@ -94,26 +94,28 @@
             Peran
         </label>
 
-        <select
-            id="role"
-            name="role"
-            required
-            class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
-            @disabled($editing && auth()->user()->is($user))
-        >
-            <option value="admin"
-                @selected(old('role', $user->role ?? 'admin') === 'admin')>
-                Admin
-            </option>
-
-            <option value="superadmin"
-                @selected(old('role', $user->role ?? '') === 'superadmin')>
-                Superadmin
-            </option>
-        </select>
-
-        @if($editing && auth()->user()->is($user))
+        @if($editing && ($user->role ?? '') === 'superadmin')
+            <input
+                type="text"
+                value="Superadmin"
+                disabled
+                class="w-full rounded-xl border-slate-300 bg-slate-100 text-slate-600 cursor-not-allowed"
+            >
             <input type="hidden" name="role" value="superadmin">
+            <p class="mt-1 text-xs text-slate-500">
+                Peran Superadmin dibuat melalui seeder sistem dan tidak dapat diubah dari CRUD.
+            </p>
+        @else
+            <input
+                type="text"
+                value="Admin"
+                disabled
+                class="w-full rounded-xl border-slate-300 bg-slate-100 text-slate-600 cursor-not-allowed"
+            >
+            <input type="hidden" name="role" value="admin">
+            <p class="mt-1 text-xs text-slate-500">
+                Pengguna yang ditambahkan melalui form ini otomatis memiliki peran Admin.
+            </p>
         @endif
     </div>
 
