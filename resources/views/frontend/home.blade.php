@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Home | PJPK Murung Raya')
 
 @section('content')
 
@@ -63,7 +63,7 @@
 
                 <div class="mt-8">
 
-                    <a href="#indikator"
+                    <a href="{{ route('dashboard') }}"
                         class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover">
 
                         Lihat Dashboard Indikator
