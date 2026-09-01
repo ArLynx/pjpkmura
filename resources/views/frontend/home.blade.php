@@ -315,15 +315,50 @@
                                     Publikasi
                                 </span>
 
+                                @if ($publikasi->file)
+
+                                @php
+                                    $extension = strtolower(pathinfo($publikasi->file, PATHINFO_EXTENSION));
+
+                                    $fileInfo = match ($extension) {
+                                        'pdf' => [
+                                            'icon' => 'picture_as_pdf',
+                                            'label' => 'PDF',
+                                        ],
+
+                                        'doc', 'docx' => [
+                                            'icon' => 'description',
+                                            'label' => 'Word',
+                                        ],
+
+                                        'xls', 'xlsx' => [
+                                            'icon' => 'table_chart',
+                                            'label' => 'Excel',
+                                        ],
+
+                                        'ppt', 'pptx' => [
+                                            'icon' => 'slideshow',
+                                            'label' => 'PowerPoint',
+                                        ],
+
+                                        default => [
+                                            'icon' => 'description',
+                                            'label' => strtoupper($extension),
+                                        ],
+                                    };
+                                @endphp
+
                                 <span class="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-slate-400">
 
                                     <span class="material-symbols-outlined text-[16px]">
-                                        picture_as_pdf
+                                        {{ $fileInfo['icon'] }}
                                     </span>
 
-                                    PDF
+                                    {{ $fileInfo['label'] }}
 
                                 </span>
+
+                            @endif
 
                             </div>
 
@@ -337,21 +372,17 @@
 
 
                             {{-- TITLE --}}
-                            <h3 class="mt-3 line-clamp-2 min-h-[48px] text-base font-semibold leading-6 text-slate-900">
-
+                            <h3 class="mt-3 text-base font-semibold leading-6 text-slate-900">
                                 {{ $publikasi->judul }}
-
                             </h3>
 
 
                             {{-- DESCRIPTION --}}
-                            <div class="min-h-[48px]">
+                            <div>
 
                                 @if ($publikasi->deskripsi)
-                                    <p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-500">
-
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($publikasi->deskripsi), 100) }}
-
+                                    <p class="mt-3 text-sm leading-6 text-slate-500">
+                                        {{ strip_tags($publikasi->deskripsi) }}
                                     </p>
                                 @else
                                     <p class="mt-3 text-sm leading-6 text-slate-400">
