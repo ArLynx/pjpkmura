@@ -21,17 +21,33 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:100', 'alpha_dash', Rule::unique('users', 'username')->ignore($user->id)],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+
+            'nama_pimpinan' => ['nullable', 'string', 'max:255'],
+            'pangkat_golongan' => ['nullable', 'string', 'max:255'],
+            'nip' => ['nullable', 'string', 'max:30'],
+
+            'password' => ['nullable', 'confirmed', 'min:8'],
         ]);
 
-        if (blank($validated['password'] ?? null)) {
-            unset($validated['password']);
+        $user->update([
+            'name' => $validated['name'],
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'nama_pimpinan' => $validated['nama_pimpinan'] ?? null,
+            'pangkat_golongan' => $validated['pangkat_golongan'] ?? null,
+            'nip' => $validated['nip'] ?? null,
+        ]);
+
+        if (!empty($validated['password'])) {
+            $user->update([
+                'password' => Hash::make($validated['password']),
+            ]);
         }
 
-        $user->update($validated);
-
-        return back()->with('success', 'Profil berhasil diperbarui.');
+        return redirect()
+            ->route('admin.profile.edit')
+            ->with('success', 'Profil berhasil diperbarui.');
     }
 }

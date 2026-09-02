@@ -158,21 +158,22 @@
 
                                 {{-- JUDUL --}}
 
-                                <h2 class="line-clamp-2 min-h-[48px] text-base font-bold leading-snug text-slate-800">
+                                <h2 class="text-base font-bold leading-snug text-slate-800">
 
                                     {{ $publikasi->judul }}
 
                                 </h2>
 
-
                                 {{-- DESKRIPSI --}}
 
                                 @if ($publikasi->deskripsi)
-                                    <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-500">
 
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($publikasi->deskripsi), 100) }}
+                                    <p class="mt-2 text-sm leading-relaxed text-slate-500">
+
+                                        {{ strip_tags($publikasi->deskripsi) }}
 
                                     </p>
+
                                 @endif
 
 

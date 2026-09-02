@@ -7,6 +7,7 @@
 
     <div class="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
 
+        {{-- HEADER --}}
         <div class="mb-6">
 
             <h2 class="text-xl font-bold text-slate-900">
@@ -14,7 +15,7 @@
             </h2>
 
             <p class="mt-1 text-sm text-slate-500">
-                Perbarui identitas dan kata sandi akun yang sedang digunakan.
+                Perbarui identitas akun dan informasi pimpinan untuk kebutuhan dokumen laporan.
             </p>
 
         </div>
@@ -28,7 +29,10 @@
 
             <div class="grid gap-6 md:grid-cols-2">
 
-                {{-- NAMA --}}
+                {{-- ===================================================== --}}
+                {{-- NAMA LENGKAP --}}
+                {{-- ===================================================== --}}
+
                 <div>
 
                     <label
@@ -49,7 +53,10 @@
                 </div>
 
 
+                {{-- ===================================================== --}}
                 {{-- USERNAME --}}
+                {{-- ===================================================== --}}
+
                 <div>
 
                     <label
@@ -70,7 +77,10 @@
                 </div>
 
 
+                {{-- ===================================================== --}}
                 {{-- EMAIL --}}
+                {{-- ===================================================== --}}
+
                 <div>
 
                     <label
@@ -92,8 +102,11 @@
                 </div>
 
 
+                {{-- ===================================================== --}}
                 {{-- INSTANSI --}}
-                {{-- <div>
+                {{-- ===================================================== --}}
+
+                <div>
 
                     <label
                         for="instansi"
@@ -104,15 +117,136 @@
 
                     <input
                         id="instansi"
-                        name="instansi"
-                        value="{{ old('instansi', $user->instansi) }}"
+                        type="text"
+                        value="{{ $user->instansi?->nama ?? '-' }}"
+                        readonly
+                        class="w-full cursor-not-allowed rounded-xl border-slate-300 bg-slate-100 text-slate-600 focus:border-slate-300 focus:ring-0"
+                    >
+
+                    <p class="mt-1 text-xs text-slate-500">
+                        Instansi mengikuti akun Anda dan tidak dapat diubah melalui halaman profil hanya superadmin dapat mengubah.
+                    </p>
+
+                </div>
+
+
+                {{-- ===================================================== --}}
+                {{-- INFORMASI TTD --}}
+                {{-- ===================================================== --}}
+
+                <div class="md:col-span-2">
+
+                    <div class="border-t border-slate-200 pt-6">
+
+                        <h3 class="text-base font-bold text-slate-900">
+                            Informasi Pimpinan
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Data berikut digunakan sebagai identitas penandatangan pada dokumen laporan.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- ===================================================== --}}
+                {{-- NAMA PIMPINAN --}}
+                {{-- ===================================================== --}}
+
+                <div>
+
+                    <label
+                        for="nama_pimpinan"
+                        class="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                        Nama Pimpinan
+                    </label>
+
+                    <input
+                        id="nama_pimpinan"
+                        name="nama_pimpinan"
+                        type="text"
+                        value="{{ old('nama_pimpinan', $user->nama_pimpinan) }}"
                         class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
                     >
 
-                </div> --}}
+                    <p class="mt-1 text-xs text-slate-500">
+                        Contoh: Drs. H. Budi Santoso
+                    </p>
+
+                </div>
 
 
+                {{-- ===================================================== --}}
+                {{-- PANGKAT / GOLONGAN --}}
+                {{-- ===================================================== --}}
+
+                <div>
+
+                    <label
+                        for="pangkat_golongan"
+                        class="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                        Pangkat / Golongan
+                    </label>
+
+                    <input
+                        id="pangkat_golongan"
+                        name="pangkat_golongan"
+                        type="text"
+                        value="{{ old('pangkat_golongan', $user->pangkat_golongan) }}"
+                        class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
+                    >
+
+                    <p class="mt-1 text-xs text-slate-500">
+                        Contoh: Pembina Utama Madya (IV/d)
+                    </p>
+
+                </div>
+
+
+                {{-- ===================================================== --}}
+                {{-- NIP --}}
+                {{-- ===================================================== --}}
+
+                <div>
+
+                    <label
+                        for="nip"
+                        class="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                        NIP
+                    </label>
+
+                    <input
+                        id="nip"
+                        name="nip"
+                        type="text"
+                        inputmode="numeric"
+                        value="{{ old('nip', $user->nip) }}"
+                        maxlength="18"
+                        class="w-full rounded-xl border-slate-300 focus:border-sky-600 focus:ring-sky-600"
+                    >
+
+                    <p class="mt-1 text-xs text-slate-500">
+                        Contoh NIP baru: 197501012005011001
+                    </p>
+
+                    @error('nip')
+                        <p class="mt-1 text-xs text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
+
+
+                {{-- ===================================================== --}}
                 {{-- PASSWORD --}}
+                {{-- ===================================================== --}}
+
                 <div>
 
                     <label
@@ -153,13 +287,16 @@
                     </div>
 
                     <p class="mt-1 text-xs text-slate-500">
-                        Kosongkan bila tidak diubah. Kata Sandi Minimal 8 kombinasi angka dan huruf
+                        Kosongkan bila tidak diubah. Kata sandi minimal 8 kombinasi angka dan huruf.
                     </p>
 
                 </div>
 
 
+                {{-- ===================================================== --}}
                 {{-- KONFIRMASI PASSWORD --}}
+                {{-- ===================================================== --}}
+
                 <div>
 
                     <label
@@ -204,7 +341,10 @@
             </div>
 
 
+            {{-- ===================================================== --}}
             {{-- BUTTON --}}
+            {{-- ===================================================== --}}
+
             <div class="mt-8 flex justify-end">
 
                 <button

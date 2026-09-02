@@ -197,6 +197,26 @@
             margin: 0 auto;
         }
 
+        .signature-name {
+            margin-top: 5px;
+            font-size: 8px;
+            line-height: 1.35;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .signature-pangkat {
+            font-size: 8px;
+            line-height: 1.35;
+            text-align: center;
+        }
+
+        .signature-nip {
+            font-size: 8px;
+            line-height: 1.35;
+            text-align: center;
+        }
+
         .signature-instansi {
             max-width: 100%;
             margin: 0 auto;
@@ -606,7 +626,7 @@
 
 
     {{-- =========================================================
-         TANDA TANGAN
+        TANDA TANGAN
     ========================================================= --}}
 
     <div class="signature-wrapper">
@@ -614,60 +634,104 @@
         <div class="signature">
 
             {{-- TANGGAL --}}
-
             <div class="signature-date">
-
                 Puruk Cahu,
                 {{ now()->translatedFormat('d F Y') }}
-
             </div>
 
 
             {{-- MENGETAHUI --}}
-
             <div>
                 Mengetahui,
             </div>
 
 
-            {{-- NAMA INSTANSI --}}
+            {{-- =========================================================
+                JABATAN / INSTANSI PENANDATANGAN
+            ========================================================= --}}
 
             @php
                 $namaInstansi = $instansi->nama ?? 'PEMERINTAH';
 
-                $namaInstansiLower = strtolower($namaInstansi);
+                $namaInstansiLower = strtolower(trim($namaInstansi));
 
-                $tanpaKepala =
+                // Deteksi Sekretariat Daerah / Setda / Sekda
+                $isSekda =
                     str_contains($namaInstansiLower, 'sekretariat daerah') ||
                     str_contains($namaInstansiLower, 'setda') ||
                     str_contains($namaInstansiLower, 'sekda');
             @endphp
 
+
             <div class="signature-title">
 
-                @if (!$tanpaKepala)
-                    <div>Kepala</div>
+                @if ($isSekda)
+
+                    {{-- ============================
+                        SEKRETARIAT DAERAH
+                    ============================= --}}
+
+                    <div>
+                        Sekretaris Daerah
+                    </div>
+
+                    <div>
+                        Kabupaten Murung Raya
+                    </div>
+
+                @else
+
+                    {{-- ============================
+                        DINAS / BADAN / INSTANSI LAIN
+                    ============================= --}}
+
+                    <div>
+                        Kepala
+                    </div>
+
+                    <div class="signature-instansi">
+                        {{ $namaInstansi }}
+                    </div>
+
+                    <div>
+                        Kabupaten Murung Raya
+                    </div>
+
                 @endif
-
-                <div class="signature-instansi">
-                    {{ $namaInstansi }}
-                </div>
-
-                <div>
-                    Kabupaten Murung Raya
 
             </div>
 
 
-            {{-- RUANG TANDA TANGAN --}}
+            {{-- =========================================================
+                RUANG TANDA TANGAN
+            ========================================================= --}}
 
             <div class="signature-space">
             </div>
 
 
-            {{-- GARIS TANDA TANGAN --}}
+            {{-- =========================================================
+                GARIS TANDA TANGAN
+            ========================================================= --}}
 
             <div class="signature-line">
+            </div>
+
+
+            {{-- =========================================================
+                IDENTITAS PIMPINAN
+            ========================================================= --}}
+
+            <div class="signature-name">
+                {{ $user->nama_pimpinan ?? '-' }}
+            </div>
+
+            <div class="signature-pangkat">
+                {{ $user->pangkat_golongan ?? '-' }}
+            </div>
+
+            <div class="signature-nip">
+                NIP. {{ $user->nip ?? '-' }}
             </div>
 
         </div>
