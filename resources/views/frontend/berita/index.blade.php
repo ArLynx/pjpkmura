@@ -265,7 +265,7 @@
                                     <div class="min-w-0">
 
                                         <h3
-                                            class="line-clamp-2 text-sm font-semibold leading-snug text-slate-700 group-hover:text-teal-700">
+                                            class="line-clamp-2 text-sm font-semibold leading-snug text-slate-700 group-hover:text-primary">
 
                                             {{ $item->judul }}
 

@@ -39,122 +39,272 @@
                 {{-- TREN INDIKATOR --}}
                 {{-- ===================================================== --}}
 
-                <div class="w-full bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
 
+                    {{-- ================================================= --}}
+                    {{-- HEADER --}}
+                    {{-- ================================================= --}}
                     <div class="mb-6">
 
-                        <h4 class="text-xl font-semibold text-slate-900 mb-2">
-                            Tren Indikator
-                        </h4>
+                        <div class="flex items-center gap-3">
 
-                        <p class="text-sm text-slate-500">
-                            Grafik perkembangan target dan realisasi indikator dari tahun ke tahun.
-                        </p>
+                            <div
+                                class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-light text-primary">
 
-                    </div>
-
-                    <form id="form-tren" method="GET" action="{{ route('dashboard.trenData') }}" onsubmit="return false;">
-
-                        <div class="grid md:grid-cols-2 gap-6">
-
-                            <div>
-
-                                <label class="block mb-2 font-medium text-slate-700">
-                                    Pilar
-                                </label>
-
-                                <select name="pilar_tren" id="pilar-tren"
-                                    class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600">
-
-                                    <option value="">
-                                        Pilih Pilar
-                                    </option>
-
-                                    @foreach ($pilars as $item)
-                                        <option value="{{ $item->id }}" {{ $pilarTren == $item->id ? 'selected' : '' }}>
-
-                                            {{ $item->nama }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
+                                <span class="material-symbols-outlined text-xl">
+                                    monitoring
+                                </span>
 
                             </div>
 
                             <div>
 
-                                <label class="block mb-2 font-medium text-slate-700">
-                                    Indikator
-                                </label>
+                                <h4 class="text-xl font-semibold leading-6 text-slate-900">
+                                    Tren Indikator
+                                </h4>
 
-                                <select name="indikator_tren" id="indikator-tren"
-                                    class="w-full rounded-xl border-slate-300 focus:border-teal-600 focus:ring-teal-600"
-                                    {{ $indikatorsTren->isEmpty() ? 'disabled' : '' }}>
-
-                                    <option value="">
-                                        Pilih Indikator
-                                    </option>
-
-                                    @foreach ($indikatorsTren as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ $indikatorTren == $item->id ? 'selected' : '' }}>
-
-                                            {{ $item->nama_indikator }}
-
-                                        </option>
-                                    @endforeach
-
-                                </select>
+                                <p class="mt-1 text-sm leading-5 text-slate-500">
+                                    Grafik perkembangan target dan realisasi indikator dari tahun ke tahun.
+                                </p>
 
                             </div>
 
                         </div>
 
-                    </form>
+                    </div>
 
+
+                    {{-- ================================================= --}}
+                    {{-- FILTER TREN --}}
+                    {{-- ================================================= --}}
+                    <div class="mt-8 mb-10 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 md:p-6">
+
+                        <form id="form-tren" method="GET" action="{{ route('dashboard.trenData') }}"
+                            onsubmit="return false;">
+
+                            <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-7">
+
+                                {{-- ================================================= --}}
+                                {{-- PILAR --}}
+                                {{-- ================================================= --}}
+                                <div class="min-w-0">
+
+                                    <label for="pilar-tren"
+                                        class="mb-2.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
+                                        Pilar
+                                    </label>
+
+                                    <div class="relative" data-custom-select="pilar">
+
+                                        {{-- Select asli --}}
+                                        <select name="pilar_tren" id="pilar-tren" class="sr-only">
+                                            <option value="">Pilih Pilar</option>
+
+                                            @foreach ($pilars as $item)
+                                                <option value="{{ $item->id }}"
+                                                    {{ $pilarTren == $item->id ? 'selected' : '' }}>
+                                                    {{ $item->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        {{-- Tombol custom --}}
+                                        <button type="button" data-select-button aria-haspopup="listbox"
+                                            aria-expanded="false"
+                                            class="group flex h-14 w-full items-center rounded-xl border border-slate-200 bg-white px-4 text-left shadow-sm outline-none transition-all duration-200 hover:border-slate-300 hover:shadow-md focus:border-primary focus:ring-4 focus:ring-primary/10">
+
+                                            {{-- Icon --}}
+                                            <span
+                                                class="material-symbols-outlined mr-3 shrink-0 text-[21px] text-slate-400 transition-colors group-hover:text-primary">
+                                                account_tree
+                                            </span>
+
+                                            {{-- Text --}}
+                                            <span data-select-label
+                                                class="min-w-0 flex-1 truncate text-sm font-medium text-slate-700">
+                                                Pilih Pilar
+                                            </span>
+
+                                            {{-- Chevron --}}
+                                            <span data-select-chevron
+                                                class="material-symbols-outlined ml-3 shrink-0 text-[21px] text-slate-400 transition-transform duration-200">
+                                                expand_more
+                                            </span>
+
+                                        </button>
+
+                                        {{-- Custom dropdown --}}
+                                        <div data-select-menu
+                                            class="absolute left-0 right-0 top-full z-[100] mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl shadow-slate-900/10">
+                                            <div data-select-options class="max-h-64 overflow-y-auto overscroll-contain"
+                                                role="listbox">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- ================================================= --}}
+                                {{-- INDIKATOR --}}
+                                {{-- ================================================= --}}
+                                <div class="min-w-0">
+
+                                    <label for="indikator-tren"
+                                        class="mb-2.5 block text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
+                                        Indikator
+                                    </label>
+
+                                    <div class="relative" data-custom-select="indikator">
+
+                                        {{-- Select asli --}}
+                                        <select name="indikator_tren" id="indikator-tren" class="sr-only"
+                                            {{ $indikatorsTren->isEmpty() ? 'disabled' : '' }}>
+
+                                            <option value="">
+                                                {{ $indikatorsTren->isEmpty() ? 'Pilih pilar terlebih dahulu' : 'Pilih Indikator' }}
+                                            </option>
+
+                                            @foreach ($indikatorsTren as $item)
+                                                <option value="{{ $item->id }}"
+                                                    {{ $indikatorTren == $item->id ? 'selected' : '' }}>
+                                                    {{ $item->nama_indikator }}
+                                                </option>
+                                            @endforeach
+
+                                        </select>
+
+                                        {{-- Tombol custom --}}
+                                        <button type="button" data-select-button aria-haspopup="listbox"
+                                            aria-expanded="false"
+                                            class="group flex h-14 w-full items-center rounded-xl border border-slate-200 bg-white px-4 text-left shadow-sm outline-none transition-all duration-200 hover:border-slate-300 hover:shadow-md focus:border-primary focus:ring-4 focus:ring-primary/10 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none"
+                                            {{ $indikatorsTren->isEmpty() ? 'disabled' : '' }}>
+
+                                            {{-- Icon --}}
+                                            <span
+                                                class="material-symbols-outlined mr-3 shrink-0 text-[21px] text-slate-400 transition-colors group-hover:text-primary">
+                                                analytics
+                                            </span>
+
+                                            {{-- Text --}}
+                                            <span data-select-label
+                                                class="min-w-0 flex-1 truncate text-sm font-medium text-slate-700">
+                                                {{ $indikatorsTren->isEmpty() ? 'Pilih pilar terlebih dahulu' : 'Pilih Indikator' }}
+                                            </span>
+
+                                            {{-- Chevron --}}
+                                            <span data-select-chevron
+                                                class="material-symbols-outlined ml-3 shrink-0 text-[21px] text-slate-400 transition-transform duration-200">
+                                                expand_more
+                                            </span>
+
+                                        </button>
+
+                                        {{-- Custom dropdown --}}
+                                        <div data-select-menu
+                                            class="absolute left-0 right-0 top-full z-[100] mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl shadow-slate-900/10">
+                                            <div data-select-options class="max-h-64 overflow-y-auto overscroll-contain"
+                                                role="listbox">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+
+                    {{-- ================================================= --}}
+                    {{-- HASIL TREN --}}
+                    {{-- ================================================= --}}
                     <div id="tren-hasil">
 
                         @if ($indikatorDipilih)
 
-                            <div class="mt-6">
+                            {{-- Detail indikator --}}
+                            <div class="mt-8 border-t border-slate-100 pt-6">
 
-                                <h3 class="text-lg font-bold text-slate-800" id="tren-nama">
+                                <div>
 
-                                    {{ $indikatorDipilih->nama_indikator }}
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-primary">
+                                        Indikator terpilih
+                                    </p>
 
-                                </h3>
+                                    <h3 id="tren-nama" class="mt-2 text-lg font-bold leading-6 text-slate-900">
+                                        {{ $indikatorDipilih->nama_indikator }}
+                                    </h3>
 
-                                <p class="text-slate-500 mt-1 text-sm" id="tren-tujuan">
+                                    <p id="tren-tujuan" class="mt-1 text-sm leading-6 text-slate-500">
+                                        {{ $indikatorDipilih->tujuan_strategis }}
+                                    </p>
 
-                                    {{ $indikatorDipilih->tujuan_strategis }}
-
-                                </p>
+                                </div>
 
                             </div>
 
-                            <div class="relative mt-6" style="height: 360px;">
+
+                            {{-- Chart --}}
+                            <div class="relative mt-6 h-[360px] w-full rounded-xl border border-slate-200 bg-white p-3">
 
                                 <canvas id="trenChart"></canvas>
 
                             </div>
 
+
+                            {{-- Baseline --}}
                             @if ($dataTren->baseline)
-                                <p class="mt-4 text-sm text-slate-500" id="tren-baseline">
 
-                                    Baseline:
-                                    <span class="font-semibold text-slate-700">{{ $dataTren->baseline['nilai'] }}</span>
-                                    @if ($dataTren->baseline['tahun'])
-                                        (tahun {{ $dataTren->baseline['tahun'] }})
-                                    @endif
+                                <div id="tren-baseline"
+                                    class="mt-4 inline-flex items-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 text-sm text-slate-600">
 
-                                </p>
+                                    <span class="material-symbols-outlined text-lg text-primary">
+                                        flag
+                                    </span>
+
+                                    <span>
+                                        Baseline:
+                                        <strong class="font-semibold text-slate-800">
+                                            {{ $dataTren->baseline['nilai'] }}
+                                        </strong>
+
+                                        @if ($dataTren->baseline['tahun'])
+                                            <span class="text-slate-400">
+                                                (tahun {{ $dataTren->baseline['tahun'] }})
+                                            </span>
+                                        @endif
+
+                                    </span>
+
+                                </div>
+
                             @endif
                         @else
+                            {{-- Empty State --}}
                             <div
-                                class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
+                                class="mt-6 flex min-h-[220px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-6 text-center">
 
-                                Pilih pilar dan indikator untuk melihat grafik tren.
+                                <div
+                                    class="flex h-14 w-14 items-center justify-center rounded-full bg-primary-light text-primary">
+
+                                    <span class="material-symbols-outlined text-2xl">
+                                        monitoring
+                                    </span>
+
+                                </div>
+
+                                <h3 class="mt-4 text-base font-semibold text-slate-700">
+                                    Pilih indikator untuk melihat tren
+                                </h3>
+
+                                <p class="mt-2 max-w-md text-sm leading-6 text-slate-500">
+                                    Pilih pilar terlebih dahulu, kemudian pilih indikator
+                                    untuk menampilkan perkembangan target dan realisasi dari tahun ke tahun.
+                                </p>
 
                             </div>
 
@@ -171,22 +321,32 @@
                 <div
                     class="w-full lg:flex-1 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
 
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h4 class="text-xl font-semibold text-slate-900">
+                    {{-- ================================================= --}}
+                    {{-- HEADER --}}
+                    {{-- ================================================= --}}
+                    <div class="flex items-start justify-between gap-4">
+
+                        <div class="min-w-0">
+
+                            <h4 class="text-xl font-semibold leading-6 text-slate-900">
                                 Status Indikator
                             </h4>
 
-                            <p class="mt-1 text-sm text-slate-500">
+                            <p class="mt-1.5 text-sm leading-5 text-slate-500">
                                 Proporsi pencapaian per indikator
                             </p>
+
                         </div>
 
-                        <div class="relative">
-                            <button type="button" id="statusTahunButton"
-                                class="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm font-medium text-slate-700 transition-all duration-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        {{-- ================================================= --}}
+                        {{-- FILTER TAHUN --}}
+                        {{-- ================================================= --}}
+                        <div class="relative shrink-0">
 
-                                <span id="statusTahunText" class="pr-2">
+                            <button type="button" id="statusTahunButton"
+                                class="inline-flex h-10 min-w-[112px] items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-primary/40 hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary/20">
+
+                                <span id="statusTahunText">
                                     {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Pilih Tahun' }}
                                 </span>
 
@@ -197,33 +357,57 @@
 
                             </button>
 
+
+                            {{-- DROPDOWN --}}
                             <div id="statusTahunDropdown"
-                                class="absolute right-0 top-full z-50 mt-2 hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg min-w-[120px]">
+                                class="absolute right-0 top-full z-50 mt-2 hidden w-28 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
 
                                 <div class="max-h-64 overflow-y-auto py-1">
+
                                     @foreach ($tahuns as $item)
                                         <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
-                                            class="flex w-full items-center px-4 py-2.5 text-left text-sm font-medium transition-colors hover:bg-primary-light hover:text-primary {{ $item->id == $tahun ? 'bg-primary-light text-primary' : 'text-slate-700' }}">
-                                            {{ $item->tahun }}
+                                            class="flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors
+                        {{ $item->id == $tahun
+                            ? 'bg-primary-light text-primary'
+                            : 'text-slate-700 hover:bg-primary-light hover:text-primary' }}">
+
+                                            <span>
+                                                {{ $item->tahun }}
+                                            </span>
+
+                                            @if ($item->id == $tahun)
+                                                <span class="material-symbols-outlined text-[16px]">
+                                                    check
+                                                </span>
+                                            @endif
+
                                         </a>
                                     @endforeach
+
                                 </div>
 
                             </div>
+
                         </div>
+
                     </div>
 
-                    <div class="flex-grow flex items-center justify-center relative my-6">
 
-                        <div class="w-36 h-36 rounded-full border-8 border-slate-100 flex items-center justify-center">
+                    {{-- ================================================= --}}
+                    {{-- PROGRESS --}}
+                    {{-- ================================================= --}}
+                    <div class="flex flex-1 items-center justify-center py-8">
+
+                        <div
+                            class="relative flex h-40 w-40 items-center justify-center rounded-full border-[10px] border-slate-100">
 
                             <div class="text-center">
 
-                                <span class="text-3xl font-bold text-slate-700">
+                                <span class="block text-3xl font-bold tracking-tight text-slate-800">
                                     {{ $persentaseProgres }}%
                                 </span>
 
-                                <p class="mt-1 text-xs text-slate-500">
+                                <p class="mt-1 text-xs font-medium text-slate-500">
                                     Total Progres
                                 </p>
 
@@ -233,35 +417,72 @@
 
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
 
-                        <div class="flex items-center gap-2">
+                    {{-- ================================================= --}}
+                    {{-- STATUS --}}
+                    {{-- ================================================= --}}
+                    <div class="border-t border-slate-100 pt-5">
 
-                            <div class="w-2 h-2 rounded-full bg-green-600"></div>
+                        <div class="space-y-3">
 
-                            <span class="text-xs text-slate-600">
-                                Tercapai: {{ $jumlahTercapai }}
-                            </span>
+                            {{-- Tercapai --}}
+                            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
 
-                        </div>
+                                <div class="flex items-center gap-3">
 
-                        <div class="flex items-center gap-2">
+                                    <span class="h-2.5 w-2.5 rounded-full bg-green-600"></span>
 
-                            <div class="w-2 h-2 rounded-full bg-red-600"></div>
+                                    <span class="text-sm font-medium text-slate-600">
+                                        Tercapai
+                                    </span>
 
-                            <span class="text-xs text-slate-600">
-                                Belum Tercapai: {{ $jumlahBelumTercapai }}
-                            </span>
+                                </div>
 
-                        </div>
+                                <span class="text-sm font-bold text-slate-800">
+                                    {{ $jumlahTercapai }}
+                                </span>
 
-                        <div class="flex items-center gap-2">
+                            </div>
 
-                            <div class="w-2 h-2 rounded-full bg-slate-500"></div>
 
-                            <span class="text-xs text-slate-600">
-                                Belum Isi: {{ $jumlahBelumIsi }}
-                            </span>
+                            {{-- Belum Tercapai --}}
+                            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+
+                                <div class="flex items-center gap-3">
+
+                                    <span class="h-2.5 w-2.5 rounded-full bg-red-600"></span>
+
+                                    <span class="text-sm font-medium text-slate-600">
+                                        Belum Tercapai
+                                    </span>
+
+                                </div>
+
+                                <span class="text-sm font-bold text-slate-800">
+                                    {{ $jumlahBelumTercapai }}
+                                </span>
+
+                            </div>
+
+
+                            {{-- Belum Isi --}}
+                            <div class="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+
+                                <div class="flex items-center gap-3">
+
+                                    <span class="h-2.5 w-2.5 rounded-full bg-slate-500"></span>
+
+                                    <span class="text-sm font-medium text-slate-600">
+                                        Belum Terisi
+                                    </span>
+
+                                </div>
+
+                                <span class="text-sm font-bold text-slate-800">
+                                    {{ $jumlahBelumIsi }}
+                                </span>
+
+                            </div>
 
                         </div>
 
@@ -319,7 +540,8 @@
 
                                 <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
 
-                                    <div class="h-full bg-primary rounded-full" style="width: {{ $item['persentase'] }}%">
+                                    <div class="h-full bg-primary rounded-full"
+                                        style="width: {{ $item['persentase'] }}%">
                                     </div>
 
                                 </div>
@@ -1628,22 +1850,36 @@
 
 @push('scripts')
     <script>
+        /* =========================================================
+               STATUS TAHUN
+               ========================================================= */
         (function() {
             const statusTahunButton = document.getElementById('statusTahunButton');
             const statusTahunDropdown = document.getElementById('statusTahunDropdown');
 
             if (statusTahunButton && statusTahunDropdown) {
+
                 statusTahunButton.addEventListener('click', function(e) {
                     e.stopPropagation();
+
                     statusTahunDropdown.classList.toggle('hidden');
+
                     const icon = document.getElementById('statusTahunIcon');
-                    if (icon) icon.classList.toggle('rotate-180');
+
+                    if (icon) {
+                        icon.classList.toggle('rotate-180');
+                    }
                 });
 
                 document.addEventListener('click', function() {
+
                     statusTahunDropdown.classList.add('hidden');
+
                     const icon = document.getElementById('statusTahunIcon');
-                    if (icon) icon.classList.remove('rotate-180');
+
+                    if (icon) {
+                        icon.classList.remove('rotate-180');
+                    }
                 });
 
                 statusTahunDropdown.addEventListener('click', function(e) {
@@ -1652,7 +1888,12 @@
             }
         })();
 
+
+        /* =========================================================
+           TREN INDIKATOR
+           ========================================================= */
         (function() {
+
             const pilarSelect = document.getElementById('pilar-tren');
             const indikatorSelect = document.getElementById('indikator-tren');
             const hasil = document.getElementById('tren-hasil');
@@ -1664,13 +1905,22 @@
 
             let chart = null;
 
+
+            /* =====================================================
+               DATASET CHART
+               ===================================================== */
             const buildDatasets = (trenData) => {
+
                 const baselineData = {
                     tahun: [],
                     nilai: []
                 };
 
-                if (trenData && trenData.baseline && trenData.baseline.tahun) {
+                if (
+                    trenData &&
+                    trenData.baseline &&
+                    trenData.baseline.tahun
+                ) {
                     baselineData.tahun.push(trenData.baseline.tahun);
                     baselineData.nilai.push(trenData.baseline.nilai);
                 }
@@ -1703,13 +1953,20 @@
                 ];
             };
 
+
+            /* =====================================================
+               RENDER CHART
+               ===================================================== */
             const renderChart = (trenData) => {
+
                 const labels = trenData ? trenData.tahun : [];
 
                 if (chart) {
+
                     chart.data.labels = labels;
                     chart.data.datasets = buildDatasets(trenData);
                     chart.update();
+
                     return;
                 }
 
@@ -1721,14 +1978,17 @@
 
                 chart = new Chart(ctx, {
                     type: 'line',
+
                     data: {
                         labels: labels,
                         datasets: buildDatasets(trenData),
                     },
+
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         spanGaps: false,
+
                         scales: {
                             x: {
                                 title: {
@@ -1736,8 +1996,10 @@
                                     text: 'Tahun',
                                 },
                             },
+
                             y: {
                                 beginAtZero: true,
+
                                 title: {
                                     display: true,
                                     text: 'Nilai',
@@ -1748,7 +2010,12 @@
                 });
             };
 
+
+            /* =====================================================
+               MUAT DATA TREN
+               ===================================================== */
             const muatTren = async (pilarId, indikatorId) => {
+
                 const params = new URLSearchParams();
 
                 if (pilarId) {
@@ -1759,123 +2026,733 @@
                     params.set('indikator_tren', indikatorId);
                 }
 
-                const response = await fetch(`${endpoint}?${params.toString()}`);
+                const response = await fetch(
+                    `${endpoint}?${params.toString()}`
+                );
+
                 const data = await response.json();
 
                 const pilihanAktif = indikatorSelect.value;
 
+
+                /* =================================================
+                   UPDATE OPTION INDIKATOR
+                   ================================================= */
                 indikatorSelect.innerHTML = '';
-                indikatorSelect.disabled = data.indikators.length === 0;
+
+                indikatorSelect.disabled =
+                    data.indikators.length === 0;
+
 
                 const placeholder = document.createElement('option');
+
                 placeholder.value = '';
-                placeholder.textContent = 'Pilih Indikator';
+
+                placeholder.textContent =
+                    data.indikators.length === 0 ?
+                    'Pilih pilar terlebih dahulu' :
+                    'Pilih Indikator';
+
                 indikatorSelect.appendChild(placeholder);
 
+
                 data.indikators.forEach((ind) => {
+
                     const option = document.createElement('option');
+
                     option.value = ind.id;
                     option.textContent = ind.nama_indikator;
+
                     indikatorSelect.appendChild(option);
                 });
 
-                indikatorSelect.value = data.indikators.some((ind) => String(ind.id) === String(pilihanAktif)) ?
+
+                indikatorSelect.value =
+                    data.indikators.some(
+                        (ind) =>
+                        String(ind.id) === String(pilihanAktif)
+                    ) ?
                     pilihanAktif :
                     (data.indikator ? data.indikator.id : '');
 
+
+                /* =================================================
+                   HASIL TREN
+                   ================================================= */
                 if (data.indikator && data.data_tren) {
+
                     hasil.innerHTML = `
-                        <div class="mt-6">
-                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
-                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
-                        </div>
-                        <div class="relative mt-6" style="height: 360px;">
-                            <canvas id="trenChart"></canvas>
-                        </div>
-                        ${data.data_tren.baseline ? `
-                                <p class="mt-4 text-sm text-slate-500">
-                                    Baseline:
-                                    <span class="font-semibold text-slate-700">${data.data_tren.baseline.nilai}</span>
-                                    ${data.data_tren.baseline.tahun ? `(tahun ${data.data_tren.baseline.tahun})` : ''}
-                                </p>
-                            ` : ''}
-                    `;
+                    <div class="mt-6">
+                        <h3 class="text-lg font-bold text-slate-800">
+                            ${data.indikator.nama_indikator}
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            ${data.indikator.tujuan_strategis}
+                        </p>
+                    </div>
+
+                    <div
+                        class="relative mt-6"
+                        style="height: 360px;"
+                    >
+                        <canvas id="trenChart"></canvas>
+                    </div>
+
+                    ${
+                        data.data_tren.baseline
+                            ? `
+                                        <p class="mt-4 text-sm text-slate-500">
+                                            Baseline:
+                                            <span class="font-semibold text-slate-700">
+                                                ${data.data_tren.baseline.nilai}
+                                            </span>
+
+                                            ${
+                                                data.data_tren.baseline.tahun
+                                                    ? `(tahun ${data.data_tren.baseline.tahun})`
+                                                    : ''
+                                            }
+                                        </p>
+                                    `
+                            : ''
+                    }
+                `;
+
                     chart = null;
+
                     renderChart(data.data_tren);
+
                 } else if (data.indikator && !data.data_tren) {
+
                     hasil.innerHTML = `
-                        <div class="mt-6">
-                            <h3 class="text-lg font-bold text-slate-800">${data.indikator.nama_indikator}</h3>
-                            <p class="text-slate-500 mt-1 text-sm">${data.indikator.tujuan_strategis}</p>
-                        </div>
-                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-                            Belum ada data tren untuk indikator ini.
-                        </div>
-                    `;
+                    <div class="mt-6">
+                        <h3 class="text-lg font-bold text-slate-800">
+                            ${data.indikator.nama_indikator}
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            ${data.indikator.tujuan_strategis}
+                        </p>
+                    </div>
+
+                    <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 px-5 py-8 text-center text-slate-500">
+                        Belum ada data tren untuk indikator ini.
+                    </div>
+                `;
+
                     chart = null;
+
                 } else {
+
                     hasil.innerHTML = `
-                        <div class="mt-6 rounded-xl bg-slate-50 border border-slate-200 px-5 py-8 text-center text-slate-500">
-                            Pilih pilar dan indikator untuk melihat grafik tren.
-                        </div>
-                    `;
+                    <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 px-5 py-8 text-center text-slate-500">
+                        Pilih pilar dan indikator untuk melihat grafik tren.
+                    </div>
+                `;
+
                     chart = null;
                 }
             };
 
+
+            /* =====================================================
+               EVENT PILAR
+               ===================================================== */
             pilarSelect.addEventListener('change', function() {
+
                 muatTren(this.value, '');
+
             });
 
+
+            /* =====================================================
+               EVENT INDIKATOR
+               ===================================================== */
             indikatorSelect.addEventListener('change', function() {
-                muatTren(pilarSelect.value, this.value);
+
+                muatTren(
+                    pilarSelect.value,
+                    this.value
+                );
+
             });
 
+
+            /* =====================================================
+               CHART AWAL
+               ===================================================== */
             @if ($indikatorDipilih && $dataTren && !$dataTren->kosong())
-                renderChart(@json($dataTren->toArray()));
+
+                renderChart(
+                    @json($dataTren->toArray())
+                );
             @endif
+
         })();
 
-        (function() {
-            const ringkasanTahunButton = document.getElementById('ringkasanTahunButton');
-            const ringkasanTahunDropdown = document.getElementById('ringkasanTahunDropdown');
-            const ringkasanSearch = document.getElementById('ringkasanSearch');
-            const ringkasanTable = document.getElementById('ringkasanTable');
 
-            if (ringkasanTahunButton && ringkasanTahunDropdown) {
-                ringkasanTahunButton.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    ringkasanTahunDropdown.classList.toggle('hidden');
-                    const icon = document.getElementById('ringkasanTahunIcon');
-                    if (icon) {
-                        icon.classList.toggle('rotate-180');
+        /* =========================================================
+           RINGKASAN
+           ========================================================= */
+        (function() {
+
+            const ringkasanTahunButton =
+                document.getElementById('ringkasanTahunButton');
+
+            const ringkasanTahunDropdown =
+                document.getElementById('ringkasanTahunDropdown');
+
+            const ringkasanSearch =
+                document.getElementById('ringkasanSearch');
+
+            const ringkasanTable =
+                document.getElementById('ringkasanTable');
+
+
+            /* =====================================================
+               DROPDOWN TAHUN
+               ===================================================== */
+            if (
+                ringkasanTahunButton &&
+                ringkasanTahunDropdown
+            ) {
+
+                ringkasanTahunButton.addEventListener(
+                    'click',
+                    function(e) {
+
+                        e.stopPropagation();
+
+                        ringkasanTahunDropdown.classList.toggle(
+                            'hidden'
+                        );
+
+                        const icon =
+                            document.getElementById(
+                                'ringkasanTahunIcon'
+                            );
+
+                        if (icon) {
+                            icon.classList.toggle(
+                                'rotate-180'
+                            );
+                        }
                     }
-                });
+                );
+
 
                 document.addEventListener('click', function() {
-                    ringkasanTahunDropdown.classList.add('hidden');
-                    const icon = document.getElementById('ringkasanTahunIcon');
+
+                    ringkasanTahunDropdown.classList.add(
+                        'hidden'
+                    );
+
+                    const icon =
+                        document.getElementById(
+                            'ringkasanTahunIcon'
+                        );
+
                     if (icon) {
-                        icon.classList.remove('rotate-180');
+                        icon.classList.remove(
+                            'rotate-180'
+                        );
                     }
                 });
 
-                ringkasanTahunDropdown.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
+
+                ringkasanTahunDropdown.addEventListener(
+                    'click',
+                    function(e) {
+                        e.stopPropagation();
+                    }
+                );
             }
 
-            if (ringkasanSearch && ringkasanTable) {
-                ringkasanSearch.addEventListener('input', function() {
-                    const keyword = this.value.toLowerCase();
-                    const rows = ringkasanTable.querySelectorAll('.ringkasan-row');
 
-                    rows.forEach(function(row) {
-                        const text = row.textContent.toLowerCase();
-                        row.style.display = text.includes(keyword) ? '' : 'none';
-                    });
-                });
+            /* =====================================================
+               SEARCH RINGKASAN
+               ===================================================== */
+            if (
+                ringkasanSearch &&
+                ringkasanTable
+            ) {
+
+                ringkasanSearch.addEventListener(
+                    'input',
+                    function() {
+
+                        const keyword =
+                            this.value.toLowerCase();
+
+                        const rows =
+                            ringkasanTable.querySelectorAll(
+                                '.ringkasan-row'
+                            );
+
+
+                        rows.forEach(function(row) {
+
+                            const text =
+                                row.textContent.toLowerCase();
+
+                            row.style.display =
+                                text.includes(keyword) ?
+                                '' :
+                                'none';
+                        });
+                    }
+                );
             }
+
         })();
+
+
+        /* =========================================================
+           CUSTOM DROPDOWN PILAR & INDIKATOR
+           ========================================================= */
+        document.addEventListener(
+            'DOMContentLoaded',
+            function() {
+
+                const customSelects =
+                    document.querySelectorAll(
+                        '[data-custom-select]'
+                    );
+
+
+                customSelects.forEach(wrapper => {
+
+                    const select =
+                        wrapper.querySelector('select');
+
+                    const button =
+                        wrapper.querySelector(
+                            '[data-select-button]'
+                        );
+
+                    const menu =
+                        wrapper.querySelector(
+                            '[data-select-menu]'
+                        );
+
+                    const optionsContainer =
+                        wrapper.querySelector(
+                            '[data-select-options]'
+                        );
+
+                    const label =
+                        wrapper.querySelector(
+                            '[data-select-label]'
+                        );
+
+                    const chevron =
+                        wrapper.querySelector(
+                            '[data-select-chevron]'
+                        );
+
+
+                    if (
+                        !select ||
+                        !button ||
+                        !menu ||
+                        !optionsContainer
+                    ) {
+                        return;
+                    }
+
+
+                    /* =================================================
+                       UPDATE TAMPILAN
+                       ================================================= */
+                    function updateDisplay() {
+
+                        const selectedOption =
+                            select.options[
+                                select.selectedIndex
+                            ];
+
+
+                        if (selectedOption) {
+
+                            label.textContent =
+                                selectedOption.textContent.trim();
+                        }
+
+
+                        button.disabled =
+                            select.disabled;
+
+
+                        if (select.disabled) {
+                            closeDropdown();
+                        }
+                    }
+
+
+                    /* =================================================
+                       RENDER OPTION
+                       ================================================= */
+                    function renderOptions() {
+
+                        optionsContainer.innerHTML = '';
+
+
+                        Array.from(select.options)
+                            .forEach(option => {
+
+                                const item =
+                                    document.createElement(
+                                        'button'
+                                    );
+
+
+                                item.type = 'button';
+
+                                item.dataset.value =
+                                    option.value;
+
+
+                                item.className = `
+                                flex w-full items-center
+                                rounded-lg px-3.5 py-3
+                                text-left text-sm font-medium
+                                transition-colors duration-150
+                                hover:bg-slate-50
+                                focus:bg-slate-50
+                                focus:outline-none
+                            `;
+
+
+                                if (option.disabled) {
+
+                                    item.disabled = true;
+
+                                    item.classList.add(
+                                        'cursor-not-allowed',
+                                        'text-slate-400'
+                                    );
+
+                                } else {
+
+                                    item.classList.add(
+                                        'text-slate-700'
+                                    );
+                                }
+
+
+                                const text =
+                                    document.createElement(
+                                        'span'
+                                    );
+
+
+                                text.className =
+                                    'min-w-0 flex-1 truncate';
+
+                                text.textContent =
+                                    option.textContent.trim();
+
+
+                                item.appendChild(text);
+
+
+                                /* =====================================
+                                   OPTION AKTIF
+                                   ===================================== */
+                                if (
+                                    option.selected &&
+                                    option.value !== ''
+                                ) {
+
+                                    item.classList.remove(
+                                        'text-slate-700'
+                                    );
+
+                                    item.classList.add(
+                                        'bg-primary/10',
+                                        'font-semibold',
+                                        'text-primary'
+                                    );
+
+
+                                    const check =
+                                        document.createElement(
+                                            'span'
+                                        );
+
+
+                                    check.className =
+                                        'material-symbols-outlined ml-3 shrink-0 text-[19px]';
+
+                                    check.textContent =
+                                        'check';
+
+
+                                    item.appendChild(check);
+                                }
+
+
+                                /* =====================================
+                                   KLIK OPTION
+                                   ===================================== */
+                                item.addEventListener(
+                                    'click',
+                                    function() {
+
+                                        if (option.disabled) {
+                                            return;
+                                        }
+
+
+                                        select.value =
+                                            option.value;
+
+
+                                        /*
+                                         * Tetap jalankan event change
+                                         * agar fungsi tren yang sudah
+                                         * ada tetap berjalan.
+                                         */
+                                        select.dispatchEvent(
+                                            new Event(
+                                                'change', {
+                                                    bubbles: true
+                                                }
+                                            )
+                                        );
+
+
+                                        updateDisplay();
+
+                                        renderOptions();
+
+                                        closeDropdown();
+                                    }
+                                );
+
+
+                                optionsContainer.appendChild(
+                                    item
+                                );
+                            });
+                    }
+
+
+                    /* =================================================
+                       OPEN
+                       ================================================= */
+                    function openDropdown() {
+
+                        if (select.disabled) {
+                            return;
+                        }
+
+
+                        /*
+                         * Tutup dropdown lain
+                         */
+                        document
+                            .querySelectorAll(
+                                '[data-select-menu]'
+                            )
+                            .forEach(otherMenu => {
+
+                                if (otherMenu !== menu) {
+
+                                    otherMenu.classList.add(
+                                        'hidden'
+                                    );
+
+
+                                    const otherButton =
+                                        otherMenu.parentElement
+                                        .querySelector(
+                                            '[data-select-button]'
+                                        );
+
+
+                                    const otherChevron =
+                                        otherMenu.parentElement
+                                        .querySelector(
+                                            '[data-select-chevron]'
+                                        );
+
+
+                                    if (otherButton) {
+
+                                        otherButton.setAttribute(
+                                            'aria-expanded',
+                                            'false'
+                                        );
+                                    }
+
+
+                                    if (otherChevron) {
+
+                                        otherChevron.classList.remove(
+                                            'rotate-180'
+                                        );
+                                    }
+                                }
+                            });
+
+
+                        renderOptions();
+
+                        menu.classList.remove('hidden');
+
+                        button.setAttribute(
+                            'aria-expanded',
+                            'true'
+                        );
+
+                        chevron.classList.add(
+                            'rotate-180'
+                        );
+                    }
+
+
+                    /* =================================================
+                       CLOSE
+                       ================================================= */
+                    function closeDropdown() {
+
+                        menu.classList.add('hidden');
+
+                        button.setAttribute(
+                            'aria-expanded',
+                            'false'
+                        );
+
+                        chevron.classList.remove(
+                            'rotate-180'
+                        );
+                    }
+
+
+                    /* =================================================
+                       BUTTON
+                       ================================================= */
+                    button.addEventListener(
+                        'click',
+                        function(event) {
+
+                            event.stopPropagation();
+
+
+                            if (select.disabled) {
+                                return;
+                            }
+
+
+                            if (
+                                menu.classList.contains(
+                                    'hidden'
+                                )
+                            ) {
+
+                                openDropdown();
+
+                            } else {
+
+                                closeDropdown();
+                            }
+                        }
+                    );
+
+
+                    /* =================================================
+                       KLIK LUAR
+                       ================================================= */
+                    document.addEventListener(
+                        'click',
+                        function(event) {
+
+                            if (
+                                !wrapper.contains(
+                                    event.target
+                                )
+                            ) {
+                                closeDropdown();
+                            }
+                        }
+                    );
+
+
+                    /* =================================================
+                       KEYBOARD
+                       ================================================= */
+                    button.addEventListener(
+                        'keydown',
+                        function(event) {
+
+                            if (
+                                event.key === 'Enter' ||
+                                event.key === ' ' ||
+                                event.key === 'ArrowDown'
+                            ) {
+
+                                event.preventDefault();
+
+                                openDropdown();
+                            }
+
+
+                            if (event.key === 'Escape') {
+
+                                closeDropdown();
+                            }
+                        }
+                    );
+
+
+                    /* =================================================
+                       SELECT BERUBAH
+                       ================================================= */
+                    select.addEventListener(
+                        'change',
+                        function() {
+
+                            updateDisplay();
+
+                            renderOptions();
+                        }
+                    );
+
+
+                    /* =================================================
+                       DETEKSI OPTION BERUBAH
+                       ================================================= */
+                    const observer =
+                        new MutationObserver(
+                            function() {
+
+                                updateDisplay();
+
+                                renderOptions();
+                            }
+                        );
+
+
+                    observer.observe(
+                        select, {
+                            childList: true,
+                            subtree: true
+                        }
+                    );
+
+
+                    /* =================================================
+                       INITIALIZE
+                       ================================================= */
+                    updateDisplay();
+
+                    renderOptions();
+
+                });
+
+            }
+        );
     </script>
 @endpush

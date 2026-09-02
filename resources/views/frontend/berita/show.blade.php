@@ -130,20 +130,20 @@
                         Berita Lainnya
                     </h2>
 
-
                     <div class="grid md:grid-cols-3 gap-5">
 
                         @foreach ($beritaTerbaru as $item)
                             <article
-                                class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition">
+                                class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
 
-                                <a href="{{ route('berita.show', $item) }}">
+                                {{-- FOTO --}}
+                                <a href="{{ route('berita.show', $item) }}" class="block shrink-0">
 
                                     @if ($item->foto)
                                         <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}"
-                                            class="w-full h-40 object-cover">
+                                            class="h-40 w-full object-cover transition duration-300 group-hover:scale-[1.02]">
                                     @else
-                                        <div class="w-full h-40 bg-slate-100 flex items-center justify-center">
+                                        <div class="flex h-40 w-full items-center justify-center bg-slate-100">
 
                                             <span class="material-symbols-outlined text-4xl text-slate-300">
                                                 image
@@ -155,32 +155,38 @@
                                 </a>
 
 
-                                <div class="p-4">
+                                {{-- DETAIL --}}
+                                <div class="flex flex-1 flex-col p-4">
 
-                                    <p class="text-xs text-slate-400 mb-2">
-
+                                    {{-- TANGGAL --}}
+                                    <p class="mb-2 text-xs text-slate-400">
                                         {{ $item->created_at?->translatedFormat('d F Y') }}
-
                                     </p>
 
 
-                                    <h3 class="font-bold text-slate-800 line-clamp-2">
+                                    {{-- JUDUL --}}
+                                    <h3 class="min-h-[48px] line-clamp-2 font-bold leading-6 text-slate-800">
 
                                         {{ $item->judul }}
 
                                     </h3>
 
 
-                                    <a href="{{ route('berita.show', $item) }}"
-                                        class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-teal-700">
+                                    {{-- TOMBOL --}}
+                                    <div class="mt-auto pt-4">
 
-                                        Baca berita
+                                        <a href="{{ route('berita.show', $item) }}"
+                                            class="inline-flex items-center gap-1 text-sm font-semibold text-primary transition hover:text-primary-hover">
 
-                                        <span class="material-symbols-outlined text-base">
-                                            arrow_forward
-                                        </span>
+                                            Baca berita
 
-                                    </a>
+                                            <span class="material-symbols-outlined text-base">
+                                                arrow_forward
+                                            </span>
+
+                                        </a>
+
+                                    </div>
 
                                 </div>
 
