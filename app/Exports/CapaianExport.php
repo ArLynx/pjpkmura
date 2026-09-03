@@ -844,7 +844,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     }
                 }
 
-                /*
+               /*
                 |--------------------------------------------------------------------------
                 | TANDA TANGAN
                 |--------------------------------------------------------------------------
@@ -853,6 +853,16 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $row += 2;
 
                 $signatureStart = $row;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | AMBIL DATA USER
+                |--------------------------------------------------------------------------
+                */
+
+                $user = $this->user;
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -863,21 +873,22 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $namaInstansi = null;
 
                 if (
-                    $this->user &&
-                    $this->user->instansi_id
+                    $user &&
+                    $user->instansi_id
                 ) {
 
                     $namaInstansi = DB::table('instansis')
                         ->where(
                             'id',
-                            $this->user->instansi_id
+                            $user->instansi_id
                         )
                         ->value('nama');
                 }
 
+
                 /*
                 |--------------------------------------------------------------------------
-                | FALLBACK SUPERADMIN
+                | FALLBACK
                 |--------------------------------------------------------------------------
                 */
 
@@ -887,25 +898,60 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         'PEMERINTAH KABUPATEN MURUNG RAYA';
                 }
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | NORMALISASI NAMA INSTANSI
+                |--------------------------------------------------------------------------
+                */
+
                 $namaInstansi =
                     strtoupper(
                         trim($namaInstansi)
                     );
 
+                $namaInstansiLower =
+                    strtolower(
+                        trim($namaInstansi)
+                    );
+
+
                 /*
                 |--------------------------------------------------------------------------
-                | NAMA UNTUK TANDA TANGAN
+                | DETEKSI SEKRETARIAT DAERAH
                 |--------------------------------------------------------------------------
-                |
-                | Hasil:
-                |
-                | Kepala DP3A DALDUKKKB
-                | Kabupaten Murung Raya
-                |
                 */
-                $namaKepala =
-                        'Kepala ' . $namaInstansi .
-                        "\nKABUPATEN MURUNG RAYA";
+
+                $isSekda =
+                    str_contains(
+                        $namaInstansiLower,
+                        'sekretariat daerah'
+                    ) ||
+                    str_contains(
+                        $namaInstansiLower,
+                        'setda'
+                    ) ||
+                    str_contains(
+                        $namaInstansiLower,
+                        'sekda'
+                    );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DATA PIMPINAN
+                |--------------------------------------------------------------------------
+                */
+
+                $namaPimpinan =
+                    $user?->nama_pimpinan ?: '-';
+
+                $pangkatGolongan =
+                    $user?->pangkat_golongan ?: '-';
+
+                $nip =
+                    $user?->nip ?: '-';
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -926,6 +972,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     now()->translatedFormat('d F Y')
                 );
 
+
                 /*
                 |--------------------------------------------------------------------------
                 | MENGETAHUI
@@ -945,24 +992,49 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     'Mengetahui,'
                 );
 
+
                 /*
                 |--------------------------------------------------------------------------
-                | KEPALA INSTANSI
+                | JABATAN / INSTANSI
                 |--------------------------------------------------------------------------
                 */
 
+                $jabatanRow = $signatureStart + 2;
+
                 $sheet->mergeCells(
                     'I' .
-                    ($signatureStart + 2) .
+                    $jabatanRow .
                     ':L' .
-                    ($signatureStart + 2)
+                    $jabatanRow
                 );
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | TEKS JABATAN
+                |--------------------------------------------------------------------------
+                */
+
+                if ($isSekda) {
+
+                    $teksJabatan =
+                        "Sekretaris Daerah\n" .
+                        "KABUPATEN MURUNG RAYA";
+
+                } else {
+
+                    $teksJabatan =
+                        "Kepala\n" .
+                        $namaInstansi .
+                        "\nKABUPATEN MURUNG RAYA";
+                }
+
+
                 $sheet->setCellValue(
-                    'I' .
-                    ($signatureStart + 2),
-                    $namaKepala
+                    'I' . $jabatanRow,
+                    $teksJabatan
                 );
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -970,12 +1042,19 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 |--------------------------------------------------------------------------
                 */
 
+                $signatureSpaceStart =
+                    $signatureStart + 3;
+
+                $signatureSpaceEnd =
+                    $signatureStart + 6;
+
                 $sheet->mergeCells(
                     'I' .
-                    ($signatureStart + 3) .
+                    $signatureSpaceStart .
                     ':L' .
-                    ($signatureStart + 6)
+                    $signatureSpaceEnd
                 );
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1006,6 +1085,73 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         Border::BORDER_THIN
                     );
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | NAMA PIMPINAN
+                |--------------------------------------------------------------------------
+                */
+
+                $namaRow =
+                    $signatureStart + 8;
+
+                $sheet->mergeCells(
+                    'I' .
+                    $namaRow .
+                    ':L' .
+                    $namaRow
+                );
+
+                $sheet->setCellValue(
+                    'I' . $namaRow,
+                    $namaPimpinan
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | PANGKAT / GOLONGAN
+                |--------------------------------------------------------------------------
+                */
+
+                $pangkatRow =
+                    $signatureStart + 9;
+
+                $sheet->mergeCells(
+                    'I' .
+                    $pangkatRow .
+                    ':L' .
+                    $pangkatRow
+                );
+
+                $sheet->setCellValue(
+                    'I' . $pangkatRow,
+                    $pangkatGolongan
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | NIP
+                |--------------------------------------------------------------------------
+                */
+
+                $nipRow =
+                    $signatureStart + 10;
+
+                $sheet->mergeCells(
+                    'I' .
+                    $nipRow .
+                    ':L' .
+                    $nipRow
+                );
+
+                $sheet->setCellValue(
+                    'I' . $nipRow,
+                    'NIP. ' . $nip
+                );
+
+
                 /*
                 |--------------------------------------------------------------------------
                 | STYLE TANDA TANGAN
@@ -1017,7 +1163,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         'I' .
                         $signatureStart .
                         ':L' .
-                        $lineRow
+                        $nipRow
                     )
                     ->applyFromArray([
 
@@ -1033,27 +1179,40 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         ],
                     ]);
 
+
                 /*
                 |--------------------------------------------------------------------------
-                | BOLD NAMA KEPALA INSTANSI
+                | BOLD JABATAN
                 |--------------------------------------------------------------------------
                 */
 
                 $sheet
                     ->getStyle(
                         'I' .
-                        ($signatureStart + 2) .
+                        $jabatanRow .
                         ':L' .
-                        ($signatureStart + 2)
+                        $jabatanRow
                     )
                     ->getFont()
                     ->setBold(true);
 
+
                 /*
                 |--------------------------------------------------------------------------
-                | TINGGI AREA TANDA TANGAN
+                | BOLD NAMA PIMPINAN
                 |--------------------------------------------------------------------------
                 */
+
+                $sheet
+                    ->getStyle(
+                        'I' .
+                        $namaRow .
+                        ':L' .
+                        $namaRow
+                    )
+                    ->getFont()
+                    ->setBold(true);
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1063,25 +1222,37 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 // Tanggal
                 $sheet
-                    ->getRowDimension($signatureStart)
+                    ->getRowDimension(
+                        $signatureStart
+                    )
                     ->setRowHeight(22);
+
 
                 // Mengetahui
                 $sheet
-                    ->getRowDimension($signatureStart + 1)
+                    ->getRowDimension(
+                        $signatureStart + 1
+                    )
                     ->setRowHeight(22);
 
-                // Kepala Instansi + Kabupaten Murung Raya
-                $sheet
-                    ->getRowDimension($signatureStart + 2)
-                    ->setRowHeight(40);
 
-                // Area kosong untuk tanda tangan
+                // Jabatan + instansi
+                $sheet
+                    ->getRowDimension(
+                        $jabatanRow
+                    )
+                    ->setRowHeight(
+                        $isSekda ? 35 : 50
+                    );
+
+
+                // Area kosong tanda tangan
                 for (
                     $i = 3;
                     $i <= 6;
                     $i++
                 ) {
+
                     $sheet
                         ->getRowDimension(
                             $signatureStart + $i
@@ -1089,10 +1260,37 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         ->setRowHeight(20);
                 }
 
+
                 // Garis tanda tangan
                 $sheet
-                    ->getRowDimension($lineRow)
+                    ->getRowDimension(
+                        $lineRow
+                    )
                     ->setRowHeight(8);
+
+
+                // Nama
+                $sheet
+                    ->getRowDimension(
+                        $namaRow
+                    )
+                    ->setRowHeight(20);
+
+
+                // Pangkat
+                $sheet
+                    ->getRowDimension(
+                        $pangkatRow
+                    )
+                    ->setRowHeight(20);
+
+
+                // NIP
+                $sheet
+                    ->getRowDimension(
+                        $nipRow
+                    )
+                    ->setRowHeight(20);
 
                 /*
                 |--------------------------------------------------------------------------
