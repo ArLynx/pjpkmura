@@ -10,7 +10,7 @@
         {{-- DASHBOARD HEADER --}}
         {{-- ========================================================= --}}
 
-        <section class="bg-primary-hover">
+        <section id="dashboard-top" class="scroll-mt-24 bg-primary-hover">
 
             <div class="max-w-7xl mx-auto px-6 py-16">
 
@@ -33,7 +33,7 @@
 
         <section class="max-w-7xl mx-auto px-6 py-8">
 
-            <section class="flex flex-col lg:flex-row gap-6 mb-10">
+            <section id="dashboard-tren-status" class="scroll-mt-24 flex flex-col lg:flex-row gap-6 mb-10">
 
                 {{-- ===================================================== --}}
                 {{-- TREN INDIKATOR --}}
@@ -324,65 +324,69 @@
                     {{-- ================================================= --}}
                     {{-- HEADER --}}
                     {{-- ================================================= --}}
-                    <div class="flex items-start justify-between gap-4">
+                    <div class="mb-6">
 
-                        <div class="min-w-0">
-
-                            <h4 class="text-xl font-semibold leading-6 text-slate-900">
+                        {{-- ================================================= --}}
+                        {{-- HEADER --}}
+                        {{-- ================================================= --}}
+                        <div>
+                            <h4 class="text-xl font-semibold leading-7 text-slate-900">
                                 Status Indikator
                             </h4>
 
-                            <p class="mt-1.5 text-sm leading-5 text-slate-500">
+                            <p class="mt-1 text-sm leading-5 text-slate-500">
                                 Proporsi pencapaian per indikator
                             </p>
-
                         </div>
+
 
                         {{-- ================================================= --}}
                         {{-- FILTER TAHUN --}}
                         {{-- ================================================= --}}
-                        <div class="relative shrink-0">
+                        <div class="mt-5 flex items-center gap-3">
 
-                            <button type="button" id="statusTahunButton"
-                                class="inline-flex h-10 min-w-[112px] items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-primary/40 hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary/20">
+                            <span class="material-symbols-outlined text-[20px] text-slate-400">
+                                calendar_month
+                            </span>
 
-                                <span id="statusTahunText">
-                                    {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Pilih Tahun' }}
-                                </span>
+                            <span class="text-sm font-medium text-slate-600">
+                                Tahun
+                            </span>
 
-                                <span id="statusTahunIcon"
-                                    class="material-symbols-outlined text-[18px] text-slate-500 transition-transform duration-200">
-                                    expand_more
-                                </span>
+                            <div class="relative ml-auto">
 
-                            </button>
+                                <button type="button" id="statusTahunButton"
+                                    class="inline-flex h-10 min-w-[120px] items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-700 shadow-sm transition duration-200 hover:border-primary/40 hover:bg-primary-light/40 focus:outline-none focus:ring-4 focus:ring-primary/10">
+
+                                    <span id="statusTahunText" class="truncate">
+                                        {{ $tahuns->firstWhere('id', $tahun)?->tahun ?? 'Pilih Tahun' }}
+                                    </span>
+
+                                    <span id="statusTahunIcon"
+                                        class="material-symbols-outlined shrink-0 text-[18px] text-slate-400 transition-transform duration-200">
+                                        expand_more
+                                    </span>
+
+                                </button>
 
 
-                            {{-- DROPDOWN --}}
-                            <div id="statusTahunDropdown"
-                                class="absolute right-0 top-full z-50 mt-2 hidden w-28 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+                                {{-- DROPDOWN --}}
+                                <div id="statusTahunDropdown"
+                                    class="absolute right-0 top-full z-50 mt-2 hidden w-[120px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
 
-                                <div class="max-h-64 overflow-y-auto py-1">
+                                    <div class="max-h-64 overflow-y-auto py-1">
 
-                                    @foreach ($tahuns as $item)
-                                        <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
-                                            class="flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors
-                        {{ $item->id == $tahun
-                            ? 'bg-primary-light text-primary'
-                            : 'text-slate-700 hover:bg-primary-light hover:text-primary' }}">
+                                        @foreach ($tahuns as $item)
+                                            <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
+                                                data-dashboard-section="dashboard-tren-status"
+                                                class="flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
 
-                                            <span>
                                                 {{ $item->tahun }}
-                                            </span>
 
-                                            @if ($item->id == $tahun)
-                                                <span class="material-symbols-outlined text-[16px]">
-                                                    check
-                                                </span>
-                                            @endif
+                                            </a>
+                                        @endforeach
 
-                                        </a>
-                                    @endforeach
+                                    </div>
 
                                 </div>
 
@@ -496,7 +500,7 @@
             {{-- FIVE PILLARS --}}
             {{-- ========================================================= --}}
 
-            <section class="mb-10">
+            <section id="dashboard-pilar" class="scroll-mt-24 mb-10">
 
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
 
@@ -558,7 +562,8 @@
             {{-- ========================================================= --}}
             {{-- RINGKASAN INDIKATOR --}}
             {{-- ========================================================= --}}
-            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10">
+            <section id="dashboard-ringkasan"
+                class="scroll-mt-24 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10">
 
                 <div class="p-6 md:p-8 border-b border-slate-200">
 
@@ -600,6 +605,7 @@
 
                                         @foreach ($tahuns as $item)
                                             <a href="{{ route('dashboard', array_merge(request()->query(), ['tahun_id' => $item->id])) }}"
+                                                data-dashboard-section="dashboard-ringkasan"
                                                 class="flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-primary-light hover:text-primary">
 
                                                 {{ $item->tahun }}
@@ -741,6 +747,7 @@
                             </button>
                         @else
                             <a href="{{ $ringkasanIndikator->previousPageUrl() }}"
+                                data-dashboard-section="dashboard-ringkasan"
                                 class="p-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-white">
                                 <span class="material-symbols-outlined">chevron_left</span>
                             </a>
@@ -748,10 +755,10 @@
 
                         @foreach ($ringkasanIndikator->getUrlRange(max(1, $ringkasanIndikator->currentPage() - 2), min($ringkasanIndikator->lastPage(), $ringkasanIndikator->currentPage() + 2)) as $page => $url)
                             @if ($page == $ringkasanIndikator->currentPage())
-                                <a href="{{ $url }}"
+                                <a href="{{ $url }}" data-dashboard-section="dashboard-ringkasan"
                                     class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-primary text-white">{{ $page }}</a>
                             @else
-                                <a href="{{ $url }}"
+                                <a href="{{ $url }}" data-dashboard-section="dashboard-ringkasan"
                                     class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">{{ $page }}</a>
                             @endif
                         @endforeach
@@ -759,6 +766,7 @@
                         <span class="text-sm text-slate-400 mx-1">...</span>
 
                         <a href="{{ $ringkasanIndikator->url($ringkasanIndikator->lastPage()) }}"
+                            data-dashboard-section="dashboard-ringkasan"
                             class="px-3 py-1.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-white">
                             {{ $ringkasanIndikator->lastPage() }}
                         </a>
@@ -782,7 +790,7 @@
             {{-- ========================================================= --}}
             {{-- FILTER --}}
             {{-- ========================================================= --}}
-            <section class="mb-8">
+            <section id="dashboard-filter" class="scroll-mt-24 mb-8">
 
                 <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
 
@@ -959,6 +967,7 @@
                             <div class="xl:pl-2">
 
                                 <a href="{{ route('dashboard', ['mode' => $mode]) }}"
+                                    data-dashboard-section="dashboard-filter"
                                     class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-light px-5 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white xl:w-auto xl:min-w-[170px]">
 
                                     <span class="material-symbols-outlined text-[20px]">
@@ -1047,7 +1056,8 @@
 
             </section>
 
-            <section class="grid grid-cols-1 gap-4 mb-10 sm:grid-cols-2 xl:grid-cols-4">
+            <section id="dashboard-statistik"
+                class="scroll-mt-24 grid grid-cols-1 gap-4 mb-10 sm:grid-cols-2 xl:grid-cols-4">
 
                 {{-- ========================================================= --}}
                 {{-- TOTAL PILAR --}}
@@ -1204,7 +1214,8 @@
             {{-- DATA MONITORING DINAMIS --}}
             {{-- ========================================================= --}}
 
-            <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <section id="dashboard-monitoring"
+                class="scroll-mt-24 rounded-2xl border border-slate-200 bg-white shadow-sm">
 
                 {{-- ========================================================= --}}
                 {{-- HEADER CARD UTAMA --}}
@@ -1235,6 +1246,7 @@
                                 'tahun_id' => request('tahun_id'),
                                 'pilar' => request('pilar'),
                             ]) }}"
+                                data-dashboard-section="dashboard-monitoring"
                                 class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition
                     {{ $mode == 'tahunan'
                         ? 'bg-primary text-white shadow-sm'
@@ -1254,6 +1266,7 @@
                                 'tahun_id' => request('tahun_id'),
                                 'pilar' => request('pilar'),
                             ]) }}"
+                                data-dashboard-section="dashboard-monitoring"
                                 class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition
                     {{ $mode == 'gabungan'
                         ? 'bg-primary text-white shadow-sm'
@@ -1818,6 +1831,11 @@
 
                         closeAllDropdowns();
 
+                        sessionStorage.setItem(
+                            'dashboardReturnSection',
+                            'dashboard-filter'
+                        );
+
                         form.submit();
 
                     });
@@ -1851,8 +1869,8 @@
 @push('scripts')
     <script>
         /* =========================================================
-               STATUS TAHUN
-               ========================================================= */
+                                                                                                                                   STATUS TAHUN
+                                                                                                                                   ========================================================= */
         (function() {
             const statusTahunButton = document.getElementById('statusTahunButton');
             const statusTahunDropdown = document.getElementById('statusTahunDropdown');
@@ -2102,19 +2120,19 @@
                     ${
                         data.data_tren.baseline
                             ? `
-                                        <p class="mt-4 text-sm text-slate-500">
-                                            Baseline:
-                                            <span class="font-semibold text-slate-700">
-                                                ${data.data_tren.baseline.nilai}
-                                            </span>
+                                                                                                                                                            <p class="mt-4 text-sm text-slate-500">
+                                                                                                                                                                Baseline:
+                                                                                                                                                                <span class="font-semibold text-slate-700">
+                                                                                                                                                                    ${data.data_tren.baseline.nilai}
+                                                                                                                                                                </span>
 
-                                            ${
-                                                data.data_tren.baseline.tahun
-                                                    ? `(tahun ${data.data_tren.baseline.tahun})`
-                                                    : ''
-                                            }
-                                        </p>
-                                    `
+                                                                                                                                                                ${
+                                                                                                                                                                    data.data_tren.baseline.tahun
+                                                                                                                                                                        ? `(tahun ${data.data_tren.baseline.tahun})`
+                                                                                                                                                                        : ''
+                                                                                                                                                                }
+                                                                                                                                                            </p>
+                                                                                                                                                        `
                             : ''
                     }
                 `;
@@ -2163,6 +2181,12 @@
 
                 muatTren(this.value, '');
 
+                document.getElementById('dashboard-tren-status')
+                    ?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
             });
 
 
@@ -2175,6 +2199,12 @@
                     pilarSelect.value,
                     this.value
                 );
+
+                document.getElementById('dashboard-tren-status')
+                    ?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
 
             });
 
@@ -2754,5 +2784,95 @@
 
             }
         );
+    </script>
+@endpush
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const STORAGE_KEY = 'dashboardReturnSection';
+
+            function rememberDashboardSection(sectionId) {
+                sessionStorage.setItem(STORAGE_KEY, sectionId);
+            }
+
+            function restoreDashboardSection() {
+                const sectionId = sessionStorage.getItem(STORAGE_KEY);
+
+                if (!sectionId) {
+                    return;
+                }
+
+                sessionStorage.removeItem(STORAGE_KEY);
+
+                const target = document.getElementById(sectionId);
+
+                if (!target) {
+                    return;
+                }
+
+                setTimeout(function() {
+                    const headerOffset = 90;
+
+                    const targetPosition =
+                        target.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        headerOffset;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }, 150);
+            }
+
+            /*
+             * =========================================================
+             * RESTORE SECTION SETELAH RELOAD
+             * =========================================================
+             */
+            restoreDashboardSection();
+
+
+            /*
+             * =========================================================
+             * LINK YANG MENYEBABKAN RELOAD
+             * =========================================================
+             *
+             * Cukup beri atribut:
+             *
+             * data-dashboard-section="dashboard-tren-status"
+             *
+             * dst.
+             */
+            document.querySelectorAll('[data-dashboard-section]').forEach(function(element) {
+
+                element.addEventListener('click', function() {
+
+                    const sectionId = this.dataset.dashboardSection;
+
+                    if (sectionId) {
+                        rememberDashboardSection(sectionId);
+                    }
+                });
+
+            });
+
+
+            /*
+             * =========================================================
+             * FORM FILTER MONITORING
+             * =========================================================
+             */
+            const filterForm = document.getElementById('filterForm');
+
+            if (filterForm) {
+                filterForm.addEventListener('submit', function() {
+                    rememberDashboardSection('dashboard-filter');
+                });
+            }
+
+        });
     </script>
 @endpush
