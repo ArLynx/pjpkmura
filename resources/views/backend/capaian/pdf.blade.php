@@ -10,6 +10,7 @@
     </title>
 
     <style>
+
         @page {
             size: A4 landscape;
             margin: 12mm 8mm 15mm 8mm;
@@ -25,6 +26,7 @@
             color: #111;
             margin: 0;
         }
+
 
         /* =========================================================
            HEADER
@@ -47,6 +49,7 @@
             font-weight: bold;
         }
 
+
         /* =========================================================
            IDENTITAS
         ========================================================= */
@@ -65,6 +68,7 @@
             width: 55px;
             font-weight: bold;
         }
+
 
         /* =========================================================
            TABEL UTAMA
@@ -98,6 +102,7 @@
             background: #dedede;
         }
 
+
         /* =========================================================
            SASARAN / PILAR
         ========================================================= */
@@ -117,6 +122,7 @@
             text-align: left;
             font-style: italic;
         }
+
 
         /* =========================================================
            DATA
@@ -152,8 +158,9 @@
             font-size: 7px;
         }
 
+
         /* =========================================================
-        TANDA TANGAN
+           TANDA TANGAN
         ========================================================= */
 
         .signature-wrapper {
@@ -161,36 +168,68 @@
             margin-top: 25px;
         }
 
+        /*
+         * Area tanda tangan diletakkan di sisi kanan.
+         */
         .signature {
-            width: 45%;
-            margin-left: 55%;
+            width: 50%;
+            margin-left: 50%;
             text-align: center;
         }
 
         .signature-date {
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-size: 8px;
+            line-height: 1.3;
+        }
+
+        .signature-mengetahui {
+            font-size: 8px;
+            line-height: 1.3;
         }
 
         .signature-title {
-            margin-top: 7px;
-
+            margin-top: 2px;
             font-size: 8px;
-            line-height: 1.35;
+            line-height: 1.3;
             font-weight: bold;
-
             text-align: center;
+        }
 
-            /* penting untuk nama instansi panjang */
+        /*
+         * Nama instansi dibuat cukup lebar.
+         * Nama panjang akan dipecah menjadi beberapa baris.
+         */
+        .signature-instansi {
+            width: 82%;
+            margin: 2px auto 0 auto;
+            font-size: 8px;
+            line-height: 1.3;
+            font-weight: bold;
+            text-align: center;
             white-space: normal;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            word-wrap: normal;
+            overflow-wrap: normal;
         }
 
+        .signature-kabupaten {
+            margin-top: 1px;
+            font-size: 8px;
+            line-height: 1.3;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /*
+         * Ruang untuk tanda tangan manual.
+         */
         .signature-space {
-            height: 75px;
+            height: 65px;
         }
 
+        /*
+         * Garis di atas nama pimpinan.
+         */
         .signature-line {
             border-top: 1px solid #000;
             width: 75%;
@@ -200,32 +239,30 @@
         .signature-name {
             margin-top: 5px;
             font-size: 8px;
-            line-height: 1.35;
+            line-height: 1.3;
             font-weight: bold;
             text-align: center;
         }
 
         .signature-pangkat {
             font-size: 8px;
-            line-height: 1.35;
+            line-height: 1.3;
             text-align: center;
         }
 
         .signature-nip {
             font-size: 8px;
-            line-height: 1.35;
+            line-height: 1.3;
             text-align: center;
         }
 
-        .signature-instansi {
-            max-width: 100%;
-            margin: 0 auto;
-        }
     </style>
 
 </head>
 
+
 <body>
+
 
     {{-- =========================================================
          JUDUL
@@ -246,26 +283,30 @@
 
 
     {{-- =========================================================
-     IDENTITAS LAPORAN
+         IDENTITAS LAPORAN
     ========================================================= --}}
 
     <div style="margin-bottom: 8px;">
+
+
+        {{-- PROVINSI --}}
 
         <div style="height: 16px;">
 
             <span
                 style="
-            display: inline-block;
-            width: 95px;
-            font-weight: bold;
-        ">
+                    display: inline-block;
+                    width: 95px;
+                    font-weight: bold;
+                ">
                 Provinsi
             </span>
 
-            <span style="
-            display: inline-block;
-            width: 10px;
-        ">
+            <span
+                style="
+                    display: inline-block;
+                    width: 10px;
+                ">
                 :
             </span>
 
@@ -276,21 +317,24 @@
         </div>
 
 
+        {{-- KABUPATEN / KOTA --}}
+
         <div style="height: 16px;">
 
             <span
                 style="
-            display: inline-block;
-            width: 95px;
-            font-weight: bold;
-        ">
+                    display: inline-block;
+                    width: 95px;
+                    font-weight: bold;
+                ">
                 Kabupaten/Kota
             </span>
 
-            <span style="
-            display: inline-block;
-            width: 10px;
-        ">
+            <span
+                style="
+                    display: inline-block;
+                    width: 10px;
+                ">
                 :
             </span>
 
@@ -301,21 +345,24 @@
         </div>
 
 
+        {{-- TAHUN --}}
+
         <div style="height: 16px;">
 
             <span
                 style="
-            display: inline-block;
-            width: 95px;
-            font-weight: bold;
-        ">
+                    display: inline-block;
+                    width: 95px;
+                    font-weight: bold;
+                ">
                 Tahun
             </span>
 
-            <span style="
-            display: inline-block;
-            width: 10px;
-        ">
+            <span
+                style="
+                    display: inline-block;
+                    width: 10px;
+                ">
                 :
             </span>
 
@@ -325,14 +372,16 @@
 
         </div>
 
+
     </div>
+
 
 
     {{-- =========================================================
          TABEL UTAMA
-         
+
          TOTAL KOLOM = 12
-         
+
          1  #
          2  INDIKATOR
          3  PENGAMPU
@@ -349,9 +398,13 @@
 
     <table>
 
+
         <thead>
 
-            {{-- HEADER BARIS 1 --}}
+
+            {{-- =================================================
+                 HEADER BARIS 1
+            ================================================== --}}
 
             <tr>
 
@@ -383,7 +436,9 @@
             </tr>
 
 
-            {{-- HEADER BARIS 2 --}}
+            {{-- =================================================
+                 HEADER BARIS 2
+            ================================================== --}}
 
             <tr>
 
@@ -426,14 +481,18 @@
 
             </tr>
 
+
         </thead>
+
 
 
         <tbody>
 
+
             @php
                 $nomor = 1;
             @endphp
+
 
 
             {{-- =================================================
@@ -441,13 +500,22 @@
             ================================================== --}}
 
             @foreach ($data as $pilarId => $indikators)
+
+
                 @php
+
                     $indikatorPertama = $indikators->first();
 
-                    $namaPilar = $indikatorPertama->nama_pilar ?? '-';
+                    $namaPilar =
+                        $indikatorPertama->nama_pilar
+                        ?? '-';
 
-                    $urutanPilar = $indikatorPertama->pilar_urutan ?? $loop->iteration;
+                    $urutanPilar =
+                        $indikatorPertama->pilar_urutan
+                        ?? $loop->iteration;
+
                 @endphp
+
 
 
                 {{-- =================================================
@@ -457,10 +525,13 @@
                 <tr class="sasaran-row">
 
                     <td colspan="12">
+
                         Sasaran {{ $urutanPilar }}
+
                     </td>
 
                 </tr>
+
 
 
                 {{-- =================================================
@@ -470,10 +541,13 @@
                 <tr class="pilar-row">
 
                     <td colspan="12">
+
                         {{ $namaPilar }}
+
                     </td>
 
                 </tr>
+
 
 
                 {{-- =================================================
@@ -481,13 +555,19 @@
                 ================================================== --}}
 
                 @foreach ($indikators as $indikator)
+
+
                     <tr>
+
 
                         {{-- NO --}}
 
                         <td class="center">
+
                             {{ $nomor++ }}
+
                         </td>
+
 
 
                         {{-- INDIKATOR --}}
@@ -499,70 +579,109 @@
                         </td>
 
 
+
                         {{-- PENGAMPU --}}
 
                         <td>
 
-                            {{ $indikator->nama_instansi ?: $indikator->instansi ?: '-' }}
+                            {{
+                                $indikator->nama_instansi
+                                ?: $indikator->instansi
+                                ?: '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- TERKAIT --}}
 
                         <td>
 
-                            {{ $indikator->instansi_pendukung ?: '-' }}
+                            {{
+                                $indikator->instansi_pendukung
+                                ?: '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- TARGET --}}
 
                         <td class="center">
 
-                            {{ $indikator->nilai_target ?? '-' }}
+                            {{
+                                $indikator->nilai_target
+                                ?? '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- REALISASI --}}
 
                         <td class="center">
 
-                            {{ $indikator->nilai_realisasi ?? '-' }}
+                            {{
+                                $indikator->nilai_realisasi
+                                ?? '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- CAPAIAN --}}
 
                         <td class="center">
 
+
                             @if ($indikator->status_pencapaian === 'tercapai')
+
                                 <span class="status-tercapai">
+
                                     Tercapai
+
                                 </span>
+
+
                             @elseif ($indikator->status_pencapaian === 'belum_tercapai')
+
                                 <span class="status-tidak">
+
                                     Tidak Tercapai
+
                                 </span>
+
+
                             @else
+
                                 <span class="status-belum">
+
                                     -
+
                                 </span>
+
                             @endif
 
+
                         </td>
+
 
 
                         {{-- SUMBER DATA --}}
 
                         <td>
 
-                            {{ $indikator->sumber_data ?: '-' }}
+                            {{
+                                $indikator->sumber_data
+                                ?: '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- =================================================
@@ -571,9 +690,13 @@
 
                         <td class="wrap">
 
-                            {{ $indikator->rencana_aksi ?: '-' }}
+                            {{
+                                $indikator->rencana_aksi
+                                ?: '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- =================================================
@@ -582,28 +705,47 @@
 
                         <td class="wrap">
 
-                            {{ $indikator->hambatan ?: '-' }}
+                            {{
+                                $indikator->hambatan
+                                ?: '-'
+                            }}
 
                         </td>
+
 
 
                         {{-- =================================================
                              BUKTI DUKUNG
-                             
-                             Mengambil file dari data_pendukungs.
                         ================================================== --}}
 
                         <td>
 
+
                             @if (!empty($indikator->file_pendukung))
-                                {{ basename($indikator->file_pendukung) }}
+
+                                {{
+                                    basename(
+                                        $indikator->file_pendukung
+                                    )
+                                }}
+
+
                             @elseif (!empty($indikator->judul_pendukung))
-                                {{ $indikator->judul_pendukung }}
+
+                                {{
+                                    $indikator->judul_pendukung
+                                }}
+
+
                             @else
+
                                 -
+
                             @endif
 
+
                         </td>
+
 
 
                         {{-- =================================================
@@ -612,131 +754,356 @@
 
                         <td class="wrap">
 
-                            {{ $indikator->evaluasi ?: '-' }}
+                            {{
+                                $indikator->evaluasi
+                                ?: '-'
+                            }}
 
                         </td>
 
+
                     </tr>
+
+
                 @endforeach
+
+
             @endforeach
 
+
         </tbody>
+
 
     </table>
 
 
+
     {{-- =========================================================
-        TANDA TANGAN
+         PERSIAPAN DATA TANDA TANGAN
+    ========================================================= --}}
+
+    @php
+
+        /*
+        |--------------------------------------------------------------------------
+        | NAMA INSTANSI ASLI
+        |--------------------------------------------------------------------------
+        |
+        | Tidak mengubah database.
+        | Ini hanya digunakan untuk kebutuhan tampilan PDF.
+        |
+        */
+
+        $namaInstansi = trim(
+            $instansi->nama ?? 'PEMERINTAH'
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NORMALISASI SPASI
+        |--------------------------------------------------------------------------
+        */
+
+        $namaInstansi = preg_replace(
+            '/\s+/',
+            ' ',
+            $namaInstansi
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | HILANGKAN "KABUPATEN MURUNG RAYA" DARI AKHIR
+        |--------------------------------------------------------------------------
+        |
+        | Contoh:
+        |
+        | Dinas Kesehatan Kabupaten Murung Raya
+        |
+        | menjadi:
+        |
+        | Dinas Kesehatan
+        |
+        | Karena Kabupaten Murung Raya akan ditampilkan
+        | pada baris tersendiri.
+        |
+        */
+
+        $namaInstansiTampil = preg_replace(
+            '/\s+Kabupaten\s+Murung\s+Raya\s*$/i',
+            '',
+            $namaInstansi
+        );
+
+        $namaInstansiTampil = trim(
+            $namaInstansiTampil
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DETEKSI SEKRETARIAT DAERAH
+        |--------------------------------------------------------------------------
+        */
+
+        $namaInstansiLower = strtolower(
+            $namaInstansi
+        );
+
+        $isSekda =
+            str_contains(
+                $namaInstansiLower,
+                'sekretariat daerah'
+            )
+            ||
+            str_contains(
+                $namaInstansiLower,
+                'setda'
+            )
+            ||
+            str_contains(
+                $namaInstansiLower,
+                'sekda'
+            );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PEMECAHAN NAMA INSTANSI PANJANG
+        |--------------------------------------------------------------------------
+        |
+        | Prioritas utama adalah memecah sebelum kata "serta".
+        |
+        | Contoh:
+        |
+        | Dinas Pemberdayaan Perempuan dan Perlindungan Anak
+        | serta Pengendalian Penduduk dan Keluarga Berencana
+        |
+        */
+
+        if (
+            mb_strlen($namaInstansiTampil) > 55
+            &&
+            preg_match(
+                '/\s+serta\s+/i',
+                $namaInstansiTampil
+            )
+        ) {
+
+            $namaInstansiBaris = preg_replace(
+                '/\s+serta\s+/i',
+                "\nserta ",
+                $namaInstansiTampil,
+                1
+            );
+
+        } elseif (
+            mb_strlen($namaInstansiTampil) > 60
+        ) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | FALLBACK NAMA PANJANG
+            |--------------------------------------------------------------------------
+            |
+            | Untuk nama OPD panjang yang tidak memiliki kata "serta".
+            |
+            */
+
+            $namaInstansiBaris = wordwrap(
+                $namaInstansiTampil,
+                55,
+                "\n",
+                false
+            );
+
+        } else {
+
+            $namaInstansiBaris =
+                $namaInstansiTampil;
+
+        }
+
+    @endphp
+
+
+
+    {{-- =========================================================
+         TANDA TANGAN
     ========================================================= --}}
 
     <div class="signature-wrapper">
 
+
         <div class="signature">
 
-            {{-- TANGGAL --}}
+
+            {{-- =================================================
+                 TANGGAL
+            ================================================== --}}
+
             <div class="signature-date">
+
                 Puruk Cahu,
                 {{ now()->translatedFormat('d F Y') }}
+
             </div>
 
 
-            {{-- MENGETAHUI --}}
-            <div>
+
+            {{-- =================================================
+                 MENGETAHUI
+            ================================================== --}}
+
+            <div class="signature-mengetahui">
+
                 Mengetahui,
+
             </div>
 
 
-            {{-- =========================================================
-                JABATAN / INSTANSI PENANDATANGAN
-            ========================================================= --}}
 
-            @php
-                $namaInstansi = $instansi->nama ?? 'PEMERINTAH';
-
-                $namaInstansiLower = strtolower(trim($namaInstansi));
-
-                // Deteksi Sekretariat Daerah / Setda / Sekda
-                $isSekda =
-                    str_contains($namaInstansiLower, 'sekretariat daerah') ||
-                    str_contains($namaInstansiLower, 'setda') ||
-                    str_contains($namaInstansiLower, 'sekda');
-            @endphp
-
+            {{-- =================================================
+                 JABATAN / INSTANSI PENANDATANGAN
+            ================================================== --}}
 
             <div class="signature-title">
 
+
                 @if ($isSekda)
 
-                    {{-- ============================
-                        SEKRETARIAT DAERAH
-                    ============================= --}}
+
+                    {{-- =================================================
+                         SEKRETARIAT DAERAH
+                    ================================================== --}}
 
                     <div>
+
                         Sekretaris Daerah
+
                     </div>
 
-                    <div>
+
+                    <div class="signature-kabupaten">
+
                         Kabupaten Murung Raya
+
                     </div>
+
 
                 @else
 
-                    {{-- ============================
-                        DINAS / BADAN / INSTANSI LAIN
-                    ============================= --}}
+
+                    {{-- =================================================
+                         DINAS / BADAN / INSTANSI LAIN
+                    ================================================== --}}
 
                     <div>
+
                         Kepala
+
                     </div>
+
+
+                    {{-- NAMA INSTANSI --}}
 
                     <div class="signature-instansi">
-                        {{ $namaInstansi }}
+
+                        {!! nl2br(e($namaInstansiBaris)) !!}
+
                     </div>
 
-                    <div>
+
+                    {{-- KABUPATEN --}}
+
+                    <div class="signature-kabupaten">
+
                         Kabupaten Murung Raya
+
                     </div>
+
+
+                @endif
+
+
+            </div>
+
+
+
+            {{-- =================================================
+                 RUANG TANDA TANGAN
+            ================================================== --}}
+
+            <div class="signature-space">
+            </div>
+
+
+
+            {{-- =================================================
+                 GARIS TANDA TANGAN
+            ================================================== --}}
+
+            <div class="signature-line">
+            </div>
+
+
+
+            {{-- =================================================
+                 IDENTITAS PIMPINAN
+            ================================================== --}}
+
+
+            {{-- NAMA PIMPINAN --}}
+
+            <div class="signature-name">
+
+                {{
+                    !empty($user->nama_pimpinan)
+                    ? $user->nama_pimpinan
+                    : '-'
+                }}
+
+            </div>
+
+
+
+            {{-- PANGKAT / GOLONGAN --}}
+
+            <div class="signature-pangkat">
+
+                {{
+                    !empty($user->pangkat_golongan)
+                    ? $user->pangkat_golongan
+                    : '-'
+                }}
+
+            </div>
+
+
+
+            {{-- NIP --}}
+
+            <div class="signature-nip">
+
+                @if (!empty($user->nip))
+
+                    NIP. {{ $user->nip }}
+
+                @else
+
+                    NIP. -
 
                 @endif
 
             </div>
 
 
-            {{-- =========================================================
-                RUANG TANDA TANGAN
-            ========================================================= --}}
-
-            <div class="signature-space">
-            </div>
-
-
-            {{-- =========================================================
-                GARIS TANDA TANGAN
-            ========================================================= --}}
-
-            <div class="signature-line">
-            </div>
-
-
-            {{-- =========================================================
-                IDENTITAS PIMPINAN
-            ========================================================= --}}
-
-            <div class="signature-name">
-                {{ $user->nama_pimpinan ?? '-' }}
-            </div>
-
-            <div class="signature-pangkat">
-                {{ $user->pangkat_golongan ?? '-' }}
-            </div>
-
-            <div class="signature-nip">
-                NIP. {{ $user->nip ?? '-' }}
-            </div>
-
         </div>
 
+
     </div>
+
 
 </body>
 

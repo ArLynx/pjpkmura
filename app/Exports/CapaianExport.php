@@ -16,13 +16,22 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class CapaianExport implements FromCollection, WithEvents, WithStyles
 {
     protected int $tahunId;
+
     protected $user;
 
+
+    /**
+     * =========================================================
+     * CONSTRUCTOR
+     * =========================================================
+     */
     public function __construct(int $tahunId)
     {
         $this->tahunId = $tahunId;
+
         $this->user = auth()->user();
     }
+
 
     /**
      * =========================================================
@@ -33,8 +42,15 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
     {
         $user = $this->user;
 
+
         $query = DB::table('indikators')
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | PILAR
+            |--------------------------------------------------------------------------
+            */
             ->join(
                 'pilars',
                 'pilars.id',
@@ -42,30 +58,54 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 'indikators.pilar_id'
             )
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | TARGET
+            |--------------------------------------------------------------------------
+            */
             ->leftJoin('targets', function ($join) {
+
                 $join->on(
                     'targets.indikator_id',
                     '=',
                     'indikators.id'
-                )->where(
+                )
+                ->where(
                     'targets.tahun_id',
                     '=',
                     $this->tahunId
                 );
+
             })
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | REALISASI
+            |--------------------------------------------------------------------------
+            */
             ->leftJoin('realisasis', function ($join) {
+
                 $join->on(
                     'realisasis.indikator_id',
                     '=',
                     'indikators.id'
-                )->where(
+                )
+                ->where(
                     'realisasis.tahun_id',
                     '=',
                     $this->tahunId
                 );
+
             })
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | INSTANSI
+            |--------------------------------------------------------------------------
+            */
             ->leftJoin(
                 'instansis',
                 'instansis.id',
@@ -73,14 +113,11 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 'indikators.instansi_id'
             )
 
+
             /*
             |--------------------------------------------------------------------------
             | DATA PENDUKUNG
             |--------------------------------------------------------------------------
-            |
-            | Data pendukung diambil dari realisasi yang bersangkutan.
-            | Kolom yang digunakan adalah "file".
-            |
             */
             ->leftJoin('data_pendukungs', function ($join) {
 
@@ -92,6 +129,12 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
             })
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | SELECT DATA
+            |--------------------------------------------------------------------------
+            */
             ->select([
 
                 // INDIKATOR
@@ -121,7 +164,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 // DATA PENDUKUNG
                 'data_pendukungs.file as file_pendukung',
+
             ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -142,13 +187,22 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 'indikators.instansi_id',
                 $user->instansi_id
             );
+
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | URUTKAN
+        |--------------------------------------------------------------------------
+        */
 
         return $query
             ->orderBy('pilars.urutan')
             ->orderBy('indikators.urutan')
             ->get();
     }
+
 
     /**
      * =========================================================
@@ -159,6 +213,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
     {
         return [];
     }
+
 
     /**
      * =========================================================
@@ -173,6 +228,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 $sheet = $event->sheet->getDelegate();
 
+
                 /*
                 |--------------------------------------------------------------------------
                 | DATA
@@ -180,6 +236,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 */
 
                 $data = $this->collection();
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -195,7 +252,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         1,
                         $highestRow
                     );
+
                 }
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -226,12 +285,15 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                             'vertical' =>
                                 Alignment::VERTICAL_CENTER,
+
                         ],
+
                     ]);
 
                 $sheet
                     ->getRowDimension(1)
                     ->setRowHeight(30);
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -246,6 +308,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     'Provinsi : KALIMANTAN TENGAH'
                 );
 
+
                 $sheet->mergeCells('A3:L3');
 
                 $sheet->setCellValue(
@@ -253,9 +316,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     'Kabupaten/Kota : KAB. MURUNG RAYA'
                 );
 
+
                 $tahun = DB::table('tahuns')
-                    ->where('id', $this->tahunId)
+                    ->where(
+                        'id',
+                        $this->tahunId
+                    )
                     ->value('tahun');
+
 
                 $sheet->mergeCells('A4:L4');
 
@@ -263,6 +331,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     'A4',
                     'Tahun : ' . $tahun
                 );
+
 
                 $sheet
                     ->getStyle('A2:L4')
@@ -279,8 +348,11 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                             'vertical' =>
                                 Alignment::VERTICAL_CENTER,
+
                         ],
+
                     ]);
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -289,7 +361,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 */
 
                 $headerRow1 = 6;
+
                 $headerRow2 = 7;
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -302,30 +376,36 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     '#'
                 );
 
+
                 $sheet->setCellValue(
                     'B' . $headerRow1,
                     'INDIKATOR'
                 );
+
 
                 $sheet->setCellValue(
                     'C' . $headerRow1,
                     'DINAS'
                 );
 
+
                 $sheet->setCellValue(
                     'E' . $headerRow1,
                     'PETA JALAN PEMBANGUNAN KEPENDUDUKAN'
                 );
+
 
                 $sheet->setCellValue(
                     'I' . $headerRow1,
                     'RENCANA AKSI'
                 );
 
+
                 $sheet->setCellValue(
                     'L' . $headerRow1,
                     'EVALUASI RENCANA AKSI'
                 );
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -341,18 +421,10 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 $sheet->mergeCells('E6:H6');
 
-                /*
-                | Rencana Aksi sekarang 3 kolom:
-                |
-                | I = Narasi
-                | J = Hambatan
-                | K = Bukti Dukung
-                |
-                */
-
                 $sheet->mergeCells('I6:K6');
 
                 $sheet->mergeCells('L6:L7');
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -365,45 +437,54 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     'PENGAMPU'
                 );
 
+
                 $sheet->setCellValue(
                     'D7',
                     'TERKAIT'
                 );
+
 
                 $sheet->setCellValue(
                     'E7',
                     'TARGET'
                 );
 
+
                 $sheet->setCellValue(
                     'F7',
                     'REALISASI'
                 );
+
 
                 $sheet->setCellValue(
                     'G7',
                     'CAPAIAN (%)'
                 );
 
+
                 $sheet->setCellValue(
                     'H7',
                     'SUMBER DATA'
                 );
+
 
                 $sheet->setCellValue(
                     'I7',
                     'NARASI'
                 );
 
+
                 $sheet->setCellValue(
                     'J7',
                     'HAMBATAN'
                 );
 
+
                 $sheet->setCellValue(
                     'K7',
                     'BUKTI DUKUNG'
                 );
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -429,6 +510,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 Alignment::VERTICAL_CENTER,
 
                             'wrapText' => true,
+
                         ],
 
                         'fill' => [
@@ -439,6 +521,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             'color' => [
                                 'rgb' => 'EEEEEE',
                             ],
+
                         ],
 
                         'borders' => [
@@ -451,17 +534,23 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 'color' => [
                                     'rgb' => '000000',
                                 ],
+
                             ],
+
                         ],
+
                     ]);
+
 
                 $sheet
                     ->getRowDimension(6)
                     ->setRowHeight(30);
 
+
                 $sheet
                     ->getRowDimension(7)
                     ->setRowHeight(30);
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -475,13 +564,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 $grouped = $data->groupBy('pilar_id');
 
+
                 foreach (
-                    $grouped
-                    as $pilarId => $indikators
+                    $grouped as $pilarId => $indikators
                 ) {
 
                     $indikatorPertama =
                         $indikators->first();
+
 
                     /*
                     |--------------------------------------------------------------------------
@@ -493,11 +583,13 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         'A' . $row . ':L' . $row
                     );
 
+
                     $sheet->setCellValue(
                         'A' . $row,
                         'Sasaran ' .
                         ($indikatorPertama->pilar_urutan ?? '')
                     );
+
 
                     $sheet
                         ->getStyle(
@@ -510,6 +602,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 'bold' => true,
 
                                 'size' => 11,
+
                             ],
 
                             'fill' => [
@@ -520,6 +613,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 'color' => [
                                     'rgb' => 'EEEEEE',
                                 ],
+
                             ],
 
                             'alignment' => [
@@ -531,6 +625,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                     Alignment::VERTICAL_CENTER,
 
                                 'wrapText' => true,
+
                             ],
 
                             'borders' => [
@@ -543,11 +638,16 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                     'color' => [
                                         'rgb' => '000000',
                                     ],
+
                                 ],
+
                             ],
+
                         ]);
 
+
                     $row++;
+
 
                     /*
                     |--------------------------------------------------------------------------
@@ -559,10 +659,12 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         'A' . $row . ':L' . $row
                     );
 
+
                     $sheet->setCellValue(
                         'A' . $row,
                         $indikatorPertama->nama_pilar
                     );
+
 
                     $sheet
                         ->getStyle(
@@ -577,6 +679,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 'italic' => true,
 
                                 'size' => 11,
+
                             ],
 
                             'fill' => [
@@ -587,6 +690,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 'color' => [
                                     'rgb' => 'EEEEEE',
                                 ],
+
                             ],
 
                             'alignment' => [
@@ -598,6 +702,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                     Alignment::VERTICAL_CENTER,
 
                                 'wrapText' => true,
+
                             ],
 
                             'borders' => [
@@ -610,11 +715,16 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                     'color' => [
                                         'rgb' => '000000',
                                     ],
+
                                 ],
+
                             ],
+
                         ]);
 
+
                     $row++;
+
 
                     /*
                     |--------------------------------------------------------------------------
@@ -623,8 +733,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     */
 
                     foreach (
-                        $indikators
-                        as $indikator
+                        $indikators as $indikator
                     ) {
 
                         /*
@@ -638,6 +747,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $nomor++
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | INDIKATOR
@@ -649,6 +759,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $indikator->nama_indikator
                                 ?? '-'
                         );
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -662,6 +773,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 ?? '-'
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | DINAS TERKAIT
@@ -673,6 +785,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $indikator->instansi_pendukung
                                 ?? '-'
                         );
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -686,6 +799,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 ?? '-'
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | REALISASI
@@ -698,14 +812,11 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 ?? '-'
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | CAPAIAN
                         |--------------------------------------------------------------------------
-                        |
-                        | Tidak ada perhitungan.
-                        | Langsung ambil status dari database.
-                        |
                         */
 
                         $sheet->setCellValue(
@@ -713,6 +824,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $indikator->status_pencapaian
                                 ?? '-'
                         );
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -726,6 +838,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 ?? '-'
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | NARASI
@@ -737,6 +850,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $indikator->rencana_aksi
                                 ?? '-'
                         );
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -750,6 +864,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 ?? '-'
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | BUKTI DUKUNG
@@ -762,6 +877,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 ?? '-'
                         );
 
+
                         /*
                         |--------------------------------------------------------------------------
                         | EVALUASI
@@ -773,6 +889,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $indikator->evaluasi
                                 ?? '-'
                         );
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -793,6 +910,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                         Alignment::VERTICAL_CENTER,
 
                                     'wrapText' => true,
+
                                 ],
 
                                 'borders' => [
@@ -805,9 +923,13 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                         'color' => [
                                             'rgb' => '000000',
                                         ],
+
                                     ],
+
                                 ],
+
                             ]);
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -823,6 +945,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             ->setHorizontal(
                                 Alignment::HORIZONTAL_CENTER
                             );
+
 
                         /*
                         |--------------------------------------------------------------------------
@@ -840,11 +963,13 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 Alignment::HORIZONTAL_CENTER
                             );
 
+
                         $row++;
                     }
                 }
 
-               /*
+
+                /*
                 |--------------------------------------------------------------------------
                 | TANDA TANGAN
                 |--------------------------------------------------------------------------
@@ -857,7 +982,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 /*
                 |--------------------------------------------------------------------------
-                | AMBIL DATA USER
+                | DATA USER
                 |--------------------------------------------------------------------------
                 */
 
@@ -866,54 +991,50 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 /*
                 |--------------------------------------------------------------------------
-                | AMBIL NAMA INSTANSI
+                | NAMA INSTANSI
                 |--------------------------------------------------------------------------
                 */
 
-                $namaInstansi = null;
-
-                if (
-                    $user &&
-                    $user->instansi_id
-                ) {
-
-                    $namaInstansi = DB::table('instansis')
-                        ->where(
-                            'id',
-                            $user->instansi_id
-                        )
-                        ->value('nama');
-                }
+                $namaInstansi = trim(
+                    $user?->instansi_id
+                        ? DB::table('instansis')
+                            ->where(
+                                'id',
+                                $user->instansi_id
+                            )
+                            ->value('nama')
+                        : 'PEMERINTAH'
+                );
 
 
                 /*
                 |--------------------------------------------------------------------------
-                | FALLBACK
+                | NORMALISASI SPASI
                 |--------------------------------------------------------------------------
                 */
 
-                if (!$namaInstansi) {
-
-                    $namaInstansi =
-                        'PEMERINTAH KABUPATEN MURUNG RAYA';
-                }
+                $namaInstansi = preg_replace(
+                    '/\s+/',
+                    ' ',
+                    $namaInstansi
+                );
 
 
                 /*
                 |--------------------------------------------------------------------------
-                | NORMALISASI NAMA INSTANSI
+                | HILANGKAN KABUPATEN MURUNG RAYA
                 |--------------------------------------------------------------------------
                 */
 
-                $namaInstansi =
-                    strtoupper(
-                        trim($namaInstansi)
-                    );
+                $namaInstansiTampil = preg_replace(
+                    '/\s+Kabupaten\s+Murung\s+Raya\s*$/i',
+                    '',
+                    $namaInstansi
+                );
 
-                $namaInstansiLower =
-                    strtolower(
-                        trim($namaInstansi)
-                    );
+                $namaInstansiTampil = trim(
+                    $namaInstansiTampil
+                );
 
 
                 /*
@@ -922,19 +1043,66 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 |--------------------------------------------------------------------------
                 */
 
+                $namaInstansiLower = strtolower(
+                    $namaInstansi
+                );
+
+
                 $isSekda =
                     str_contains(
                         $namaInstansiLower,
                         'sekretariat daerah'
-                    ) ||
+                    )
+                    ||
                     str_contains(
                         $namaInstansiLower,
                         'setda'
-                    ) ||
+                    )
+                    ||
                     str_contains(
                         $namaInstansiLower,
                         'sekda'
                     );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | PEMECAHAN NAMA INSTANSI PANJANG
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    mb_strlen($namaInstansiTampil) > 55
+                    &&
+                    preg_match(
+                        '/\s+serta\s+/i',
+                        $namaInstansiTampil
+                    )
+                ) {
+
+                    $namaInstansiBaris = preg_replace(
+                        '/\s+serta\s+/i',
+                        "\nserta ",
+                        $namaInstansiTampil,
+                        1
+                    );
+
+                } elseif (
+                    mb_strlen($namaInstansiTampil) > 60
+                ) {
+
+                    $namaInstansiBaris = wordwrap(
+                        $namaInstansiTampil,
+                        55,
+                        "\n",
+                        false
+                    );
+
+                } else {
+
+                    $namaInstansiBaris =
+                        $namaInstansiTampil;
+                }
 
 
                 /*
@@ -946,8 +1114,10 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $namaPimpinan =
                     $user?->nama_pimpinan ?: '-';
 
+
                 $pangkatGolongan =
                     $user?->pangkat_golongan ?: '-';
+
 
                 $nip =
                     $user?->nip ?: '-';
@@ -966,9 +1136,10 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     $signatureStart
                 );
 
+
                 $sheet->setCellValue(
                     'I' . $signatureStart,
-                    'Murung Raya, ' .
+                    'Puruk Cahu, ' .
                     now()->translatedFormat('d F Y')
                 );
 
@@ -986,9 +1157,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     ($signatureStart + 1)
                 );
 
+
                 $sheet->setCellValue(
-                    'I' .
-                    ($signatureStart + 1),
+                    'I' . ($signatureStart + 1),
                     'Mengetahui,'
                 );
 
@@ -999,7 +1170,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 |--------------------------------------------------------------------------
                 */
 
-                $jabatanRow = $signatureStart + 2;
+                $jabatanRow =
+                    $signatureStart + 2;
+
 
                 $sheet->mergeCells(
                     'I' .
@@ -1019,14 +1192,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                     $teksJabatan =
                         "Sekretaris Daerah\n" .
-                        "KABUPATEN MURUNG RAYA";
+                        "Kabupaten Murung Raya";
 
                 } else {
 
                     $teksJabatan =
                         "Kepala\n" .
-                        $namaInstansi .
-                        "\nKABUPATEN MURUNG RAYA";
+                        $namaInstansiBaris .
+                        "\nKabupaten Murung Raya";
                 }
 
 
@@ -1045,8 +1218,10 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $signatureSpaceStart =
                     $signatureStart + 3;
 
+
                 $signatureSpaceEnd =
                     $signatureStart + 6;
+
 
                 $sheet->mergeCells(
                     'I' .
@@ -1065,12 +1240,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $lineRow =
                     $signatureStart + 7;
 
+
                 $sheet->mergeCells(
                     'I' .
                     $lineRow .
                     ':L' .
                     $lineRow
                 );
+
 
                 $sheet
                     ->getStyle(
@@ -1095,12 +1272,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $namaRow =
                     $signatureStart + 8;
 
+
                 $sheet->mergeCells(
                     'I' .
                     $namaRow .
                     ':L' .
                     $namaRow
                 );
+
 
                 $sheet->setCellValue(
                     'I' . $namaRow,
@@ -1117,12 +1296,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $pangkatRow =
                     $signatureStart + 9;
 
+
                 $sheet->mergeCells(
                     'I' .
                     $pangkatRow .
                     ':L' .
                     $pangkatRow
                 );
+
 
                 $sheet->setCellValue(
                     'I' . $pangkatRow,
@@ -1139,12 +1320,14 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 $nipRow =
                     $signatureStart + 10;
 
+
                 $sheet->mergeCells(
                     'I' .
                     $nipRow .
                     ':L' .
                     $nipRow
                 );
+
 
                 $sheet->setCellValue(
                     'I' . $nipRow,
@@ -1176,7 +1359,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                                 Alignment::VERTICAL_TOP,
 
                             'wrapText' => true,
+
                         ],
+
                     ]);
 
 
@@ -1216,7 +1401,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 /*
                 |--------------------------------------------------------------------------
-                | TINGGI AREA TANDA TANGAN
+                | TINGGI BARIS TANDA TANGAN
                 |--------------------------------------------------------------------------
                 */
 
@@ -1237,12 +1422,22 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
 
                 // Jabatan + instansi
+                $jumlahBarisJabatan =
+                    substr_count(
+                        $teksJabatan,
+                        "\n"
+                    ) + 1;
+
+
                 $sheet
                     ->getRowDimension(
                         $jabatanRow
                     )
                     ->setRowHeight(
-                        $isSekda ? 35 : 50
+                        max(
+                            35,
+                            $jumlahBarisJabatan * 18
+                        )
                     );
 
 
@@ -1258,10 +1453,11 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $signatureStart + $i
                         )
                         ->setRowHeight(20);
+
                 }
 
 
-                // Garis tanda tangan
+                // Garis
                 $sheet
                     ->getRowDimension(
                         $lineRow
@@ -1291,6 +1487,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         $nipRow
                     )
                     ->setRowHeight(20);
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1323,11 +1520,12 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     'K' => 35,
 
                     'L' => 35,
+
                 ];
 
+
                 foreach (
-                    $widths
-                    as $column => $width
+                    $widths as $column => $width
                 ) {
 
                     $sheet
@@ -1335,7 +1533,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                             $column
                         )
                         ->setWidth($width);
+
                 }
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1345,6 +1545,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 $lastDataRow =
                     $row - 1;
+
 
                 if (
                     $lastDataRow >= 8
@@ -1357,7 +1558,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         )
                         ->getAlignment()
                         ->setWrapText(true);
+
                 }
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1376,6 +1579,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         Border::BORDER_THIN
                     );
 
+
                 /*
                 |--------------------------------------------------------------------------
                 | PAGE SETUP
@@ -1388,19 +1592,23 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                         PageSetup::ORIENTATION_LANDSCAPE
                     );
 
+
                 $sheet
                     ->getPageSetup()
                     ->setPaperSize(
                         PageSetup::PAPERSIZE_A4
                     );
 
+
                 $sheet
                     ->getPageSetup()
                     ->setFitToWidth(1);
 
+
                 $sheet
                     ->getPageSetup()
                     ->setFitToHeight(0);
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1415,6 +1623,7 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                     ->setLeft(0.3)
                     ->setRight(0.3);
 
+
                 /*
                 |--------------------------------------------------------------------------
                 | HILANGKAN GRIDLINE
@@ -1423,18 +1632,22 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
 
                 $sheet->setShowGridlines(false);
 
+
                 /*
                 |--------------------------------------------------------------------------
                 | PRINT AREA
                 |--------------------------------------------------------------------------
+                |
+                | SEKARANG SAMPAI NIP.
+                |
                 */
 
                 $sheet
                     ->getPageSetup()
                     ->setPrintArea(
-                        'A1:L' .
-                        $lineRow
+                        'A1:L' . $nipRow
                     );
+
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1443,7 +1656,9 @@ class CapaianExport implements FromCollection, WithEvents, WithStyles
                 */
 
                 $sheet->freezePane('A8');
+
             },
+
         ];
     }
 }
