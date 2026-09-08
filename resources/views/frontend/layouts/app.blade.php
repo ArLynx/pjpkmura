@@ -60,15 +60,24 @@
         {{-- ===================================================== --}}
         {{-- DASHBOARD SECTION NAVIGATION --}}
         {{-- ===================================================== --}}
-        <div id="dashboardSectionNav" class="fixed bottom-6 right-6 z-[60]">
+        <div id="dashboardSectionNav"
+            class="fixed bottom-4 right-4 z-[60] sm:bottom-5 sm:right-5 lg:bottom-6 lg:right-6">
 
             {{-- Tombol utama --}}
             <button type="button" id="dashboardNavButton" aria-label="Navigasi Dashboard" aria-expanded="false"
-                class="flex h-12 w-12 items-center justify-center rounded-full bg-[#005B96] text-white shadow-lg shadow-[#005B96]/25 transition duration-200 hover:bg-[#004A7A] hover:shadow-xl hover:shadow-[#005B96]/30 focus:outline-none focus:ring-4 focus:ring-[#005B96]/20">
-                <span id="dashboardNavIcon"
-                    class="material-symbols-outlined text-[22px] transition-transform duration-200">
+                class="flex h-11 w-11 items-center justify-center rounded-full
+               bg-[#005B96] text-white
+               shadow-lg shadow-[#005B96]/25
+               transition duration-200
+               hover:bg-[#004A7A]
+               hover:shadow-xl hover:shadow-[#005B96]/30
+               focus:outline-none focus:ring-4 focus:ring-[#005B96]/20
+               sm:h-12 sm:w-12">
+
+                <span id="dashboardNavIcon" class="material-symbols-outlined text-[21px] sm:text-[22px]">
                     menu
                 </span>
+
             </button>
 
 
@@ -76,18 +85,24 @@
             {{-- PANEL SECTION --}}
             {{-- ================================================= --}}
             <div id="dashboardNavPanel"
-                class="pointer-events-none absolute bottom-14 right-0 mb-3 w-72 origin-bottom-right scale-95 opacity-0 transition-all duration-200">
+                class="pointer-events-none absolute bottom-12 right-0 mb-3
+               w-[calc(100vw-2rem)] max-w-72
+               origin-bottom-right scale-95 opacity-0
+               transition-all duration-200
+               sm:bottom-14 sm:w-72">
 
                 <div
-                    class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
+                    class="overflow-hidden rounded-2xl border border-slate-200
+                   bg-white shadow-2xl shadow-slate-900/10">
 
                     {{-- Header --}}
-                    <div class="border-b border-slate-100 px-4 py-3.5">
+                    <div class="border-b border-slate-100 px-4 py-3">
 
                         <div class="flex items-center gap-3">
 
                             <div
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-light text-primary">
+                                class="flex h-9 w-9 shrink-0 items-center justify-center
+                               rounded-xl bg-primary-light text-primary">
 
                                 <span class="material-symbols-outlined text-[19px]">
                                     dashboard
@@ -95,7 +110,7 @@
 
                             </div>
 
-                            <div>
+                            <div class="min-w-0">
 
                                 <h3 class="text-sm font-semibold text-slate-900">
                                     Navigasi Dashboard
@@ -113,96 +128,146 @@
 
 
                     {{-- Daftar Section --}}
-                    <div class="max-h-[min(70vh,420px)] overflow-y-auto p-2">
+                    <div class="max-h-[60vh] overflow-y-auto p-2
+                       sm:max-h-[min(70vh,420px)]">
 
                         {{-- Dashboard Utama --}}
                         <a href="#dashboard-top"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 dashboard
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Dashboard Utama
                             </span>
+
                         </a>
 
 
                         {{-- Tren & Status --}}
                         <a href="#dashboard-tren-status"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 monitoring
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Tren & Status Indikator
                             </span>
+
                         </a>
 
 
                         {{-- Pilar --}}
                         <a href="#dashboard-pilar"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 account_tree
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Ringkasan 5 Pilar
                             </span>
+
                         </a>
 
 
                         {{-- Ringkasan --}}
                         <a href="#dashboard-ringkasan"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 summarize
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Ringkasan Indikator
                             </span>
+
                         </a>
 
 
                         {{-- Filter --}}
                         <a href="#dashboard-filter"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 tune
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Filter Monitoring
                             </span>
+
                         </a>
 
 
                         {{-- Statistik --}}
                         <a href="#dashboard-statistik"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 analytics
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Statistik
                             </span>
+
                         </a>
 
 
                         {{-- Monitoring --}}
                         <a href="#dashboard-monitoring"
-                            class="dashboard-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-primary-light hover:text-primary">
-                            <span class="material-symbols-outlined text-[19px] text-slate-400 group-hover:text-primary">
+                            class="dashboard-nav-item group flex items-center gap-3
+                           rounded-xl px-3 py-2.5 text-sm font-medium
+                           text-slate-700 transition
+                           hover:bg-primary-light hover:text-primary">
+
+                            <span
+                                class="material-symbols-outlined shrink-0 text-[19px]
+                               text-slate-400 group-hover:text-primary">
                                 table_chart
                             </span>
 
                             <span class="min-w-0 flex-1 truncate">
                                 Data Monitoring PJPK
                             </span>
+
                         </a>
 
                     </div>
@@ -217,9 +282,22 @@
         {{-- KEMBALI KE ATAS --}}
         {{-- ===================================================== --}}
         <button type="button" id="backToTop" aria-label="Kembali ke atas"
-            class="fixed bottom-6 right-6 z-[60] flex h-12 w-12 translate-y-4 items-center justify-center rounded-full bg-[#005B96] text-white opacity-0 shadow-lg shadow-[#005B96]/25 transition-all duration-300 hover:bg-[#004A7A] hover:shadow-xl hover:shadow-[#005B96]/30 focus:outline-none focus:ring-4 focus:ring-[#005B96]/20 pointer-events-none">
+            class="fixed bottom-4 right-4 z-[60]
+           flex h-11 w-11 translate-y-4 items-center justify-center
+           rounded-full bg-[#005B96] text-white
+           opacity-0
+           shadow-lg shadow-[#005B96]/25
+           transition-all duration-300
+           hover:bg-[#004A7A]
+           hover:shadow-xl hover:shadow-[#005B96]/30
+           focus:outline-none
+           focus:ring-4 focus:ring-[#005B96]/20
+           pointer-events-none
+           sm:bottom-5 sm:right-5
+           sm:h-12 sm:w-12
+           lg:bottom-6 lg:right-6">
 
-            <span class="material-symbols-outlined text-[22px]">
+            <span class="material-symbols-outlined text-[21px] sm:text-[22px]">
                 keyboard_arrow_up
             </span>
 
@@ -329,7 +407,7 @@
                             navItem.setAttribute('aria-current', 'false');
 
                             const icon = navItem.querySelector(
-                            '.material-symbols-outlined');
+                                '.material-symbols-outlined');
 
                             if (icon) {
                                 icon.classList.remove('text-primary');
